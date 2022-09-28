@@ -1,0 +1,28 @@
+package io.github.fededri.marvel
+
+object V {
+    const val arch = "0.5"
+    const val compose = "1.1.0-beta01"
+    const val activityCompose = "1.3.1"
+    const val androidxLifecycle = "2.3.1"
+    const val androidXCore = "1.7.0"
+    const val junit = "4.13.2"
+    const val retrofit = "2.9.0"
+    const val room = "2.4.3"
+    const val roomPaging = "2.5.0-alpha03"
+    const val dagger = "2.43.2"
+    const val timber = "5.0.1"
+    const val fragmentVersion = "1.5.2"
+    const val navigationVersion = "2.3.1"
+    const val appCompat = "1.5.1"
+    const val networkResponseAdapter = "5.0.0"
+    const val loggingInterceptor = "4.10.0"
+    const val glide = "4.13.2"
+    const val landscapist = "2.0.0"
+    const val composeConstraintLayout = "1.0.1"
+    const val paging = "3.1.1"
+    const val pagingCompose = "1.0.0-alpha16"
+    const val mockk = "1.12.0"
+    const val coroutinesVersion = "1.6.4"
+    const val turbine = "0.11.0"
+}
