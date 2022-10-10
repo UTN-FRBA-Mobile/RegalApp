@@ -1,7 +1,6 @@
 package com.utn.frba.mobile.regalapp.events
 
-class EventModel(name: String ) {
-    var name = name;
+data class EventModel(val name: String) {
 //    var due_date = due_date;
 //    var photo = photo;
 
