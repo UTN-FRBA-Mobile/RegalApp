@@ -14,8 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.utn.frba.mobile.regalapp.events.EventList
 import com.utn.frba.mobile.regalapp.events.EventModel
 
@@ -47,13 +48,13 @@ fun HomeScreenTopBar() {
     TopAppBar(title = {
         Image(
             painter = painterResource(id = R.drawable.user_icon_placeholder),
-            contentDescription = "user-image",
+            contentDescription = stringResource(id = R.string.user_image_content_description),
             modifier = Modifier
-                .size(Dp(40F))
+                .size(40.dp)
                 .clip(CircleShape)
                 .background(Color.White)
         )
-        Spacer(modifier = Modifier.width(Dp(10F)))
-        Text(text = "Home")
+        Spacer(modifier = Modifier.width(10.dp))
+        Text(text = stringResource(id = R.string.home_screen_title))
     })
 }

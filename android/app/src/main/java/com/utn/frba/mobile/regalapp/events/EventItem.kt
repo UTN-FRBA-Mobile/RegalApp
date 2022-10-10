@@ -10,7 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.utn.frba.mobile.regalapp.R
 
 
@@ -21,7 +22,7 @@ fun EventItem(event: EventModel) {
     Row(
         Modifier.fillMaxWidth()
     ) {
-        Spacer(modifier = Modifier.width(Dp(20F)))
+        Spacer(modifier = Modifier.width(20.dp))
         Button(
             onClick = {},
             Modifier.weight(1F),
@@ -36,24 +37,26 @@ fun EventItem(event: EventModel) {
                     contentDescription = event.name,
                     Modifier
                         .size(
-                            Dp(64F)
+                            64.dp
                         )
                         .clip(CircleShape),
                     contentScale = ContentScale.Crop,            // crop the image if it's not a square
                 )
-                Spacer(modifier = Modifier.width(Dp(10F)))
+                Spacer(modifier = Modifier.width(10.dp))
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
 
                     ) {
                     Text(text = event.name)
-                    Text(text = "X/X comprados")
+                    Text(
+                        text = stringResource(id = R.string.items_bought, 2, 3)
+                    )
                 }
                 Spacer(modifier = Modifier.weight(1F))
             }
 
         }
-        Spacer(modifier = Modifier.width(Dp(20F)))
+        Spacer(modifier = Modifier.width(20.dp))
     }
 }
