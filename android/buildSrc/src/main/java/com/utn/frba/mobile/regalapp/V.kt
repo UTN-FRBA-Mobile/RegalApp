@@ -25,4 +25,6 @@ object V {
     const val mockk = "1.12.0"
     const val coroutinesVersion = "1.6.4"
     const val turbine = "0.11.0"
+    const val firebaseBom = "30.5.0"
+    const val androidKtx = "1.9.0"
 }

@@ -9,6 +9,7 @@ object D {
             "androidx.lifecycle:lifecycle-runtime-ktx:${V.androidxLifecycle}"
         const val fragments = "androidx.fragment:fragment-ktx:${V.fragmentVersion}"
         const val appcompat = "androidx.appcompat:appcompat:${V.appCompat}"
+        const val ktx = "androidx.core:core-ktx:${V.androidKtx}"
     }
 
     object Arch {
@@ -28,6 +29,12 @@ object D {
     object Dagger {
         const val dagger2 = "com.google.dagger:dagger:${V.dagger}"
         const val compiler = "com.google.dagger:dagger-compiler:${V.dagger}"
+    }
+
+    object Firebase {
+        const val firebaseBom = "com.google.firebase:firebase-bom:${V.firebaseBom}"
+        const val authentication = "com.google.firebase:firebase-auth"
+        const val authenticationKtx = "com.google.firebase:firebase-auth-ktx"
     }
 
     object Landscapist {

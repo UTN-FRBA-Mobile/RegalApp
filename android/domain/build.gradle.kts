@@ -30,8 +30,16 @@ anvil {
 }
 
 dependencies {
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.5.1")
+
     // Dagger
     implementation(D.Dagger.dagger2)
+
+    // Firebase
+    implementation(platform(D.Firebase.firebaseBom))
+    implementation(D.Firebase.authentication)
+    implementation(D.Firebase.authenticationKtx)
 
     // Networking
     implementation(D.Retrofit.networkResponseAdapter)

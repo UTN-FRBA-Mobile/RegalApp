@@ -3,6 +3,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
         classpath("org.jlleitschuh.gradle:ktlint-gradle:11.0.0")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.5.2")
+        classpath("com.google.gms:google-services:4.3.14")
     }
 }
 
