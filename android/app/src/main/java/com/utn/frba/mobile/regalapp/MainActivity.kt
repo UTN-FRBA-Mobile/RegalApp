@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
     // TODO remove this when we split the app logic properly, just for testing purposes
     @Inject
     lateinit var userRepository: UserRepository
-
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDagger()
         supportFragmentManager.fragmentFactory = daggerFragmentFactory
@@ -38,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("RegalApp")
+                    HomeScreen()
                 }
             }
         }
