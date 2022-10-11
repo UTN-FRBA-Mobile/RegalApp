@@ -1,20 +1,11 @@
 package com.utn.frba.mobile.regalapp
 
 import android.os.Bundle
-import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
 import com.utn.frba.mobile.domain.models.NetworkResponse
 import com.utn.frba.mobile.domain.repositories.auth.UserRepository
 import com.utn.frba.mobile.regalapp.di.DaggerFragmentFactory
-import com.utn.frba.mobile.regalapp.ui.theme.RegalappTheme
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -30,17 +21,7 @@ class MainActivity : AppCompatActivity() {
         injectDagger()
         supportFragmentManager.fragmentFactory = daggerFragmentFactory
         super.onCreate(savedInstanceState)
-        setContent {
-            RegalappTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    HomeScreen()
-                }
-            }
-        }
+        setContentView(R.layout.activity_main)
     }
 
     private fun injectDagger() {
@@ -68,18 +49,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    RegalappTheme {
-        Greeting("Android")
     }
 }

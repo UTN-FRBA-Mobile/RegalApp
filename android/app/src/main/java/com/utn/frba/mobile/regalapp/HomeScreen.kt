@@ -40,7 +40,7 @@ fun HomeScreen() {
             EventList(events = events, contentPadding = innerPadding)
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { /*TODO*/ }) {
+            FloatingActionButton(onClick = {}) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = "new-item")
             }
         }
