@@ -9,6 +9,7 @@ plugins {
     id("com.squareup.anvil") version "2.4.2"
     kotlin("kapt")
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -68,6 +69,7 @@ dependencies {
     implementation(D.Android.androidXCore)
     implementation(D.Android.lifecycleRuntime)
     implementation(D.Android.fragments)
+    implementation(D.Android.ktx)
 
     // Navigation
     implementation(D.Navigation.navigationFragment)
@@ -81,9 +83,15 @@ dependencies {
     implementation(D.Compose.runtime)
     implementation(D.Compose.material)
     implementation(D.Compose.activityCompose)
+    implementation(project(mapOf("path" to ":domain")))
     debugImplementation(D.Compose.uiTooling)
     debugImplementation(D.Compose.uiTestManifest)
     implementation(D.Compose.constraintLayout)
+
+    // Firebase
+    implementation(platform(D.Firebase.firebaseBom))
+    implementation(D.Firebase.authentication)
+    implementation(D.Firebase.authenticationKtx)
 
     // Networking
     implementation(D.Retrofit.core)

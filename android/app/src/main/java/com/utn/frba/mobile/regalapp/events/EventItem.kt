@@ -1,7 +1,14 @@
 package com.utn.frba.mobile.regalapp.events
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -14,10 +21,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.utn.frba.mobile.regalapp.R
 
-
 @Composable
 fun EventItem(event: EventModel) {
-
 
     Row(
         Modifier.fillMaxWidth()
@@ -40,14 +45,14 @@ fun EventItem(event: EventModel) {
                             64.dp
                         )
                         .clip(CircleShape),
-                    contentScale = ContentScale.Crop,            // crop the image if it's not a square
+                    contentScale = ContentScale.Crop, // crop the image if it's not a square
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
 
-                    ) {
+                ) {
                     Text(text = event.name)
                     Text(
                         text = stringResource(id = R.string.items_bought, 2, 3)
@@ -55,7 +60,6 @@ fun EventItem(event: EventModel) {
                 }
                 Spacer(modifier = Modifier.weight(1F))
             }
-
         }
         Spacer(modifier = Modifier.width(20.dp))
     }

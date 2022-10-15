@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "854532591835",
+    "project_id": "regalapp-b703f",
+    "storage_bucket": "regalapp-b703f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:854532591835:android:fb06f7d2e71f01efd97cfe",
+        "android_client_info": {
+          "package_name": "com.utn.frba.mobile.regalapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "854532591835-q7datksq1aggo90rjm8nbatnjoo1rrkj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRoVgMCEcWTtv6KEovEfBsQHsIkwA3jJ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "854532591835-q7datksq1aggo90rjm8nbatnjoo1rrkj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

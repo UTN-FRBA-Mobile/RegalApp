@@ -1,28 +1,34 @@
 package com.utn.frba.mobile.regalapp
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
-import com.utn.frba.mobile.regalapp.events.EventList
-import com.utn.frba.mobile.regalapp.events.EventModel
+import androidx.lifecycle.lifecycleScope
+import com.utn.frba.mobile.domain.models.NetworkResponse
+import com.utn.frba.mobile.domain.repositories.auth.UserRepository
+import com.utn.frba.mobile.regalapp.di.DaggerFragmentFactory
 import com.utn.frba.mobile.regalapp.ui.theme.RegalappTheme
+import timber.log.Timber
+import javax.inject.Inject
 
+class MainActivity : AppCompatActivity() {
 
-class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var daggerFragmentFactory: DaggerFragmentFactory
+
+    // TODO remove this when we split the app logic properly, just for testing purposes
+    @Inject
+    lateinit var userRepository: UserRepository
     override fun onCreate(savedInstanceState: Bundle?) {
+        injectDagger()
+        supportFragmentManager.fragmentFactory = daggerFragmentFactory
         super.onCreate(savedInstanceState)
         setContent {
             RegalappTheme {
@@ -31,9 +37,35 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-//                    Greeting("RegalApp")
-                        HomeScreen()
-                   }
+                    HomeScreen()
+                }
+            }
+        }
+    }
+
+    private fun injectDagger() {
+        val application = application
+        check(application is RegalApplication) {
+            "Application is not a custom class"
+        }
+        application.appComponent
+            .activityComponentFactory
+            .create()
+            .inject(this)
+    }
+
+    private fun createRandomAccount() {
+        // TODO remove, just for testing
+        val email = "asd3@gmail.com"
+        lifecycleScope.launchWhenResumed {
+            when (val response = userRepository.createAccount(email, "123456")) {
+                is NetworkResponse.Success -> {
+                    val uid = response.data?.user?.uid
+                    Timber.i("User created! uid: $uid")
+                }
+                is NetworkResponse.Error -> {
+                    Timber.e("Something went wrong")
+                }
             }
         }
     }
