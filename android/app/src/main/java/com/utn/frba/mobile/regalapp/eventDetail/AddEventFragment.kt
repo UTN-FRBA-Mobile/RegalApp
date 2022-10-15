@@ -1,4 +1,4 @@
-package com.utn.frba.mobile.regalapp
+package com.utn.frba.mobile.regalapp.eventDetail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,18 @@ import android.view.ViewGroup
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import com.squareup.anvil.annotations.ContributesMultibinding
+import com.utn.frba.mobile.domain.di.ActivityScope
+import com.utn.frba.mobile.domain.di.FragmentKey
+import javax.inject.Inject
 
-class HomeFragment: Fragment() {
+@FragmentKey(AddEventFragment::class)
+@ContributesMultibinding(ActivityScope::class, Fragment::class)
+class AddEventFragment @Inject constructor() : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -19,11 +26,12 @@ class HomeFragment: Fragment() {
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
+                // TODO: Remove placeholder, add content
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    HomeScreen()
+                    Text(text = "ADD EVENT")
                 }
             }
         }

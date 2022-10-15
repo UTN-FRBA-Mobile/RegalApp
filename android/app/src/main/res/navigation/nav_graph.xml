@@ -2,17 +2,24 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation_main"
-    app:startDestination="@id/HomeFragment">
-
+    app:startDestination="@id/eventListFragment">
     <fragment
-        android:id="@+id/HomeFragment"
-        android:name="com.utn.frba.mobile.regalapp.HomeFragment"
-        android:label="HomeFragment" />
-    <action
-        android:id="@+id/openEventsFragment"
-        app:destination="@id/eventsFragment" />
+        android:id="@+id/eventListFragment"
+        android:name="com.utn.frba.mobile.regalapp.eventList.EventListFragment"
+        android:label="EventListFragment" >
+        <action
+            android:id="@+id/openEventDetailFragment"
+            app:destination="@id/eventDetailFragment" />
+        <action
+            android:id="@+id/openAddEventFragment"
+            app:destination="@id/addEventFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/eventsFragment"
-        android:name="com.utn.frba.mobile.regalapp.EventsFragment"
-        android:label="EventsFragment" />
+        android:id="@+id/eventDetailFragment"
+        android:name="com.utn.frba.mobile.regalapp.eventDetail.EventDetailFragment"
+        android:label="EventDetailFragment" />
+    <fragment
+        android:id="@+id/addEventFragment"
+        android:name="com.utn.frba.mobile.regalapp.eventDetail.AddEventFragment"
+        android:label="AddEventFragment" />
 </navigation>
