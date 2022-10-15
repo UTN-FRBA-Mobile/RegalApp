@@ -69,6 +69,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
+
+
+    override fun onLogin(username: String, password: String) {
+        // FIXME: LOGICA PARA IR A PAGINA DE INICIO DE LA APLICACION, PERO REVISANDO SI USUARIO EXISTE
+    }
+    override fun onSignUp() {
+        signUpFragment = SignUpFragment()
+        supportFragmentManager.beginTransaction().remove(loginFragment).add(R.id.container, signUpFragment).addToBackStack(null).commit()
+    }
+    override fun onFinishSignUp() {
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        // aprieto boton para ir atras del celu --> pantalla login es la ultima, al apretar se sale de la app
+        // IMPLEMENTAR LOGICA PARA VER SI password y passwordAgain coinciden, sino deberia aparecer un cartel con mensaje de aviso
+        supportFragmentManager.beginTransaction().show(loginFragment).commitNow()
+        // FIXME: LOGICA PARA IR A PAGINA DE INICIO DE LA APLICACION
+    }
 }
 
 @Composable

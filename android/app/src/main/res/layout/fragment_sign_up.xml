@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/firstname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre"/>
+
+    <EditText
+        android:id="@+id/lastname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Apellido"/>
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Usuario"/>
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Contraseña"/>
+
+    <EditText
+        android:id="@+id/passwordAgain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Repetir contraseña"/>
+    <!-- SOLO EXISTE PARA VALIDAR QUE PUSO 2 VECES LA MISMA CONTRASEÑA -->
+
+    <Button
+        android:id="@+id/signup_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Guardar"/>
+    <!-- TIENE QUE LLEVAR A LA PAGINA LOGIN, HABIENDO VALIDADO AMBAS CONTRASEÑAS INGRESADAS -->
+
+</LinearLayout>
