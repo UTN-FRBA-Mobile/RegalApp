@@ -1,7 +1,5 @@
 package com.utn.frba.mobile.regalapp.events
 
-import java.util.Date
-
 data class ItemModel(
     val name: String,
     val quantity: Int = 0,
