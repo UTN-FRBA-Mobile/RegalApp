@@ -1,4 +1,4 @@
-package com.utn.frba.mobile.regalapp.events
+package com.utn.frba.mobile.regalapp.eventList
 
 data class EventModel(
     val name: String,

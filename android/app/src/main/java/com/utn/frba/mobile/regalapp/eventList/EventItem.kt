@@ -1,4 +1,4 @@
-package com.utn.frba.mobile.regalapp.events
+package com.utn.frba.mobile.regalapp.eventList
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -19,17 +19,20 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.utn.frba.mobile.regalapp.R
 
 @Composable
-fun EventItem(event: EventModel) {
+fun EventItem(event: EventModel, navigator: NavController) {
 
     Row(
         Modifier.fillMaxWidth()
     ) {
         Spacer(modifier = Modifier.width(20.dp))
         Button(
-            onClick = {},
+            onClick = {
+                      navigator.navigate(R.id.openEventDetailFragment)
+            },
             Modifier.weight(1F),
         ) {
             Row(
