@@ -1,4 +1,4 @@
-package com.utn.frba.mobile.regalapp
+package com.utn.frba.mobile.regalapp.eventList
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -6,11 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
@@ -19,28 +15,28 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.utn.frba.mobile.regalapp.events.EventList
-import com.utn.frba.mobile.regalapp.events.EventModel
+import androidx.navigation.NavController
+import com.utn.frba.mobile.regalapp.R
 
-@Preview(showBackground = true)
 @Composable
-fun HomeScreen() {
-    val events = mutableListOf<EventModel>(
+fun EventListScreen(navController: NavController) {
+    val events = mutableListOf(
         EventModel("Mi cumple"),
         EventModel("Asado"),
         EventModel("Algo aburrido")
     )
     Scaffold(
         topBar = {
-            HomeScreenTopBar()
+            TopBar()
         },
         content = { innerPadding ->
-            EventList(events = events, contentPadding = innerPadding)
+            EventList(events = events, contentPadding = innerPadding, navController)
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { /*TODO*/ }) {
+            FloatingActionButton(onClick = {
+                navController.navigate(R.id.openAddEventFragment)
+            }) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = "new-item")
             }
         }
@@ -48,7 +44,7 @@ fun HomeScreen() {
 }
 
 @Composable
-fun HomeScreenTopBar() {
+fun TopBar() {
     TopAppBar(title = {
         Image(
             painter = painterResource(id = R.drawable.user_icon_placeholder),
@@ -59,6 +55,6 @@ fun HomeScreenTopBar() {
                 .background(Color.White)
         )
         Spacer(modifier = Modifier.width(10.dp))
-        Text(text = stringResource(id = R.string.home_screen_title))
+        Text(text = stringResource(id = R.string.events))
     })
 }

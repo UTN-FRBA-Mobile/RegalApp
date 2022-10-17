@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_main"
+    app:startDestination="@id/eventListFragment">
+    <fragment
+        android:id="@+id/eventListFragment"
+        android:name="com.utn.frba.mobile.regalapp.eventList.EventListFragment"
+        android:label="EventListFragment" >
+        <action
+            android:id="@+id/openEventDetailFragment"
+            app:destination="@id/eventDetailFragment" />
+        <action
+            android:id="@+id/openAddEventFragment"
+            app:destination="@id/addEventFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventDetailFragment"
+        android:name="com.utn.frba.mobile.regalapp.eventDetail.EventDetailFragment"
+        android:label="EventDetailFragment" />
+    <fragment
+        android:id="@+id/addEventFragment"
+        android:name="com.utn.frba.mobile.regalapp.eventDetail.AddEventFragment"
+        android:label="AddEventFragment" />
+</navigation>
