@@ -19,6 +19,13 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
+    /*  AGREGAR? class MainActivity : AppCompatActivity(), 
+                LoginFragment.OnFragmentInteractionListener,
+                SignUpFragment.OnFragmentInteractionListener
+        
+        private lateinit var loginFragment: Fragment
+        private lateinit var SignUpFragment: Fragment
+    */
 
     @Inject
     lateinit var daggerFragmentFactory: DaggerFragmentFactory
@@ -38,6 +45,15 @@ class MainActivity : AppCompatActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     HomeScreen()
+                    /*
+                    ACA DEBERIAMOS SACAR HomeScreen y poner:
+                    if (savedInstanceState == null) {
+                        loginFragment = LoginFragment()
+                        supportFragmentManager.beginTransaction()
+                                            .replace(R.id.container, loginFragment)
+                                            .commitNow()
+                    }
+                    */
                 }
             }
         }
@@ -75,6 +91,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onLogin(username: String, password: String) {
         // FIXME: LOGICA PARA IR A PAGINA DE INICIO DE LA APLICACION, PERO REVISANDO SI USUARIO EXISTE
+        homeScreenFragment = HomeScreen()
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE
+        supportFragmentManager.beginTransaction().remove(loginFragment).add(R.id.container, homeScreenFragment).commitNow()
     }
     override fun onSignUp() {
         signUpFragment = SignUpFragment()

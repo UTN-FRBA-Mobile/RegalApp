@@ -8,10 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import ar.edu.utn.frba.mobile.clases.R
+import com.utn.frba.mobile.regalapp.R
 import com.utn.frba.mobile.regalapp.databinding.FragmentSignUpBinding
 
-class SignUpStepTwoFragment : Fragment() {
+class SignUpFragment : Fragment() {
     private var _binding: FragmentSignUpBinding? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
