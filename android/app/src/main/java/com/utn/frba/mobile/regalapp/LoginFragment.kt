@@ -29,6 +29,18 @@ class LoginFragment : Fragment() {
             val username = binding.username.text.toString()
             val password = binding.password.text.toString()
 
+            /*
+            // OBLIGAR A QUE USUARIO PONGA AMBOS DATOS
+            if( username.isEmpty() || password.isEmpty()){ // ALGUN DATO VACIO
+                val toast = Toast.makeText(activity,"Por favor completar todos los datos", Toast.LENGTH_SHORT)
+                toast.setGravity(Gravity.BOTTOM,0,0)
+                toast.show()
+            }else{
+                // ACA REVISARIA SI USUARIO EXISTE EN LA BD
+                listener!!.onLogin(username, password)
+            }
+         */
+
             listener!!.onLogin(username, password)
             // FIXME: CODEAR CODIGO EN MainActivity.kt
         }

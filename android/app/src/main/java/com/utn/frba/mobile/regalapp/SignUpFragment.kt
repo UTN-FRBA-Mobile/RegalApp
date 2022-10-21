@@ -31,6 +31,23 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.signUpButton.setOnClickListener {
+            /*
+            // OBLIGAR A QUE USUARIO PONGA TODOS LOS DATOS
+            if( firstname.isEmpty() || lastname.isEmpty() || username.isEmpty() || password.isEmpty() || passwordAgain.isEmpty() ){ // ALGUN DATO VACIO
+                val toast = Toast.makeText(activity,"Por favor completar todos los datos", Toast.LENGTH_SHORT)
+                toast.setGravity(Gravity.BOTTOM,0,0)
+                toast.show()
+            }else{
+                if( password == passwordAgain ){
+                    // ACA DEBERIA REGISTRAR AL USUARIO EN LA BD
+                    listener!!.onFinishSignUp()
+                }else{
+                    val toast = Toast.makeText(activity,"Ambas contraseñas no coinciden", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.BOTTOM,0,0)
+                    toast.show()
+                }
+            }
+         */
             listener!!.onFinishSignUp()
             // FIXME: CODEAR CODIGO EN MainActivity.kt
         }
