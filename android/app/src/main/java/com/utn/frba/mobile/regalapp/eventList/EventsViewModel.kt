@@ -16,7 +16,8 @@ class EventsViewModel(
     updater,
     initialState = EventsState(),
     threadInfo = threadInfoProvider,
-    processor = processor
+    processor = processor,
+    initialEffects = setOf(EventSideEffects.LoadEventsList)
 ) {
 
     class Factory @Inject constructor(
