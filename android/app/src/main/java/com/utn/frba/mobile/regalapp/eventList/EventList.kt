@@ -8,16 +8,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
-import androidx.navigation.NavController
+import com.utn.frba.mobile.domain.models.EventModel
 
 @Composable
-fun EventList(events: List<EventModel>, contentPadding: PaddingValues, navigator: NavController) {
+fun EventList(events: List<EventModel>, contentPadding: PaddingValues, onEventClicked: (EventModel) -> Unit) {
     LazyColumn(
         contentPadding = contentPadding
     ) {
         items(events) { event ->
             Spacer(modifier = Modifier.height(Dp(20F)))
-            EventItem(event = event, navigator)
+            EventItem(event = event, onEventClicked)
         }
     }
 }

@@ -17,25 +17,29 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.utn.frba.mobile.domain.models.EventModel
 import com.utn.frba.mobile.regalapp.R
 
 @Composable
-fun EventListScreen(navController: NavController) {
+fun EventListScreen(viewModel: EventsViewModel) {
+    // TODO harcoded
     val events = mutableListOf(
-        EventModel("Mi cumple"),
-        EventModel("Asado"),
-        EventModel("Algo aburrido")
+        EventModel("1","Mi cumple"),
+        EventModel("2","Asado"),
+        EventModel("3","Algo aburrido")
     )
     Scaffold(
         topBar = {
             TopBar()
         },
         content = { innerPadding ->
-            EventList(events = events, contentPadding = innerPadding, navController)
+            EventList(events = events, contentPadding = innerPadding) {
+                viewModel.action(EventsActions.OpenEventDetails(it))
+            }
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                navController.navigate(R.id.openAddEventFragment)
+                viewModel.action(EventsActions.AddEventClicked)
             }) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = "new-item")
             }

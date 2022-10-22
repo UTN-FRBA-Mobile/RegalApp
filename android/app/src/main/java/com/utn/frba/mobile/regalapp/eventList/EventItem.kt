@@ -19,11 +19,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import com.utn.frba.mobile.domain.models.EventModel
 import com.utn.frba.mobile.regalapp.R
 
 @Composable
-fun EventItem(event: EventModel, navigator: NavController) {
+fun EventItem(event: EventModel, onEventClicked: (EventModel) -> Unit) {
 
     Row(
         Modifier.fillMaxWidth()
@@ -31,7 +31,7 @@ fun EventItem(event: EventModel, navigator: NavController) {
         Spacer(modifier = Modifier.width(20.dp))
         Button(
             onClick = {
-                      navigator.navigate(R.id.openEventDetailFragment)
+                onEventClicked(event)
             },
             Modifier.weight(1F),
         ) {
@@ -55,7 +55,7 @@ fun EventItem(event: EventModel, navigator: NavController) {
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
 
-                ) {
+                    ) {
                     Text(text = event.name)
                     Text(
                         text = stringResource(id = R.string.items_bought, 2, 3)
