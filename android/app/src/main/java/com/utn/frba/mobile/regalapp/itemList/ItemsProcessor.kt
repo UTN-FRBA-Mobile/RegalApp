@@ -1,4 +1,4 @@
-package com.utn.frba.mobile.regalapp.items
+package com.utn.frba.mobile.regalapp.itemList
 
 import com.utn.frba.mobile.domain.models.EventModel
 import io.github.fededri.arch.interfaces.Processor

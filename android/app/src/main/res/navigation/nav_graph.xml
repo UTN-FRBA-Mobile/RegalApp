@@ -27,7 +27,7 @@
         android:label="AddEventFragment" />
     <fragment
         android:id="@+id/itemListFragment"
-        android:name="com.utn.frba.mobile.regalapp.items.ItemListFragment"
+        android:name="com.utn.frba.mobile.regalapp.itemList.ItemListFragment"
         android:label="ItemListFragment">
         <action
             android:id="@+id/openEventDetailFragment"

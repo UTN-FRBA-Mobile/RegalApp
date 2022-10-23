@@ -1,4 +1,4 @@
-package com.utn.frba.mobile.regalapp.items
+package com.utn.frba.mobile.regalapp.itemList
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button

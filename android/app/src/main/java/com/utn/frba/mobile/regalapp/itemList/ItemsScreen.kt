@@ -8,7 +8,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -17,13 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.utn.frba.mobile.domain.models.EventModel
-import com.utn.frba.mobile.regalapp.items.ItemList
-import com.utn.frba.mobile.regalapp.items.ItemsActions
-import com.utn.frba.mobile.regalapp.items.ItemsViewModel
-import com.utn.frba.mobile.regalapp.items.defaultItemState
+import com.utn.frba.mobile.regalapp.itemList.ItemList
+import com.utn.frba.mobile.regalapp.itemList.ItemsActions
+import com.utn.frba.mobile.regalapp.itemList.ItemsViewModel
+import com.utn.frba.mobile.regalapp.itemList.defaultItemState
 
 @Composable
 fun ItemScreen(viewModel: ItemsViewModel) {
