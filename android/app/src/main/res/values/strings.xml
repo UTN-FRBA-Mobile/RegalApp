@@ -11,5 +11,8 @@
     <string name="bougth">Comprado</string>
     <string name="pending">Pendiente</string>
     <string name="search">Buscar</string>
+    <string name="back">Volver</string>
+    <string name="add_item">Agregar item</string>
+    <string name="open_event">Abrir evento</string>
 
 </resources>

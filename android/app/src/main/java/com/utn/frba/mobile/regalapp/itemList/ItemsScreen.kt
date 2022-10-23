@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.utn.frba.mobile.domain.models.EventModel
 import com.utn.frba.mobile.regalapp.itemList.ItemList
@@ -51,7 +52,10 @@ fun ItemScreen(viewModel: ItemsViewModel) {
             FloatingActionButton(onClick = {
                 viewModel.action(ItemsActions.AddItemClicked)
             }) {
-                Icon(imageVector = Icons.Filled.Add, contentDescription = "new-item")
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = stringResource(id = R.string.add_item)
+                )
             }
         }
     )
@@ -74,7 +78,10 @@ fun ItemsScreenTopBar(event: EventModel, onSettingsClick: (EventModel) -> Unit, 
          IconButton(onClick = {
              onSettingsClick(event)
          }) {
-             Icon(imageVector = Icons.Filled.Settings, contentDescription = "back")
+             Icon(
+                 imageVector = Icons.Filled.Settings,
+                 contentDescription = stringResource(id = R.string.open_event)
+             )
          }
     }, navigationIcon = {
         Column(
@@ -85,7 +92,10 @@ fun ItemsScreenTopBar(event: EventModel, onSettingsClick: (EventModel) -> Unit, 
             IconButton(onClick = {
                 onBackClick()
             }) {
-                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "back")
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = stringResource(id = R.string.back)
+                )
             }
         }
     })
