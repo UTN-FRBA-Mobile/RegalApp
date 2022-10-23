@@ -16,9 +16,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.utn.frba.mobile.regalapp.events.EventModel
-import com.utn.frba.mobile.regalapp.events.ItemList
-import com.utn.frba.mobile.regalapp.events.ItemModel
+import com.utn.frba.mobile.regalapp.eventList.EventModel
+import com.utn.frba.mobile.regalapp.items.ItemList
+import com.utn.frba.mobile.regalapp.items.ItemModel
 
 @Preview(showBackground = true)
 @Composable

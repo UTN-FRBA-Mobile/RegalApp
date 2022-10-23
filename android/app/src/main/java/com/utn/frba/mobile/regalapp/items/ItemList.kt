@@ -1,4 +1,4 @@
-package com.utn.frba.mobile.regalapp.events
+package com.utn.frba.mobile.regalapp.items
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
