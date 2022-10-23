@@ -31,6 +31,7 @@ fun ItemScreen() {
         ItemModel("Carbón", status = true, bought_by = "Un nombre muy largooooo"),
     )
     val event = EventModel(
+        id = "",
         name = "Asado",
         items = items,
     )

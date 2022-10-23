@@ -11,6 +11,9 @@
             android:id="@+id/openEventDetailFragment"
             app:destination="@id/eventDetailFragment" />
         <action
+            android:id="@+id/openItemListFragment"
+            app:destination="@id/itemListFragment" />
+        <action
             android:id="@+id/openAddEventFragment"
             app:destination="@id/addEventFragment" />
     </fragment>
@@ -22,4 +25,8 @@
         android:id="@+id/addEventFragment"
         android:name="com.utn.frba.mobile.regalapp.eventDetail.AddEventFragment"
         android:label="AddEventFragment" />
+    <fragment
+        android:id="@+id/itemListFragment"
+        android:name="com.utn.frba.mobile.regalapp.items.ItemListFragment"
+        android:label="ItemListFragment" />
 </navigation>

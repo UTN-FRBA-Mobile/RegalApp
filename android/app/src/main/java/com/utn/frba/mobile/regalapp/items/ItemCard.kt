@@ -10,6 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.utn.frba.mobile.domain.models.ItemModel
 import com.utn.frba.mobile.regalapp.R
 
 @Composable

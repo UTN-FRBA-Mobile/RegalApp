@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 
 import androidx.compose.ui.unit.dp
+import com.utn.frba.mobile.domain.models.ItemModel
 import com.utn.frba.mobile.regalapp.R
 
 @Composable

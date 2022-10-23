@@ -63,6 +63,10 @@ class EventListFragment @Inject constructor(
                             navigateToDestination(EventListFragmentDirections.openEventDetailFragment())
                         }
 
+                        is ListEvents.OpenItemList -> {
+                            navigateToDestination(EventListFragmentDirections.openItemListFragment())
+                        }
+
                         is ListEvents.OpenAddEventScreen -> {
                             navigateToDestination(EventListFragmentDirections.openAddEventFragment())
                         }

@@ -15,6 +15,7 @@ sealed class EventsActions {
     // region User initiated actions
     object FetchInitialList : EventsActions()
     data class OpenEventDetails(val event: EventModel) : EventsActions()
+    data class OpenItemList(val event: EventModel): EventsActions()
     object AddEventClicked : EventsActions()
     // endregion
 
@@ -34,5 +35,6 @@ sealed class EventSideEffects(
 
 sealed class ListEvents {
     data class OpenEventDetails(val event: EventModel) : ListEvents()
+    data class OpenItemList(val event: EventModel): ListEvents()
     object OpenAddEventScreen : ListEvents()
 }
