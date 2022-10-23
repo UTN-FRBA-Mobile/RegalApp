@@ -35,6 +35,7 @@ sealed class ItemsActions {
     data class OpenEventDetails(val event: EventModel) : ItemsActions()
     data class OpenItemDetails(val item: ItemModel): ItemsActions()
     object AddItemClicked : ItemsActions()
+    object OpenEventsList : ItemsActions()
     // endregion
 
     //region processor actions
@@ -55,4 +56,5 @@ sealed class ListEvents {
     data class OpenEventDetails(val event: EventModel) : ListEvents()
     data class OpenItemDetails(val item: ItemModel): ListEvents()
     object OpenAddItemScreen : ListEvents()
+    object OpenEventsList : ListEvents()
 }

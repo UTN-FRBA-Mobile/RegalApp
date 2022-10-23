@@ -28,5 +28,27 @@
     <fragment
         android:id="@+id/itemListFragment"
         android:name="com.utn.frba.mobile.regalapp.items.ItemListFragment"
-        android:label="ItemListFragment"/>
+        android:label="ItemListFragment">
+        <action
+            android:id="@+id/openEventDetailFragment"
+            app:destination="@id/eventDetailFragment" />
+        <action
+            android:id="@+id/addItemFragment"
+            app:destination="@id/addItemFragment" />
+        <action
+            android:id="@+id/openItemDetailFragment"
+            app:destination="@id/itemDetailFragment" />
+        <action
+            android:id="@+id/openEventsListFragment"
+            app:destination="@id/eventListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addItemFragment"
+        android:name="com.utn.frba.mobile.regalapp.itemDetail.AddItemFragment"
+        android:label="AddItemFragment" />
+    <fragment
+        android:id="@+id/itemDetailFragment"
+        android:name="com.utn.frba.mobile.regalapp.itemDetail.ItemDetailFragment"
+        android:label="ItemDetailFragment" />
+
 </navigation>

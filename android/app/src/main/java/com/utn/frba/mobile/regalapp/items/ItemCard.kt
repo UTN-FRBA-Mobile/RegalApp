@@ -14,12 +14,14 @@ import com.utn.frba.mobile.domain.models.ItemModel
 import com.utn.frba.mobile.regalapp.R
 
 @Composable
-fun ItemCard(item: ItemModel) {
+fun ItemCard(item: ItemModel, onClick: (ItemModel) -> Unit) {
     Row(
         Modifier.fillMaxWidth().height(60.dp),
     ) {
         Button(
-            onClick = {},
+            onClick = {
+                onClick(item)
+            },
             Modifier.weight(1F),
         ) {
             Row(

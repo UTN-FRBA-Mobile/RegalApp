@@ -18,6 +18,7 @@ class ItemsUpdater @Inject constructor() :
             is ItemsActions.OpenItemDetails -> openItemDetails(currentState, action)
             is ItemsActions.HandleItemsList -> Next.State(currentState.copy(selectedEvent = action.event))
             is ItemsActions.AddItemClicked -> Next.StateWithEvents(currentState, setOf(ListEvents.OpenAddItemScreen))
+            is ItemsActions.OpenEventsList -> Next.StateWithEvents(currentState, setOf(ListEvents.OpenEventsList))
         }
     }
 

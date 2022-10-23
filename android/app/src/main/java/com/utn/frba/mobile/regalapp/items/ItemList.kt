@@ -25,7 +25,7 @@ import com.utn.frba.mobile.domain.models.ItemModel
 import com.utn.frba.mobile.regalapp.R
 
 @Composable
-fun ItemList(items: List<ItemModel>, contentPadding: PaddingValues) {
+fun ItemList(items: List<ItemModel>, contentPadding: PaddingValues, onItemClick: (ItemModel) -> Unit) {
     var itemFilter by remember{
         mutableStateOf("")
     }
@@ -62,7 +62,9 @@ fun ItemList(items: List<ItemModel>, contentPadding: PaddingValues) {
 
             items(filteredItems) { item ->
                 Spacer(modifier = Modifier.height(20.dp))
-                ItemCard(item)
+                ItemCard(item) {
+                    onItemClick(it)
+                }
             }
         }
     }
