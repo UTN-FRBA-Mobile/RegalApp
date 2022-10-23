@@ -31,6 +31,7 @@ class EventDetailFragment @Inject constructor() : Fragment() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
+
                    Text(text = "EVENT DETAIL")
                 }
             }

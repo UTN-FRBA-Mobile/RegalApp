@@ -10,31 +10,23 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.utn.frba.mobile.regalapp.eventList.EventModel
+import com.utn.frba.mobile.domain.models.EventModel
 import com.utn.frba.mobile.regalapp.items.ItemList
-import com.utn.frba.mobile.regalapp.items.ItemModel
+import com.utn.frba.mobile.regalapp.items.ItemsViewModel
+import com.utn.frba.mobile.regalapp.items.defaultItemState
 
-@Preview(showBackground = true)
 @Composable
-fun ItemScreen() {
-    val items = mutableListOf<ItemModel>(
-        ItemModel("Vasos"),
-        ItemModel("Bebidas", status = true, bought_by = "Gonzalo"),
-        ItemModel("Carne"),
-        ItemModel("Ensalda"),
-        ItemModel("Carbón", status = true, bought_by = "Un nombre muy largooooo"),
-    )
-    val event = EventModel(
-        id = "",
-        name = "Asado",
-        items = items,
-    )
+fun ItemScreen(viewModel: ItemsViewModel) {
+
+
+    val state = viewModel.observeState().collectAsState(initial = defaultItemState())
+    val event = state.value.selectedEvent
 
     Scaffold(
         topBar = {
