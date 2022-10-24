@@ -8,7 +8,8 @@ import kotlinx.coroutines.Dispatchers
 
 data class EventsState(
     val events: List<EventModel> = emptyList(),
-    val selectedEvent: EventModel? = null
+    val selectedEvent: EventModel? = null,
+    val loading: Boolean = false
 )
 
 sealed class EventsActions {

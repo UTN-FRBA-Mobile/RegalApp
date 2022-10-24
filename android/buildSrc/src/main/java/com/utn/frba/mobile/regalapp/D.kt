@@ -35,6 +35,7 @@ object D {
         const val firebaseBom = "com.google.firebase:firebase-bom:${V.firebaseBom}"
         const val authentication = "com.google.firebase:firebase-auth"
         const val authenticationKtx = "com.google.firebase:firebase-auth-ktx"
+        const val firestore = "com.google.firebase:firebase-firestore-ktx"
     }
 
     object Landscapist {
