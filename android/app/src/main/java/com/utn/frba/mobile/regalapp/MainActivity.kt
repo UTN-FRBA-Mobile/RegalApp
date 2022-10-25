@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import com.utn.frba.mobile.domain.models.NetworkResponse
 import com.utn.frba.mobile.domain.repositories.auth.UserRepository
@@ -86,20 +87,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
-
-    override fun onLogin(username: String, password: String) {
+    fun onLogin(username: String, password: String) {
         // FIXME: LOGICA PARA IR A PAGINA DE INICIO DE LA APLICACION, PERO REVISANDO SI USUARIO EXISTE
-        homeScreenFragment = HomeScreen()
-        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE
+        val homeScreenFragment = HomeScreen()
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         supportFragmentManager.beginTransaction().remove(loginFragment).add(R.id.container, homeScreenFragment).commitNow()
     }
-    override fun onSignUp() {
-        signUpFragment = SignUpFragment()
+
+    fun onSignUp() {
+        val signUpFragment = SignUpFragment()
         supportFragmentManager.beginTransaction().remove(loginFragment).add(R.id.container, signUpFragment).addToBackStack(null).commit()
     }
-    override fun onFinishSignUp() {
+
+    fun onFinishSignUp() {
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         // aprieto boton para ir atras del celu --> pantalla login es la ultima, al apretar se sale de la app
         // IMPLEMENTAR LOGICA PARA VER SI password y passwordAgain coinciden, sino deberia aparecer un cartel con mensaje de aviso

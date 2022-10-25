@@ -4,4 +4,8 @@
     <string name="user_image_content_description">user-image</string>
     <string name="home_screen_title">Home</string>
     <string name="items_bought">%d/%d comprados</string>
+    <string name="register">Registrarse</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Ingresar</string>
 </resources>
