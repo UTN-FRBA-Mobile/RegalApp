@@ -6,7 +6,10 @@ data class EventModel(
     val ownerId: String
 )
 
+/*
+Each field name should match with the field values on the database
+ */
 enum class EventFields(val value: String) {
-    NAME("NAME"),
+    NAME("name"),
     OWNER_ID("owner_id")
 }

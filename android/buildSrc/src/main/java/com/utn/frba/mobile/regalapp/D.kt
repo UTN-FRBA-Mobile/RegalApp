@@ -31,6 +31,10 @@ object D {
         const val compiler = "com.google.dagger:dagger-compiler:${V.dagger}"
     }
 
+    object DataStore {
+        const val core = "androidx.datastore:datastore-preferences:${V.dataStore}"
+    }
+
     object Firebase {
         const val firebaseBom = "com.google.firebase:firebase-bom:${V.firebaseBom}"
         const val authentication = "com.google.firebase:firebase-auth"

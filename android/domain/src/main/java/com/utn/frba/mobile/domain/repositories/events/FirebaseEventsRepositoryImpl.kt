@@ -11,7 +11,6 @@ import com.utn.frba.mobile.domain.models.NetworkResponse
 import com.utn.frba.mobile.domain.utils.FirestoreHelper
 import com.utn.frba.mobile.domain.utils.safeCall
 import kotlinx.coroutines.tasks.await
-import java.util.UUID
 import javax.inject.Inject
 
 @ContributesBinding(AppScope::class)

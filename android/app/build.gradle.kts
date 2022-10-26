@@ -84,9 +84,15 @@ dependencies {
     implementation(D.Compose.material)
     implementation(D.Compose.activityCompose)
     implementation(project(mapOf("path" to ":domain")))
+    implementation("androidx.appcompat:appcompat:1.4.1")
+    implementation("com.google.android.material:material:1.4.+")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.3")
     debugImplementation(D.Compose.uiTooling)
     debugImplementation(D.Compose.uiTestManifest)
     implementation(D.Compose.constraintLayout)
+
+    // DataStore
+    implementation(D.DataStore.core)
 
     // Firebase
     implementation(platform(D.Firebase.firebaseBom))
