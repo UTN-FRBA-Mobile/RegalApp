@@ -29,7 +29,7 @@ import javax.inject.Inject
 class ItemListFragment @Inject constructor(
     private val viewModelFactory: ItemsViewModel.Factory
 ) : Fragment() {
-    private val viewModel: ItemsViewModel by navGraphViewModels(R.id.itemListFragment) { viewModelFactory }
+    private val viewModel: ItemsViewModel by navGraphViewModels(R.id.navigation_main) { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
