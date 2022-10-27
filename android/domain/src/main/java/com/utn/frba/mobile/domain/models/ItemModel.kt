@@ -7,5 +7,5 @@ data class ItemModel(
 //    val location: Object,
     val status: Boolean = false,
 //    val purchasedDate: Date?
-    val bought_by: String = "",
+    val boughtBy: String = "",
     ) {}

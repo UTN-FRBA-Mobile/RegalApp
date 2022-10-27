@@ -16,10 +16,10 @@ data class ItemsState(
 fun defaultItemState(): ItemsState {
     val items = mutableListOf<ItemModel>(
         ItemModel("Vasos"),
-        ItemModel("Bebidas", status = true, bought_by = "Gonzalo"),
+        ItemModel("Bebidas", status = true, boughtBy = "Gonzalo"),
         ItemModel("Carne"),
         ItemModel("Ensalda"),
-        ItemModel("Carbón", status = true, bought_by = "Un nombre muy largooooo"),
+        ItemModel("Carbón", status = true, boughtBy = "Un nombre muy largooooo"),
     )
     val event = EventModel(
         id = "",

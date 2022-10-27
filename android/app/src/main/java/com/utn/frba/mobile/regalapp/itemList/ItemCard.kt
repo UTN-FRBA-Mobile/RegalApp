@@ -41,7 +41,7 @@ fun ItemCard(item: ItemModel, onClick: (ItemModel) -> Unit) {
                     Text(text = item.name)
                     if( item.status ) {
                         Text(
-                            text = stringResource(id = R.string.bought_by, item.bought_by),
+                            text = stringResource(id = R.string.bought_by, item.boughtBy),
                             fontSize = 10.sp,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -80,7 +80,7 @@ fun ItemCardCompletedPreview() {
     val item = ItemModel(
         name = "Vasos",
         status = true,
-        bought_by = "Gonzalo"
+        boughtBy = "Gonzalo"
     )
     ItemCard(item = item, onClick = {})
 }
