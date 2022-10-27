@@ -36,10 +36,14 @@ dependencies {
     // Dagger
     implementation(D.Dagger.dagger2)
 
+    // DataStore
+    implementation(D.DataStore.core)
+
     // Firebase
     implementation(platform(D.Firebase.firebaseBom))
     implementation(D.Firebase.authentication)
     implementation(D.Firebase.authenticationKtx)
+    implementation(D.Firebase.firestore)
 
     // Networking
     implementation(D.Retrofit.networkResponseAdapter)

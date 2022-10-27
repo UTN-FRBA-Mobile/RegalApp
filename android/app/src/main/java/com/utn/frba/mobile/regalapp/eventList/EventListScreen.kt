@@ -10,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -22,12 +23,9 @@ import com.utn.frba.mobile.regalapp.R
 
 @Composable
 fun EventListScreen(viewModel: EventsViewModel) {
-    // TODO harcoded
-    val events = mutableListOf(
-        EventModel("1","Mi cumple"),
-        EventModel("2","Asado"),
-        EventModel("3","Algo aburrido")
-    )
+
+    val state = viewModel.observeState().collectAsState(initial = EventsState())
+
     Scaffold(
         topBar = {
             TopBar()
@@ -35,7 +33,9 @@ fun EventListScreen(viewModel: EventsViewModel) {
         content = { innerPadding ->
             EventList(events = events, contentPadding = innerPadding) {
                 viewModel.action(EventsActions.OpenItemList(it))
-            }
+            //EventList(events = state.value.events, contentPadding = innerPadding) {
+            //    viewModel.action(EventsActions.OpenEventDetails(it))
+            //}
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {

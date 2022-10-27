@@ -16,8 +16,11 @@ class EventsUpdater @Inject constructor() :
             is EventsActions.FetchInitialList -> fetchInitialList(currentState, action)
             is EventsActions.OpenEventDetails -> openEventDetails(currentState, action)
             is EventsActions.OpenItemList -> openItemList(currentState, action)
-            is EventsActions.HandleEventsList -> Next.State(currentState.copy(events = action.events))
-            is EventsActions.AddEventClicked -> Next.StateWithEvents(currentState, setOf(ListEvents.OpenAddEventScreen))
+            is EventsActions.HandleEventsList -> handleEventsList(currentState, action)
+            is EventsActions.AddEventClicked -> Next.StateWithEvents(
+                currentState,
+                setOf(ListEvents.OpenAddEventScreen)
+            )
         }
     }
 
@@ -25,9 +28,17 @@ class EventsUpdater @Inject constructor() :
         currentState: EventsState,
         action: EventsActions.FetchInitialList
     ): NextResult {
-        // TODO
-        return Next.State(currentState)
+        return Next.StateWithSideEffects(
+            currentState.copy(loading = true),
+            sideEffects = setOf(EventSideEffects.LoadEventsList)
+        )
     }
+
+    private fun handleEventsList(
+        currentState: EventsState,
+        action: EventsActions.HandleEventsList
+    ) =
+        Next.State(currentState.copy(loading = false, events = action.events))
 
     private fun openEventDetails(
         currentState: EventsState,

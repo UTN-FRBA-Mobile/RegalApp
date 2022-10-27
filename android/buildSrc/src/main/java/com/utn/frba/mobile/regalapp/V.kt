@@ -27,4 +27,5 @@ object V {
     const val turbine = "0.11.0"
     const val firebaseBom = "30.5.0"
     const val androidKtx = "1.9.0"
+    const val dataStore = "1.0.0"
 }
