@@ -2,7 +2,6 @@ package com.utn.frba.mobile.regalapp.eventList
 
 import com.utn.frba.mobile.domain.repositories.events.EventsRepository
 import io.github.fededri.arch.interfaces.Processor
-import timber.log.Timber
 import javax.inject.Inject
 
 class EventsProcessor @Inject constructor(
@@ -15,7 +14,8 @@ class EventsProcessor @Inject constructor(
     }
 
     private suspend fun loadEventsList(effect: EventSideEffects.LoadEventsList): EventsActions {
-        val events = eventsRepository.fetchEvents()
+        // TODO hardcoded user id
+        val events = eventsRepository.fetchUserEvents("ECTF5lR1bPMUkiKBIELzBxirrn53")
 
         return EventsActions.HandleEventsList(events.data ?: emptyList())
     }
