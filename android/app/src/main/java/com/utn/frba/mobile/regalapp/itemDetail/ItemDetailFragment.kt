@@ -1,4 +1,4 @@
-package com.utn.frba.mobile.regalapp.eventDetail
+package com.utn.frba.mobile.regalapp.itemDetail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,9 +16,9 @@ import com.utn.frba.mobile.domain.di.ActivityScope
 import com.utn.frba.mobile.domain.di.FragmentKey
 import javax.inject.Inject
 
-@FragmentKey(EventDetailFragment::class)
+@FragmentKey(ItemDetailFragment::class)
 @ContributesMultibinding(ActivityScope::class, Fragment::class)
-class EventDetailFragment @Inject constructor() : Fragment() {
+class ItemDetailFragment @Inject constructor() : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -31,8 +31,7 @@ class EventDetailFragment @Inject constructor() : Fragment() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-
-                   Text(text = "EVENT DETAIL")
+                    Text(text = "DETAIL ITEM")
                 }
             }
         }

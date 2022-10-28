@@ -1,4 +1,4 @@
-package com.utn.frba.mobile.regalapp.eventList
+package com.utn.frba.mobile.regalapp.itemList
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,19 +17,19 @@ import androidx.navigation.navGraphViewModels
 import com.squareup.anvil.annotations.ContributesMultibinding
 import com.utn.frba.mobile.domain.di.ActivityScope
 import com.utn.frba.mobile.domain.di.FragmentKey
+import com.utn.frba.mobile.regalapp.ItemScreen
 import com.utn.frba.mobile.regalapp.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@FragmentKey(EventListFragment::class)
+@FragmentKey(ItemListFragment::class)
 @ContributesMultibinding(ActivityScope::class, Fragment::class)
-class EventListFragment @Inject constructor(
-    private val viewModelFactory: EventsViewModel.Factory
+class ItemListFragment @Inject constructor(
+    private val viewModelFactory: ItemsViewModel.Factory
 ) : Fragment() {
-
-    private val viewModel: EventsViewModel by navGraphViewModels(R.id.navigation_main) { viewModelFactory }
+    private val viewModel: ItemsViewModel by navGraphViewModels(R.id.navigation_main) { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,11 +38,12 @@ class EventListFragment @Inject constructor(
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
+                // TODO: Remove placeholder, add content
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    EventListScreen(viewModel)
+                   ItemScreen(viewModel)
                 }
             }
         }
@@ -60,15 +61,19 @@ class EventListFragment @Inject constructor(
                 .collect { event ->
                     when (event) {
                         is ListEvents.OpenEventDetails -> {
-                            navigateToDestination(EventListFragmentDirections.openEventDetailFragment())
+                            navigateToDestination(ItemListFragmentDirections.openEventDetailFragment())
                         }
 
-                        is ListEvents.OpenItemList -> {
-                            navigateToDestination(EventListFragmentDirections.openItemListFragment())
+                        is ListEvents.OpenAddItemScreen -> {
+                            navigateToDestination(ItemListFragmentDirections.addItemFragment())
                         }
 
-                        is ListEvents.OpenAddEventScreen -> {
-                            navigateToDestination(EventListFragmentDirections.openAddEventFragment())
+                        is ListEvents.OpenItemDetails -> {
+                            navigateToDestination(ItemListFragmentDirections.openItemDetailFragment())
+                        }
+
+                        is ListEvents.OpenEventsList -> {
+                            navigateToDestination(ItemListFragmentDirections.openEventsListFragment())
                         }
                     }
                 }
@@ -78,7 +83,7 @@ class EventListFragment @Inject constructor(
     private fun navigateToDestination(directions: NavDirections) {
         val navController = findNavController()
         val currentDestinationId = navController.currentDestination?.id
-        if (currentDestinationId == R.id.eventListFragment) {
+        if (currentDestinationId == R.id.itemListFragment) {
             navController.navigate(directions)
         }
     }
