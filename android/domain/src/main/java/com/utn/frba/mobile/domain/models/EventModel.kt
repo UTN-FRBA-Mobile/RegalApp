@@ -1,8 +1,8 @@
 package com.utn.frba.mobile.domain.models
 
 data class EventModel(
-    val id: String,
-    val name: String,
+    val id: String? = null,
+    val name: String = "",
     val items: List<ItemModel> = emptyList(),
     val ownerId: String
 )

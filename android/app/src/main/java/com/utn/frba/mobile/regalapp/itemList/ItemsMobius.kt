@@ -25,6 +25,7 @@ fun defaultItemState(): ItemsState {
         id = "",
         name = "Asado",
         items = items,
+        ownerId = "",
     )
     return ItemsState(event)
 }

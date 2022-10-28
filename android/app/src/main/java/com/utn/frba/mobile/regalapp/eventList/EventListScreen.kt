@@ -31,11 +31,9 @@ fun EventListScreen(viewModel: EventsViewModel) {
             TopBar()
         },
         content = { innerPadding ->
-            EventList(events = events, contentPadding = innerPadding) {
+            EventList(events = state.value.events, contentPadding = innerPadding) {
                 viewModel.action(EventsActions.OpenItemList(it))
-            //EventList(events = state.value.events, contentPadding = innerPadding) {
-            //    viewModel.action(EventsActions.OpenEventDetails(it))
-            //}
+            }
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
