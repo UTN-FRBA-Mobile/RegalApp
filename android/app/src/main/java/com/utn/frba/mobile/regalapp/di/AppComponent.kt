@@ -4,6 +4,7 @@ import android.app.Application
 import com.squareup.anvil.annotations.MergeComponent
 import com.utn.frba.mobile.domain.di.AppScope
 import com.utn.frba.mobile.regalapp.login.LoginActivity
+import com.utn.frba.mobile.regalapp.login.RegisterActivity
 import dagger.BindsInstance
 import dagger.Component
 
@@ -14,6 +15,7 @@ interface AppComponent {
     val userComponent: UserComponent.Factory
 
     fun inject(activity: LoginActivity)
+    fun injectRegister(activity: RegisterActivity)
 
     @Component.Factory
     interface Factory {
