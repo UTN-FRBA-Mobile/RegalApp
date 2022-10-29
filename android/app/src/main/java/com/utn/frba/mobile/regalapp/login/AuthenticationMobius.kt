@@ -23,7 +23,7 @@ typealias NextResult = Next<AuthenticationState, AuthenticationEffects, Nothing>
 data class AuthenticationState(
     val email: String? = null,
     val password: String? = null,
-    val isLoggedIn: Boolean = true
+    val isLoggedIn: Boolean = false
 )
 
 sealed class AuthenticationActions {
