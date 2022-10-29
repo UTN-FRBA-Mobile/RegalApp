@@ -16,6 +16,7 @@ class ItemsProcessor @Inject constructor() : Processor<ItemSideEffects, ItemsAct
         return ItemsActions.HandleItemsList(EventModel(
             id = "",
             name = "Asado",
+            ownerId = "",
         ))
     }
 }
