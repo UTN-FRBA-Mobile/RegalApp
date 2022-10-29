@@ -15,4 +15,12 @@
     <string name="add_item">Agregar item</string>
     <string name="open_event">Abrir evento</string>
 
+    <!--    AddItemScreen-->
+    <string name="cancel">Cancelar</string>
+    <string name="name">Nombre</string>
+    <string name="quantity">Cantidad</string>
+    <string name="price">Precio</string>
+    <string name="location">Ubicación</string>
+    <string name="add">Agregar</string>
+
 </resources>
