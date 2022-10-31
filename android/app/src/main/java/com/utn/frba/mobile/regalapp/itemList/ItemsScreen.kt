@@ -36,7 +36,7 @@ fun ItemScreen(viewModel: ItemsViewModel) {
             ItemsScreenTopBar(
                 event = event,
                 onBackClick = {
-                viewModel.action(ItemsActions.OpenEventsList)
+                    viewModel.action(ItemsActions.OpenEventsList)
                 },
                 onSettingsClick = {
                     viewModel.action(ItemsActions.OpenEventDetails(it))
