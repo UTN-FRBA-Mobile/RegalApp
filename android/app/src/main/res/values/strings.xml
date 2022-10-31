@@ -14,9 +14,9 @@
     <string name="back">Volver</string>
     <string name="add_item">Agregar item</string>
     <string name="open_event">Abrir evento</string>
-    <string name="login_failed">Login failed</string>
-    <string name="login_failed_message">Make sure your credentials are ok</string>
-    <string name="password">Password</string>
+    <string name="login_failed">Inicio de sesión fallido</string>
+    <string name="login_failed_message">Verifique sus credenciales</string>
+    <string name="password">Contraseña</string>
     <string name="email">Email</string>
 
     <!--    AddItemScreen-->
