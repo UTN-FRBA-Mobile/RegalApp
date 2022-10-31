@@ -8,4 +8,4 @@ data class ItemModel(
     val status: Boolean = false,
 //    val purchasedDate: Date?
     val boughtBy: String = "",
-    ) {}
+)

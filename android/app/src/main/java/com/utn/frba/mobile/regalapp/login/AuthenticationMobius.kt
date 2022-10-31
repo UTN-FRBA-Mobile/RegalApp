@@ -18,13 +18,19 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
-typealias NextResult = Next<AuthenticationState, AuthenticationEffects, Nothing>
+typealias NextResult = Next<AuthenticationState, AuthenticationEffects, AuthenticationEvents>
 
 data class AuthenticationState(
     val email: String? = null,
     val password: String? = null,
-    val isLoggedIn: Boolean = false
+    val isLoggedIn: Boolean = false,
+    val isLoading: Boolean = false
 )
+
+sealed class AuthenticationEvents() {
+    object LoginFailed : AuthenticationEvents()
+    object MissingFields : AuthenticationEvents()
+}
 
 sealed class AuthenticationActions {
     data class SetEmail(val email: String) : AuthenticationActions()
@@ -33,6 +39,8 @@ sealed class AuthenticationActions {
 
     data class HandleLoginSucceeded(val user: UserModel) : AuthenticationActions()
     object InvalidCredentials : AuthenticationActions()
+    object SkipLogin : AuthenticationActions()
+    object NO_OP : AuthenticationActions()
 }
 
 sealed class AuthenticationEffects(
@@ -40,36 +48,51 @@ sealed class AuthenticationEffects(
     override val dispatcher: CoroutineDispatcher? = Dispatchers.IO
 ) : SideEffectInterface {
     data class Login(val username: String, val password: String) : AuthenticationEffects()
+    object CheckIsAlreadyLoggedIn : AuthenticationEffects()
 }
 
 class AuthenticationUpdater @Inject constructor() :
-    Updater<AuthenticationActions, AuthenticationState, AuthenticationEffects, Nothing> {
+    Updater<AuthenticationActions, AuthenticationState, AuthenticationEffects, AuthenticationEvents> {
     override fun onNewAction(
         action: AuthenticationActions,
         currentState: AuthenticationState
-    ): Next<AuthenticationState, AuthenticationEffects, Nothing> {
+    ): Next<AuthenticationState, AuthenticationEffects, AuthenticationEvents> {
         return when (action) {
             is AuthenticationActions.LoginClicked -> handleLoginClicked(currentState)
             is AuthenticationActions.SetEmail -> Next.State(currentState.copy(email = action.email))
             is AuthenticationActions.SetPassword -> Next.State(currentState.copy(password = action.password))
-            is AuthenticationActions.HandleLoginSucceeded -> handleLoginSucceeded(currentState, action)
-            else -> {
-                Next.State(currentState)
-            } // TODO
+            is AuthenticationActions.HandleLoginSucceeded -> handleLoginSucceeded(
+                currentState,
+                action
+            )
+            is AuthenticationActions.InvalidCredentials -> handleInvalidCredentials(currentState)
+            is AuthenticationActions.SkipLogin -> handleUserAlreadyLogged(currentState)
+            is AuthenticationActions.NO_OP -> Next.State(currentState)
         }
+    }
+
+    private fun handleUserAlreadyLogged(currentState: AuthenticationState): NextResult {
+        return Next.State(currentState.copy(isLoggedIn = true))
+    }
+
+    private fun handleInvalidCredentials(currentState: AuthenticationState): NextResult {
+        return Next.StateWithEvents(
+            currentState.copy(isLoading = false),
+            setOf(AuthenticationEvents.LoginFailed)
+        )
     }
 
     private fun handleLoginSucceeded(
         currentState: AuthenticationState,
         action: AuthenticationActions.HandleLoginSucceeded
     ): NextResult {
-        return Next.State(currentState.copy(isLoggedIn = true))
+        return Next.State(currentState.copy(isLoggedIn = true, isLoading = false))
     }
 
     private fun handleLoginClicked(currentState: AuthenticationState): NextResult {
         return if (currentState.email != null && currentState.password != null) {
             Next.StateWithSideEffects(
-                currentState,
+                currentState.copy(isLoading = true),
                 setOf(
                     AuthenticationEffects.Login(
                         currentState.email,
@@ -79,10 +102,9 @@ class AuthenticationUpdater @Inject constructor() :
             )
 
         } else {
-            Next.State(currentState)
+            Next.StateWithEvents(currentState, setOf(AuthenticationEvents.MissingFields))
         }
     }
-
 }
 
 class AuthenticationProcessor @Inject constructor(
@@ -93,6 +115,16 @@ class AuthenticationProcessor @Inject constructor(
     override suspend fun dispatchSideEffect(effect: AuthenticationEffects): AuthenticationActions {
         return when (effect) {
             is AuthenticationEffects.Login -> handleLogin(effect)
+            is AuthenticationEffects.CheckIsAlreadyLoggedIn -> handleCheckAlreadyLoggedIn()
+        }
+    }
+
+    private suspend fun handleCheckAlreadyLoggedIn(): AuthenticationActions {
+        val user = userDataStore.getLoggedUser()
+        return if (user != null) {
+            AuthenticationActions.SkipLogin
+        } else {
+            AuthenticationActions.NO_OP
         }
     }
 
@@ -115,11 +147,12 @@ class AuthenticationViewModel(
     updater: AuthenticationUpdater,
     processor: AuthenticationProcessor,
     threadInfo: ThreadInfo
-) : ArchViewModel<AuthenticationActions, AuthenticationState, AuthenticationEffects, Nothing, Nothing>(
+) : ArchViewModel<AuthenticationActions, AuthenticationState, AuthenticationEffects, AuthenticationEvents, Nothing>(
     updater = updater,
     initialState = AuthenticationState(),
     threadInfo = threadInfo,
-    processor = processor
+    processor = processor,
+    initialEffects = setOf(AuthenticationEffects.CheckIsAlreadyLoggedIn)
 ) {
 
     class Factory @Inject constructor(

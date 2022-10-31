@@ -5,4 +5,5 @@ import com.utn.frba.mobile.domain.models.NetworkResponse
 
 interface EventsRepository {
     suspend fun fetchUserEvents(userId: String): NetworkResponse<List<EventModel>>
+    suspend fun createEvent(data: Map<String, Any>): NetworkResponse<EventModel>
 }
