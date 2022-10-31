@@ -30,7 +30,9 @@ fun LoginScreen(viewModel: AuthenticationViewModel) {
         Row() {
             Spacer(modifier = Modifier.weight(1f))
             TextField(
-                placeholder = { Text(stringResource(R.string.email))},
+                label = {
+                    Text(stringResource(R.string.email))
+                },
                 value = state.email.orEmpty(),
                 onValueChange = {
                     viewModel.action(AuthenticationActions.SetEmail(it))
@@ -42,7 +44,7 @@ fun LoginScreen(viewModel: AuthenticationViewModel) {
         // Password
         TextField(
             value = state.password.orEmpty(),
-            placeholder = {
+            label = {
                 Text(stringResource(R.string.password))
             },
             modifier = Modifier.padding(top = 8.dp),
@@ -54,7 +56,7 @@ fun LoginScreen(viewModel: AuthenticationViewModel) {
         Button(onClick = {
             viewModel.action(AuthenticationActions.LoginClicked)
         }) {
-            Text("Login")
+            Text(stringResource(R.string.login))
         }
 
         if (state.isLoading) {

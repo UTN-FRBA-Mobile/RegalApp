@@ -26,5 +26,6 @@
     <string name="price">Precio</string>
     <string name="location">Ubicación</string>
     <string name="add">Agregar</string>
+    <string name="login">Iniciar sesión</string>
 
 </resources>
