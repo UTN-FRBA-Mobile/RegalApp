@@ -11,11 +11,12 @@ class ItemsViewModel(
     processor: ItemsProcessor,
     updater: ItemsUpdater,
     threadInfoProvider: ThreadInfo
-) : ArchViewModel<ItemsActions, ItemsState, ItemSideEffects, ListEvents, Nothing>(
+) : ArchViewModel<ItemsActions, ItemsState, ItemSideEffects, ListEvents, ItemsListRenderState>(
     updater,
-    initialState = defaultItemState(),
+    initialState = ItemsState(),
     threadInfo = threadInfoProvider,
-    processor = processor
+    processor = processor,
+    stateMapper = ItemsListStateMapper()
 ) {
 
     class Factory @Inject constructor(
@@ -26,7 +27,7 @@ class ItemsViewModel(
             return ItemsViewModel(
                 processor,
                 updater,
-                object: ThreadInfo {
+                object : ThreadInfo {
                     override fun isMainThread(): Boolean {
                         return Looper.myLooper() == Looper.getMainLooper()
                     }

@@ -26,7 +26,7 @@ class AddItemViewModel(
             return AddItemViewModel(
                 processor,
                 updater,
-                object: ThreadInfo {
+                object : ThreadInfo {
                     override fun isMainThread(): Boolean {
                         return Looper.myLooper() == Looper.getMainLooper()
                     }

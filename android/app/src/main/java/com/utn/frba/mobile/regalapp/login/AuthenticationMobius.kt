@@ -100,7 +100,6 @@ class AuthenticationUpdater @Inject constructor() :
                     )
                 )
             )
-
         } else {
             Next.StateWithEvents(currentState, setOf(AuthenticationEvents.MissingFields))
         }
@@ -141,7 +140,6 @@ class AuthenticationProcessor @Inject constructor(
         }
     }
 }
-
 
 class AuthenticationViewModel(
     updater: AuthenticationUpdater,

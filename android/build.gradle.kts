@@ -4,6 +4,7 @@ buildscript {
         classpath("org.jlleitschuh.gradle:ktlint-gradle:11.0.0")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.5.2")
         classpath("com.google.gms:google-services:4.3.14")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${io.github.fededri.marvel.V.navigationVersion}")
     }
 }
 

@@ -17,8 +17,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.utn.frba.mobile.domain.models.EventModel
 import com.utn.frba.mobile.regalapp.R
 
 @Composable
@@ -32,7 +30,7 @@ fun EventListScreen(viewModel: EventsViewModel) {
         },
         content = { innerPadding ->
             EventList(events = state.value.events, contentPadding = innerPadding) {
-                viewModel.action(EventsActions.OpenItemList(it))
+                viewModel.action(EventsActions.OpenItemsList(it))
             }
         },
         floatingActionButton = {

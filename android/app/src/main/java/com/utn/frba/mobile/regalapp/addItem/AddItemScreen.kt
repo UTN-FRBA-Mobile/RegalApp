@@ -1,6 +1,5 @@
 package com.utn.frba.mobile.regalapp.addItem
 
-
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
@@ -11,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.utn.frba.mobile.regalapp.R
-
 
 @Composable
 fun AddItemScreen(viewModel: AddItemViewModel) {
@@ -50,7 +48,7 @@ fun AddItemTopbar(
                 onCancelClick()
             }) {
                 Icon(
-                    imageVector = Icons.Filled.Close, 
+                    imageVector = Icons.Filled.Close,
                     contentDescription = stringResource(id = R.string.cancel)
                 )
             }

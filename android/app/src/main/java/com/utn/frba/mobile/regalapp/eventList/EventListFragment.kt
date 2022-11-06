@@ -10,17 +10,16 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
 import com.squareup.anvil.annotations.ContributesMultibinding
 import com.utn.frba.mobile.domain.di.ActivityScope
 import com.utn.frba.mobile.domain.di.FragmentKey
-import com.utn.frba.mobile.regalapp.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @FragmentKey(EventListFragment::class)
@@ -29,7 +28,7 @@ class EventListFragment @Inject constructor(
     private val viewModelFactory: EventsViewModel.Factory
 ) : Fragment() {
 
-    private val viewModel: EventsViewModel by navGraphViewModels(R.id.navigation_main) { viewModelFactory }
+    private val viewModel: EventsViewModel by viewModels { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,38 +47,32 @@ class EventListFragment @Inject constructor(
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         observeEvents()
     }
 
     private fun observeEvents() {
+        Timber.i("Events list: subscribing to events")
         lifecycleScope.launch {
             viewModel.observeEvents()
                 .flowOn(Dispatchers.Main)
                 .collect { event ->
+                    Timber.i("Events list received event: $event")
                     when (event) {
                         is ListEvents.OpenEventDetails -> {
-                            navigateToDestination(EventListFragmentDirections.openEventDetailFragment())
+                            findNavController().navigate(EventListFragmentDirections.openEventDetailFragment())
                         }
 
-                        is ListEvents.OpenItemList -> {
-                            navigateToDestination(EventListFragmentDirections.openItemListFragment())
+                        is ListEvents.OpenItemsList -> {
+                            findNavController().navigate(EventListFragmentDirections.openItemListFragment(event.event.id, event.event.name))
                         }
 
                         is ListEvents.OpenAddEventScreen -> {
-                            navigateToDestination(EventListFragmentDirections.openAddEventFragment())
+                            findNavController().navigate(EventListFragmentDirections.openAddEventFragment())
                         }
                     }
                 }
-        }
-    }
-
-    private fun navigateToDestination(directions: NavDirections) {
-        val navController = findNavController()
-        val currentDestinationId = navController.currentDestination?.id
-        if (currentDestinationId == R.id.eventListFragment) {
-            navController.navigate(directions)
         }
     }
 }

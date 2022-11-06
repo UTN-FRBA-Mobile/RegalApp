@@ -2,6 +2,7 @@ package com.utn.frba.mobile.regalapp.eventList
 
 import io.github.fededri.arch.Next
 import io.github.fededri.arch.interfaces.Updater
+import timber.log.Timber
 import javax.inject.Inject
 
 typealias NextResult = Next<EventsState, EventSideEffects, ListEvents>
@@ -12,10 +13,11 @@ class EventsUpdater @Inject constructor() :
         action: EventsActions,
         currentState: EventsState
     ): NextResult {
+        Timber.i("Events list: Received action: $action")
         return when (action) {
             is EventsActions.FetchInitialList -> fetchInitialList(currentState, action)
             is EventsActions.OpenEventDetails -> openEventDetails(currentState, action)
-            is EventsActions.OpenItemList -> openItemList(currentState, action)
+            is EventsActions.OpenItemsList -> openItemList(currentState, action)
             is EventsActions.HandleEventsList -> handleEventsList(currentState, action)
             is EventsActions.AddEventClicked -> Next.StateWithEvents(
                 currentState,
@@ -53,13 +55,12 @@ class EventsUpdater @Inject constructor() :
 
     private fun openItemList(
         currentState: EventsState,
-        action: EventsActions.OpenItemList
+        action: EventsActions.OpenItemsList
     ): NextResult {
         // fetch event details and emit navigation event
         return Next.StateWithEvents(
             currentState.copy(selectedEvent = action.event),
-            events = setOf(ListEvents.OpenItemList(action.event))
+            events = setOf(ListEvents.OpenItemsList(action.event))
         )
     }
-
 }

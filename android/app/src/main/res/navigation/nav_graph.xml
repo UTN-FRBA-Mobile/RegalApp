@@ -6,7 +6,7 @@
     <fragment
         android:id="@+id/eventListFragment"
         android:name="com.utn.frba.mobile.regalapp.eventList.EventListFragment"
-        android:label="EventListFragment" >
+        android:label="EventListFragment">
         <action
             android:id="@+id/openEventDetailFragment"
             app:destination="@id/eventDetailFragment" />
@@ -38,17 +38,29 @@
         <action
             android:id="@+id/openItemDetailFragment"
             app:destination="@id/itemDetailFragment" />
-        <action
-            android:id="@+id/openEventsListFragment"
-            app:destination="@id/eventListFragment" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string" />
+
+        <argument
+            android:name="title"
+            app:argType="string" />
+
     </fragment>
     <fragment
         android:id="@+id/addItemFragment"
         android:name="com.utn.frba.mobile.regalapp.addItem.AddItemFragment"
-        android:label="AddItemFragment" />
-        <action
-            android:id="@+id/openItemListFragment"
-            app:destination="@id/itemListFragment"/>
+        android:label="AddItemFragment">
+
+        <argument
+            android:name="eventId"
+            app:argType="string" />
+
+    </fragment>
+    <action
+        android:id="@+id/openItemListFragment"
+        app:destination="@id/itemListFragment" />
     <fragment
         android:id="@+id/itemDetailFragment"
         android:name="com.utn.frba.mobile.regalapp.itemDetail.ItemDetailFragment"
