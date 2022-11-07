@@ -1,10 +1,7 @@
 package com.utn.frba.mobile.regalapp.di
 
 import com.squareup.anvil.annotations.MergeSubcomponent
-import com.utn.frba.mobile.domain.di.ActivityScope
 import com.utn.frba.mobile.domain.di.UserScope
-import com.utn.frba.mobile.regalapp.MainActivity
-import com.utn.frba.mobile.regalapp.login.LoginActivity
 import dagger.Subcomponent
 
 @UserScope

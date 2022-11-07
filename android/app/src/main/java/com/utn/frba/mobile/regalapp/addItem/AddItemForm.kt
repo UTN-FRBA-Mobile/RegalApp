@@ -13,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.utn.frba.mobile.regalapp.R
+import timber.log.Timber
 
 @Composable
 fun AddItemForm(viewModel: AddItemViewModel) {
@@ -46,9 +47,14 @@ fun AddItemForm(viewModel: AddItemViewModel) {
             modifier = Modifier.fillMaxWidth(1F),
         )
         OutlinedTextField(
-            value = state.price.orEmpty(),
-            onValueChange = {
-                viewModel.action(AddItemActions.SetPrice(it))
+            value = state.price.toString(),
+            onValueChange = { value ->
+                try {
+                    val price = value.toFloat()
+                    viewModel.action(AddItemActions.SetPrice(price))
+                } catch (e: Exception) {
+                    Timber.e(e)
+                }
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal

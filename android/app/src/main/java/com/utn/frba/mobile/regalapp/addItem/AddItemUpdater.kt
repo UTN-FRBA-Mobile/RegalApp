@@ -3,6 +3,7 @@ package com.utn.frba.mobile.regalapp.addItem
 import com.utn.frba.mobile.domain.models.ItemModel
 import io.github.fededri.arch.Next
 import io.github.fededri.arch.interfaces.Updater
+import timber.log.Timber
 import javax.inject.Inject
 
 typealias NextResult = Next<AddItemState, AddItemSideEffects, ListEvents>
@@ -13,6 +14,7 @@ class AddItemUpdater @Inject constructor() :
         action: AddItemActions,
         currentState: AddItemState
     ): NextResult {
+        Timber.i("Add item: received action $action")
         return when (action) {
             is AddItemActions.FetchInitialList -> fetchInitialList(currentState, action)
             is AddItemActions.SetName -> Next.State(currentState.copy(name = action.name))
@@ -22,6 +24,7 @@ class AddItemUpdater @Inject constructor() :
             is AddItemActions.SaveItemClicked -> handleSave(currentState)
             is AddItemActions.HandleSaveItemSucceded -> handleSaveItemSucceded(currentState, action)
             is AddItemActions.CancelClicked -> handleCancel(currentState)
+            is AddItemActions.SetEventId -> Next.State(currentState.copy(eventId = action.eventId))
         }
     }
 
@@ -37,27 +40,32 @@ class AddItemUpdater @Inject constructor() :
         currentState: AddItemState,
     ): NextResult {
 
-        if(
-            currentState.name.isNullOrBlank()
-            || currentState.quantity.isNullOrBlank()
+        val eventId = currentState.eventId
+        require(eventId != null) {
+            "Event id not set"
+        }
+
+        if (
+            currentState.name.isNullOrBlank() ||
+            currentState.quantity.isNullOrBlank()
         ) {
             return Next.State(currentState)
         }
         val item = ItemModel(
             name = currentState.name,
-            quantity = currentState.quantity.toInt(),
-            price = currentState.price?.toFloat(),
+            quantity = currentState.quantity.toLong(),
+            price = currentState.price ?: 0f,
             location = currentState.location,
         )
         return Next.StateWithSideEffects(
             currentState,
             setOf(
                 AddItemSideEffects.SaveItem(
-                    item = item
+                    item = item,
+                    currentState.eventId
                 )
             )
         )
-
     }
 
     private fun handleCancel(
@@ -66,7 +74,7 @@ class AddItemUpdater @Inject constructor() :
         return Next.StateWithEvents(
             currentState,
             setOf(
-                ListEvents.OpenItemList
+                ListEvents.DismissScreen
             )
         )
     }
@@ -78,9 +86,8 @@ class AddItemUpdater @Inject constructor() :
         return Next.StateWithEvents(
             currentState,
             setOf(
-                ListEvents.OpenItemList
+                ListEvents.DismissScreen
             )
         )
     }
-
 }

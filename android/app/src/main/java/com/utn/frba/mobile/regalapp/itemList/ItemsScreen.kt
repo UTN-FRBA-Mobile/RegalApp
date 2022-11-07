@@ -1,4 +1,4 @@
-package com.utn.frba.mobile.regalapp
+package com.utn.frba.mobile.regalapp.itemList
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,35 +18,38 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.utn.frba.mobile.domain.models.EventModel
-import com.utn.frba.mobile.regalapp.itemList.ItemList
-import com.utn.frba.mobile.regalapp.itemList.ItemsActions
-import com.utn.frba.mobile.regalapp.itemList.ItemsViewModel
-import com.utn.frba.mobile.regalapp.itemList.defaultItemState
+import com.utn.frba.mobile.regalapp.R
 
 @Composable
 fun ItemScreen(viewModel: ItemsViewModel) {
-
-
-    val state = viewModel.observeState().collectAsState(initial = defaultItemState())
-    val event = state.value.selectedEvent
+    val state = viewModel.observeRenderState().collectAsState(initial = ItemsListRenderState()).value
+    require(state != null) {
+        "Cannot get items screen state"
+    }
+    val items = state.items
 
     Scaffold(
         topBar = {
             ItemsScreenTopBar(
-                event = event,
+                title = state.title,
                 onBackClick = {
-                    viewModel.action(ItemsActions.OpenEventsList)
+                    viewModel.action(ItemsActions.GoBack)
                 },
                 onSettingsClick = {
-                    viewModel.action(ItemsActions.OpenEventDetails(it))
+                    viewModel.action(ItemsActions.OpenEventDetails)
                 },
             )
         },
         content = { innerPadding ->
-            ItemList(items = event.items, contentPadding = innerPadding) {
-                viewModel.action(ItemsActions.OpenItemDetails(it))
-            }
+            ItemList(
+                items = items, contentPadding = innerPadding,
+                onItemClick = {
+                    viewModel.action(ItemsActions.OpenItemDetails(it))
+                },
+                actionDispatcher = {
+                    viewModel.action(it)
+                }
+            )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
@@ -62,27 +65,27 @@ fun ItemScreen(viewModel: ItemsViewModel) {
 }
 
 @Composable
-fun ItemsScreenTopBar(event: EventModel, onSettingsClick: (EventModel) -> Unit, onBackClick: () -> Unit) {
+fun ItemsScreenTopBar(title: String, onSettingsClick: () -> Unit, onBackClick: () -> Unit) {
     TopAppBar(title = {
         Image(
             painter = painterResource(id = R.drawable.event_placeholder),
-            contentDescription = event.name,
+            contentDescription = title,
             modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)
                 .background(Color.White)
         )
         Spacer(modifier = Modifier.width(10.dp))
-        Text(text = event.name)
+        Text(text = title)
     }, actions = {
-         IconButton(onClick = {
-             onSettingsClick(event)
-         }) {
-             Icon(
-                 imageVector = Icons.Filled.Settings,
-                 contentDescription = stringResource(id = R.string.open_event)
-             )
-         }
+        IconButton(onClick = {
+            onSettingsClick()
+        }) {
+            Icon(
+                imageVector = Icons.Filled.Settings,
+                contentDescription = stringResource(id = R.string.open_event)
+            )
+        }
     }, navigationIcon = {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

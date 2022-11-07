@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import com.squareup.anvil.annotations.ContributesMultibinding
 import com.utn.frba.mobile.domain.di.ActivityScope
@@ -29,6 +29,7 @@ class AddItemFragment @Inject constructor(
     private val viewModelFactory: AddItemViewModel.Factory
 ) : Fragment() {
     val viewModel: AddItemViewModel by navGraphViewModels(R.id.navigation_main) { viewModelFactory }
+    val args: AddItemFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,9 +49,14 @@ class AddItemFragment @Inject constructor(
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         observeEvents()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.action(AddItemActions.SetEventId(args.eventId))
     }
 
     private fun observeEvents() {
@@ -59,20 +65,11 @@ class AddItemFragment @Inject constructor(
                 .flowOn(Dispatchers.Main)
                 .collect { event ->
                     when (event) {
-                        is ListEvents.OpenItemList -> {
-                            navigateToDestination(AddItemFragmentDirections.openItemListFragment())
+                        is ListEvents.DismissScreen -> {
+                            findNavController().popBackStack()
                         }
                     }
                 }
         }
     }
-
-    private fun navigateToDestination(directions: NavDirections) {
-        val navController = findNavController()
-        val currentDestinationId = navController.currentDestination?.id
-        if (currentDestinationId == R.id.addItemFragment) {
-            navController.navigate(directions)
-        }
-    }
-
 }

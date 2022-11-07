@@ -1,7 +1,6 @@
 package com.utn.frba.mobile.regalapp.login
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,17 +8,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.navGraphViewModels
-import com.utn.frba.mobile.domain.models.EventFields
-import com.utn.frba.mobile.domain.models.EventModel
-import com.utn.frba.mobile.domain.models.ItemModel
 import com.utn.frba.mobile.domain.repositories.events.EventsRepository
 import com.utn.frba.mobile.regalapp.MainActivity
 import com.utn.frba.mobile.regalapp.R
 import com.utn.frba.mobile.regalapp.RegalApplication
-import com.utn.frba.mobile.regalapp.eventList.EventsViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -35,7 +28,6 @@ class LoginActivity : ComponentActivity() {
     lateinit var eventsRepository: EventsRepository
 
     private val viewModel: AuthenticationViewModel by viewModels<AuthenticationViewModel> { viewModelFactory }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDagger()
@@ -61,7 +53,7 @@ class LoginActivity : ComponentActivity() {
                 }
                 .flowOn(Dispatchers.Main)
                 .collect { event ->
-                    when(event) {
+                    when (event) {
                         is AuthenticationEvents.LoginFailed -> showInvalidLoginAlert()
                         is AuthenticationEvents.MissingFields -> showMissingFieldsAlert()
                     }

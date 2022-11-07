@@ -36,10 +36,10 @@ fun LoginScreen(viewModel: AuthenticationViewModel) {
                 value = state.email.orEmpty(),
                 onValueChange = {
                     viewModel.action(AuthenticationActions.SetEmail(it))
-                })
+                }
+            )
             Spacer(modifier = Modifier.weight(1f))
         }
-
 
         // Password
         TextField(
@@ -51,7 +51,8 @@ fun LoginScreen(viewModel: AuthenticationViewModel) {
             visualTransformation = PasswordVisualTransformation(),
             onValueChange = {
                 viewModel.action(AuthenticationActions.SetPassword(it))
-            })
+            }
+        )
 
         Button(onClick = {
             viewModel.action(AuthenticationActions.LoginClicked)

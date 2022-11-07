@@ -13,11 +13,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import com.squareup.anvil.annotations.ContributesMultibinding
 import com.utn.frba.mobile.domain.di.ActivityScope
 import com.utn.frba.mobile.domain.di.FragmentKey
-import com.utn.frba.mobile.regalapp.ItemScreen
 import com.utn.frba.mobile.regalapp.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
@@ -29,7 +29,9 @@ import javax.inject.Inject
 class ItemListFragment @Inject constructor(
     private val viewModelFactory: ItemsViewModel.Factory
 ) : Fragment() {
+
     private val viewModel: ItemsViewModel by navGraphViewModels(R.id.navigation_main) { viewModelFactory }
+    private val arguments: ItemListFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,12 +40,11 @@ class ItemListFragment @Inject constructor(
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
-                // TODO: Remove placeholder, add content
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                   ItemScreen(viewModel)
+                    ItemScreen(viewModel)
                 }
             }
         }
@@ -52,6 +53,7 @@ class ItemListFragment @Inject constructor(
     override fun onResume() {
         super.onResume()
         observeEvents()
+        viewModel.action(ItemsActions.SetInitialArguments(arguments.eventId, arguments.title))
     }
 
     private fun observeEvents() {
@@ -65,15 +67,15 @@ class ItemListFragment @Inject constructor(
                         }
 
                         is ListEvents.OpenAddItemScreen -> {
-                            navigateToDestination(ItemListFragmentDirections.addItemFragment())
+                            navigateToDestination(ItemListFragmentDirections.addItemFragment(arguments.eventId))
                         }
 
                         is ListEvents.OpenItemDetails -> {
                             navigateToDestination(ItemListFragmentDirections.openItemDetailFragment())
                         }
 
-                        is ListEvents.OpenEventsList -> {
-                            navigateToDestination(ItemListFragmentDirections.openEventsListFragment())
+                        is ListEvents.BackButtonPressed -> {
+                            findNavController().popBackStack(R.id.eventListFragment, false)
                         }
                     }
                 }
