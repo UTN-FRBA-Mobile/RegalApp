@@ -1,4 +1,4 @@
-package com.utn.frba.mobile.regalapp.itemList
+package com.utn.frba.mobile.regalapp.addItem
 
 import android.os.Looper
 import androidx.lifecycle.ViewModel
@@ -7,24 +7,23 @@ import io.github.fededri.arch.ArchViewModel
 import io.github.fededri.arch.ThreadInfo
 import javax.inject.Inject
 
-class ItemsViewModel(
-    processor: ItemsProcessor,
-    updater: ItemsUpdater,
+class AddItemViewModel(
+    processor: AddItemProcessor,
+    updater: AddItemUpdater,
     threadInfoProvider: ThreadInfo
-) : ArchViewModel<ItemsActions, ItemsState, ItemSideEffects, ListEvents, ItemsListRenderState>(
+) : ArchViewModel<AddItemActions, AddItemState, AddItemSideEffects, ListEvents, Nothing>(
     updater,
-    initialState = ItemsState(),
+    initialState = AddItemState(),
     threadInfo = threadInfoProvider,
-    processor = processor,
-    stateMapper = ItemsListStateMapper()
+    processor = processor
 ) {
 
     class Factory @Inject constructor(
-        private val processor: ItemsProcessor,
-        private val updater: ItemsUpdater
+        private val processor: AddItemProcessor,
+        private val updater: AddItemUpdater
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return ItemsViewModel(
+            return AddItemViewModel(
                 processor,
                 updater,
                 object : ThreadInfo {

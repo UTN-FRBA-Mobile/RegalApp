@@ -32,7 +32,7 @@ class EventDetailFragment @Inject constructor() : Fragment() {
                     color = MaterialTheme.colors.background
                 ) {
 
-                   Text(text = "EVENT DETAIL")
+                    Text(text = "EVENT DETAIL")
                 }
             }
         }

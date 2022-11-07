@@ -55,7 +55,7 @@ fun EventItem(event: EventModel, onEventClicked: (EventModel) -> Unit) {
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
 
-                    ) {
+                ) {
                     Text(text = event.name)
                     Text(
                         text = stringResource(id = R.string.items_bought, 2, 3)

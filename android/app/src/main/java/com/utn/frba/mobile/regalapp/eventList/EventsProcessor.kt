@@ -14,8 +14,7 @@ class EventsProcessor @Inject constructor(
     }
 
     private suspend fun loadEventsList(effect: EventSideEffects.LoadEventsList): EventsActions {
-        // TODO hardcoded user id
-        val events = eventsRepository.fetchUserEvents("ECTF5lR1bPMUkiKBIELzBxirrn53")
+        val events = eventsRepository.fetchUserEvents()
 
         return EventsActions.HandleEventsList(events.data ?: emptyList())
     }

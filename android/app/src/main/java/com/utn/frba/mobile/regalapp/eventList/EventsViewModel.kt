@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.github.fededri.arch.ArchViewModel
 import io.github.fededri.arch.ThreadInfo
-import io.github.fededri.arch.coroutines.EventsConfiguration
 import javax.inject.Inject
 
 class EventsViewModel(
@@ -28,7 +27,7 @@ class EventsViewModel(
             return EventsViewModel(
                 processor,
                 updater,
-                object: ThreadInfo {
+                object : ThreadInfo {
                     override fun isMainThread(): Boolean {
                         return Looper.myLooper() == Looper.getMainLooper()
                     }

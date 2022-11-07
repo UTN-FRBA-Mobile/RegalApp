@@ -8,7 +8,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
     id("com.squareup.anvil") version "2.4.2"
     kotlin("kapt")
-    id("androidx.navigation.safeargs.kotlin")
+    id("androidx.navigation.safeargs")
     id("com.google.gms.google-services")
 }
 

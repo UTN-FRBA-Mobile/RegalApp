@@ -38,15 +38,14 @@ fun ItemCard(item: ItemModel, onClick: (ItemModel) -> Unit) {
                     verticalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.weight(2F)
                 ) {
-                    Text(text = item.name)
-                    if( item.status ) {
+                    item.name?.let { Text(text = it) }
+                    if (item.status == true) {
                         Text(
-                            text = stringResource(id = R.string.bought_by, item.boughtBy),
+                            text = stringResource(id = R.string.bought_by, item.boughtBy.orEmpty()),
                             fontSize = 10.sp,
                             overflow = TextOverflow.Ellipsis
                         )
                     }
-
                 }
                 Spacer(modifier = Modifier.width(10.dp))
                 Column(
@@ -54,7 +53,7 @@ fun ItemCard(item: ItemModel, onClick: (ItemModel) -> Unit) {
                     horizontalAlignment = Alignment.End,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    if (item.status) {
+                    if (item.status == true) {
                         Text(text = stringResource(id = R.string.bougth))
                     } else {
                         Text(text = stringResource(id = R.string.pending))
