@@ -26,7 +26,6 @@ class ItemDetailFragment @Inject constructor() : Fragment() {
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
-                // TODO: Remove placeholder, add content
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
