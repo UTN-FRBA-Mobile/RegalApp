@@ -28,6 +28,10 @@ class ItemsUpdater @Inject constructor() :
             is ItemsActions.SetInitialArguments -> handleSetInitialArgs(currentState, action)
             is ItemsActions.HandleError -> Next.State(currentState) // TODO handle error
             is ItemsActions.FilterItems -> handleFilterItems(currentState, action)
+            is ItemsActions.CloseItemDetail -> Next.StateWithEvents(
+                currentState,
+                setOf(ListEvents.CloseDetailPressed)
+            )
         }
     }
 
@@ -83,7 +87,7 @@ class ItemsUpdater @Inject constructor() :
     ): NextResult {
         // fetch event details and emit navigation event
         return Next.StateWithEvents(
-            currentState,
+            currentState.copy(selectedItem = action.item),
             events = setOf(ListEvents.OpenItemDetails(action.item))
         )
     }

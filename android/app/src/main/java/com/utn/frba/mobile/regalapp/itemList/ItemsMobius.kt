@@ -10,7 +10,8 @@ data class ItemsState(
     val title: String = "",
     val eventId: String = "",
     val items: List<ItemModel> = emptyList(),
-    val filteredItems: List<ItemModel> = emptyList()
+    val filteredItems: List<ItemModel> = emptyList(),
+    val selectedItem: ItemModel? = null,
 )
 
 data class ItemsListRenderState(
@@ -29,6 +30,10 @@ sealed class ItemsActions {
     object AddItemClicked : ItemsActions()
     object GoBack : ItemsActions()
     data class FilterItems(val query: String) : ItemsActions()
+
+    // item detail actions
+    object CloseItemDetail : ItemsActions()
+
     // endregion
 
     //region processor actions
@@ -50,4 +55,5 @@ sealed class ListEvents {
     data class OpenItemDetails(val item: ItemModel) : ListEvents()
     object OpenAddItemScreen : ListEvents()
     object BackButtonPressed : ListEvents()
+    object CloseDetailPressed : ListEvents()
 }

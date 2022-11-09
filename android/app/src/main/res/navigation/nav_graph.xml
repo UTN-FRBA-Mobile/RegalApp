@@ -57,13 +57,17 @@
             android:name="eventId"
             app:argType="string" />
 
+        <action
+            android:id="@+id/openItemListFragment"
+            app:destination="@id/itemListFragment" />
     </fragment>
-    <action
-        android:id="@+id/openItemListFragment"
-        app:destination="@id/itemListFragment" />
     <fragment
         android:id="@+id/itemDetailFragment"
         android:name="com.utn.frba.mobile.regalapp.itemDetail.ItemDetailFragment"
-        android:label="ItemDetailFragment" />
+        android:label="ItemDetailFragment">
+        <action
+            android:id="@+id/openItemListFragment"
+            app:destination="@id/itemListFragment" />
+    </fragment>
 
 </navigation>
