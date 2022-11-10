@@ -35,7 +35,14 @@ fun ItemDetailScreen(viewModel: ItemsViewModel) {
                     horizontal = 20.dp
                 )
             ) {
-                ItemDetail(item = state.selectedItem)
+                ItemDetail(
+                    item = state.selectedItem,
+                    onChangeStatus = {
+                        viewModel.action(
+                            ItemsActions.ChangeItemStatus(it)
+                        )
+                    }
+                )
             }
         }
     )

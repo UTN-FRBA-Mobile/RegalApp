@@ -33,6 +33,7 @@ sealed class ItemsActions {
 
     // item detail actions
     object CloseItemDetail : ItemsActions()
+    data class ChangeItemStatus(val item: ItemModel) : ItemsActions()
 
     // endregion
 
@@ -48,6 +49,16 @@ sealed class ItemSideEffects(
     override val coroutineScope: CoroutineScope? = null
 ) : SideEffectInterface {
     data class LoadItemsList(val eventId: String) : ItemSideEffects()
+    data class UpdateItem(
+        val eventId: String,
+        val itemId: String,
+        val item: ItemModel,
+    ): ItemSideEffects()
+    data class ChangeItemStatus(
+        val eventId: String,
+        val itemId: String,
+        val item: ItemModel,
+    ): ItemSideEffects()
 }
 
 sealed class ListEvents {

@@ -1,5 +1,6 @@
 package com.utn.frba.mobile.regalapp.itemList
 
+import com.utn.frba.mobile.domain.dataStore.UserDataStore
 import io.github.fededri.arch.Next
 import io.github.fededri.arch.interfaces.Updater
 import javax.inject.Inject
@@ -13,6 +14,7 @@ class ItemsUpdater @Inject constructor() :
         currentState: ItemsState
     ): NextResult {
         return when (action) {
+            // Item list
             is ItemsActions.FetchInitialList -> fetchInitialList(currentState, action)
             is ItemsActions.OpenEventDetails -> openEventDetails(currentState, action)
             is ItemsActions.OpenItemDetails -> openItemDetails(currentState, action)
@@ -28,10 +30,13 @@ class ItemsUpdater @Inject constructor() :
             is ItemsActions.SetInitialArguments -> handleSetInitialArgs(currentState, action)
             is ItemsActions.HandleError -> Next.State(currentState) // TODO handle error
             is ItemsActions.FilterItems -> handleFilterItems(currentState, action)
+
+            // Item detail
             is ItemsActions.CloseItemDetail -> Next.StateWithEvents(
                 currentState,
                 setOf(ListEvents.CloseDetailPressed)
             )
+            is ItemsActions.ChangeItemStatus -> handleChangeItemStatus(currentState, action)
         }
     }
 
@@ -90,5 +95,22 @@ class ItemsUpdater @Inject constructor() :
             currentState.copy(selectedItem = action.item),
             events = setOf(ListEvents.OpenItemDetails(action.item))
         )
+    }
+
+    private fun handleChangeItemStatus(
+        currentState: ItemsState,
+        action: ItemsActions.ChangeItemStatus,
+    ): NextResult {
+        return Next.StateWithSideEffects(
+            currentState,
+            setOf(
+                ItemSideEffects.ChangeItemStatus(
+                    eventId = currentState.eventId,
+                    itemId = currentState.selectedItem?.id ?: "",
+                    action.item,
+                )
+            )
+        )
+
     }
 }

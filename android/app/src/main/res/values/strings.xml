@@ -28,4 +28,9 @@
     <string name="add">Agregar</string>
     <string name="login">Iniciar sesión</string>
 
+    <!--    ItemDetailScreen-->
+    <string name="mark_as_bought">Marcar como comprado</string>
+    <string name="unmark_as_bought">Desmarcar como comprado</string>
+
+
 </resources>
