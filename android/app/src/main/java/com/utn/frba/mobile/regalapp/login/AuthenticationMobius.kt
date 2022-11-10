@@ -119,7 +119,7 @@ class AuthenticationProcessor @Inject constructor(
     }
 
     private suspend fun handleCheckAlreadyLoggedIn(): AuthenticationActions {
-        val user = userDataStore.getLoggedUser()
+        val user = userDataStore.getLoggedUserOrNull()
         return if (user != null) {
             AuthenticationActions.SkipLogin
         } else {

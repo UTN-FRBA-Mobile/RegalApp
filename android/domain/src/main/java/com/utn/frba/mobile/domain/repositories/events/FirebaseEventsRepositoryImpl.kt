@@ -25,10 +25,7 @@ class FirebaseEventsRepositoryImpl @Inject constructor(
 ) : EventsRepository {
     override suspend fun fetchUserEvents(): NetworkResponse<List<EventModel>> =
         safeCall {
-            val userId = userDataStore.getLoggedUser()?.id
-            check(userId != null) {
-                "User not found"
-            }
+            val userId = userDataStore.getLoggedUser().id
             val queryResult = getEventsCollection()
                 .whereEqualTo(EventFields.OWNER_ID.value, userId)
                 .get()

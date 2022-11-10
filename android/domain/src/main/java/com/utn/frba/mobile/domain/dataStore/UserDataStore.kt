@@ -21,7 +21,8 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "us
  * Provides user information
  */
 interface UserDataStore {
-    suspend fun getLoggedUser(): UserModel?
+    suspend fun getLoggedUser(): UserModel
+    suspend fun getLoggedUserOrNull(): UserModel?
 
     suspend fun setUser(userModel: UserModel)
 }
@@ -33,7 +34,15 @@ class UserProviderImpl @Inject constructor(
 
     private val idKey = stringPreferencesKey("user_id")
 
-    override suspend fun getLoggedUser(): UserModel? {
+    override suspend fun getLoggedUser(): UserModel {
+        val user = getLoggedUserOrNull()
+        check(user != null) {
+            "User not found"
+        }
+        return user
+    }
+
+    override suspend fun getLoggedUserOrNull(): UserModel? {
         val flow = context.dataStore.data
             .map { preferences ->
                 preferences[idKey]
