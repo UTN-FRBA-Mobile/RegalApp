@@ -68,6 +68,17 @@
         <action
             android:id="@+id/openItemListFragment"
             app:destination="@id/itemListFragment" />
+        <action
+            android:id="@+id/openEditItemFragment"
+            app:destination="@id/editItemFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editItemFragment"
+        android:name="com.utn.frba.mobile.regalapp.editItem.EditItemFragment"
+        android:label="EditItemFragment">
+        <action
+            android:id="@+id/closeEditItem"
+            app:destination="@id/itemDetailFragment" />
     </fragment>
 
 </navigation>

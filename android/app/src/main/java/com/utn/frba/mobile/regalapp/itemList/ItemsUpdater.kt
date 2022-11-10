@@ -36,7 +36,24 @@ class ItemsUpdater @Inject constructor() :
                 currentState,
                 setOf(ListEvents.CloseDetailPressed)
             )
+            is ItemsActions.OpenEditItem -> Next.StateWithEvents(
+                currentState.copy(
+                    editingItem = currentState.selectedItem
+                ),
+                setOf(ListEvents.OpenEditItemScreen)
+            )
             is ItemsActions.ChangeItemStatus -> handleChangeItemStatus(currentState, action)
+
+            // Edit item
+            is ItemsActions.SetName -> handleSetName(currentState, action)
+            is ItemsActions.SetQuantity -> handleSetQuantity(currentState, action)
+            is ItemsActions.SetPrice -> handleSetPrice(currentState, action)
+            is ItemsActions.SetLocation -> handleSetLocation(currentState, action)
+            is ItemsActions.UpdateItemClicked -> handleUpdate(currentState, action)
+            is ItemsActions.CloseEditItem -> Next.StateWithEvents(
+                currentState,
+                setOf(ListEvents.CloseDetailPressed)
+            )
         }
     }
 
@@ -112,5 +129,93 @@ class ItemsUpdater @Inject constructor() :
             )
         )
 
+    }
+
+    private fun handleSetName(
+        currentState: ItemsState,
+        action: ItemsActions.SetName
+    ): NextResult  {
+        require(currentState.editingItem != null) {
+            "Editing item not set"
+        }
+        return Next.State(
+            currentState.copy(
+                editingItem = currentState.editingItem.copy(
+                    name = action.name
+                )
+            )
+        )
+    }
+
+    private fun handleSetQuantity(
+        currentState: ItemsState,
+        action: ItemsActions.SetQuantity
+    ): NextResult  {
+        require(currentState.editingItem != null) {
+            "Editing item not set"
+        }
+        return Next.State(
+            currentState.copy(
+                editingItem = currentState.editingItem.copy(
+                    quantity = action.quantity.toLong()
+                )
+            )
+        )
+    }
+
+
+    private fun handleSetPrice(
+        currentState: ItemsState,
+        action: ItemsActions.SetPrice
+    ): NextResult {
+        require(currentState.editingItem != null) {
+            "Editing item not set"
+        }
+        return Next.State(
+            currentState.copy(
+                editingItem = currentState.editingItem.copy(
+                    price = action.price
+                )
+            )
+        )
+    }
+
+    private fun handleSetLocation(
+        currentState: ItemsState,
+        action: ItemsActions.SetLocation
+    ): NextResult  {
+        require(currentState.editingItem != null) {
+            "Editing item not set"
+        }
+        return Next.State(
+            currentState.copy(
+                editingItem = currentState.editingItem.copy(
+                    location = action.location
+                )
+            )
+        )
+    }
+
+    private fun handleUpdate(
+        currentState: ItemsState,
+        action: ItemsActions.UpdateItemClicked,
+    ): NextResult {
+        val eventId = currentState.eventId
+        require(eventId != null) {
+            "Event id not set"
+        }
+        require(currentState.editingItem != null) {
+            "Editing item not set"
+        }
+        return Next.StateWithSideEffects(
+            currentState,
+            setOf(
+                ItemSideEffects.UpdateItem(
+                    eventId = eventId,
+                    itemId = currentState.editingItem.id,
+                    item = currentState.editingItem
+                )
+            )
+        )
     }
 }

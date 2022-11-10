@@ -1,36 +1,32 @@
-package com.utn.frba.mobile.regalapp.itemDetail
+package com.utn.frba.mobile.regalapp.editItem
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.utn.frba.mobile.regalapp.R
+import com.utn.frba.mobile.regalapp.addItem.AddItemActions
 import com.utn.frba.mobile.regalapp.itemList.ItemsActions
 import com.utn.frba.mobile.regalapp.itemList.ItemsState
 import com.utn.frba.mobile.regalapp.itemList.ItemsViewModel
+import timber.log.Timber
 
 @Composable
-fun ItemDetailScreen(viewModel: ItemsViewModel) {
+fun EditItemScreen(viewModel: ItemsViewModel) {
     val state = viewModel.observeState().collectAsState(initial = ItemsState()).value
     Scaffold(
         topBar = {
-            ItemDetailTopbar(
-                title = state.selectedItem?.name.orEmpty(),
+            EditItemTopBar(
+                title = stringResource(id = R.string.edit),
                 onCancelClick = {
                     viewModel.action(
-                        ItemsActions.CloseItemDetail
-                    )
-                },
-                onOpenEditClick = {
-                    viewModel.action(
-                        ItemsActions.OpenEditItem
+                        ItemsActions.CloseEditItem
                     )
                 }
             )
@@ -41,11 +37,34 @@ fun ItemDetailScreen(viewModel: ItemsViewModel) {
                     horizontal = 20.dp
                 )
             ) {
-                ItemDetail(
-                    item = state.selectedItem,
-                    onChangeStatus = {
+                EditItem(
+                    item = state.editingItem,
+                    onNameChange = {
+                       viewModel.action(
+                           ItemsActions.SetName(it)
+                       )
+                    },
+                    onQuantityChange = {
                         viewModel.action(
-                            ItemsActions.ChangeItemStatus(it)
+                            ItemsActions.SetQuantity(it)
+                        )
+                    },
+                    onPriceChange = {
+                        try {
+                            val price = it.toDouble()
+                            viewModel.action(ItemsActions.SetPrice(price))
+                        } catch (e: Exception) {
+                            Timber.e(e)
+                        }
+                    },
+                    onLocationChange = {
+                        viewModel.action(
+                            ItemsActions.SetLocation(it)
+                        )
+                    },
+                    onSaveClicked = {
+                        viewModel.action(
+                            ItemsActions.UpdateItemClicked(it)
                         )
                     }
                 )
@@ -55,10 +74,9 @@ fun ItemDetailScreen(viewModel: ItemsViewModel) {
 }
 
 @Composable
-fun ItemDetailTopbar(
+fun EditItemTopBar(
     title: String,
-    onCancelClick: () -> Unit,
-    onOpenEditClick: () -> Unit
+    onCancelClick: () -> Unit
 ) {
     TopAppBar(
         title = {
@@ -70,17 +88,7 @@ fun ItemDetailTopbar(
             }) {
                 Icon(
                     imageVector = Icons.Filled.Close,
-                    contentDescription = stringResource(id = R.string.cancel),
-                )
-            }
-        },
-        actions = {
-            IconButton(onClick = {
-                onOpenEditClick()
-            }) {
-                Icon(
-                    imageVector = Icons.Filled.Edit,
-                    contentDescription = stringResource(id = R.string.edit),
+                    contentDescription = stringResource(id = R.string.cancel)
                 )
             }
         }

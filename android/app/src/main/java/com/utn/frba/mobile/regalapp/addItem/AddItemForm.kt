@@ -18,7 +18,7 @@ import timber.log.Timber
 
 val SPACING = 5.dp
 @Composable
-fun AddItem(
+fun ItemForm(
     item: ItemModel,
     onNameChange: (String) -> Unit? = {},
     onQuantityChange: (String) -> Unit = {},
@@ -95,7 +95,7 @@ fun AddItemForm(viewModel: AddItemViewModel) {
             .padding(20.dp)
             .fillMaxWidth(1F)
     ) {
-        AddItem(
+        ItemForm(
             item = ItemModel(
                 name = state.name.orEmpty(),
                 quantity = state.quantity.orEmpty().toLongOrNull(),

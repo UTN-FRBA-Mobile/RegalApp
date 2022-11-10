@@ -1,4 +1,4 @@
-package com.utn.frba.mobile.regalapp.itemDetail
+package com.utn.frba.mobile.regalapp.editItem
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,28 +15,32 @@ import com.utn.frba.mobile.regalapp.R
 import com.utn.frba.mobile.regalapp.addItem.ItemForm
 
 @Composable
-fun ItemDetail(
+fun EditItem(
     item: ItemModel?,
-    onChangeStatus: (item: ItemModel) -> Unit
+    onNameChange: (String) -> Unit? = {},
+    onQuantityChange: (String) -> Unit = {},
+    onPriceChange: (String) -> Unit = {},
+    onLocationChange: (String) -> Unit = {},
+    onSaveClicked: (item: ItemModel) -> Unit = {},
 ) {
     if (item != null) {
         Column() {
             ItemForm(
                 item = item,
-                readOnly = true,
+                onNameChange,
+                onQuantityChange,
+                onPriceChange,
+                onLocationChange,
+                readOnly = false,
             )
             Spacer(modifier = Modifier.height(20.dp))
             Button(
                 onClick = {
-                    onChangeStatus(item)
+                    onSaveClicked(item)
                 },
                 modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
             ) {
-                if (item.status == true) {
-                    Text(text = stringResource(id = R.string.unmark_as_bought))
-                } else {
-                    Text(text = stringResource(id = R.string.mark_as_bought))
-                }
+                Text(text = stringResource(id = R.string.edit))
             }
         }
     }
