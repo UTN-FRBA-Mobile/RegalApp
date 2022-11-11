@@ -6,6 +6,12 @@
     <string name="items_bought">%d/%d comprados</string>
     <string name="events">Eventos</string>
 
+    <!--    AddEventScreen-->
+    <string name="create_event">Crear evento</string>
+    <string name="goal_date">Fecha objetivo</string>
+    <string name="create">Crear</string>
+    <string name="new_event_image">Imagen nuevo evento</string>
+
     <!--    ItemScreen-->
     <string name="bought_by">Comprado por: %s</string>
     <string name="bougth">Comprado</string>
