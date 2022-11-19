@@ -4,9 +4,13 @@ import android.os.Looper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.utn.frba.mobile.domain.dataStore.UserDataStore
+import com.utn.frba.mobile.domain.models.EventModel
 import com.utn.frba.mobile.domain.models.NetworkResponse
 import com.utn.frba.mobile.domain.models.UserModel
 import com.utn.frba.mobile.domain.repositories.auth.UserRepository
+import com.utn.frba.mobile.regalapp.eventList.EventsActions
+import com.utn.frba.mobile.regalapp.eventList.EventsState
+import com.utn.frba.mobile.regalapp.eventList.ListEvents
 import io.github.fededri.arch.ArchViewModel
 import io.github.fededri.arch.Next
 import io.github.fededri.arch.ThreadInfo
@@ -24,7 +28,12 @@ data class AuthenticationState(
     val email: String? = null,
     val password: String? = null,
     val isLoggedIn: Boolean = false,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val selectedEvent: EventModel? = null,
+    val reg_name: String? = null,
+    val reg_user: String? = null,
+    val reg_password: String? = null,
+    val reg_password_again: String? = null
 )
 
 sealed class AuthenticationEvents() {
@@ -36,6 +45,8 @@ sealed class AuthenticationActions {
     data class SetEmail(val email: String) : AuthenticationActions()
     data class SetPassword(val password: String) : AuthenticationActions()
     object LoginClicked : AuthenticationActions()
+
+    data class SetRegName(val reg_name: String) : AuthenticationActions()
 
     data class HandleLoginSucceeded(val user: UserModel) : AuthenticationActions()
     object InvalidCredentials : AuthenticationActions()
@@ -61,6 +72,9 @@ class AuthenticationUpdater @Inject constructor() :
             is AuthenticationActions.LoginClicked -> handleLoginClicked(currentState)
             is AuthenticationActions.SetEmail -> Next.State(currentState.copy(email = action.email))
             is AuthenticationActions.SetPassword -> Next.State(currentState.copy(password = action.password))
+
+            is AuthenticationActions.SetRegName -> Next.State(currentState.copy(reg_name = action.reg_name))
+
             is AuthenticationActions.HandleLoginSucceeded -> handleLoginSucceeded(
                 currentState,
                 action
@@ -70,6 +84,9 @@ class AuthenticationUpdater @Inject constructor() :
             is AuthenticationActions.NO_OP -> Next.State(currentState)
         }
     }
+
+
+
 
     private fun handleUserAlreadyLogged(currentState: AuthenticationState): NextResult {
         return Next.State(currentState.copy(isLoggedIn = true))
