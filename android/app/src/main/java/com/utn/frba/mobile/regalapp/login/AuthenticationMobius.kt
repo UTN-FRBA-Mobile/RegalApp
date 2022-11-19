@@ -4,9 +4,13 @@ import android.os.Looper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.utn.frba.mobile.domain.dataStore.UserDataStore
+import com.utn.frba.mobile.domain.models.EventModel
 import com.utn.frba.mobile.domain.models.NetworkResponse
 import com.utn.frba.mobile.domain.models.UserModel
 import com.utn.frba.mobile.domain.repositories.auth.UserRepository
+import com.utn.frba.mobile.regalapp.eventList.EventsActions
+import com.utn.frba.mobile.regalapp.eventList.EventsState
+import com.utn.frba.mobile.regalapp.eventList.ListEvents
 import io.github.fededri.arch.ArchViewModel
 import io.github.fededri.arch.Next
 import io.github.fededri.arch.ThreadInfo
@@ -24,7 +28,8 @@ data class AuthenticationState(
     val email: String? = null,
     val password: String? = null,
     val isLoggedIn: Boolean = false,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val selectedEvent: EventModel? = null
 )
 
 sealed class AuthenticationEvents() {
@@ -70,6 +75,9 @@ class AuthenticationUpdater @Inject constructor() :
             is AuthenticationActions.NO_OP -> Next.State(currentState)
         }
     }
+
+
+
 
     private fun handleUserAlreadyLogged(currentState: AuthenticationState): NextResult {
         return Next.State(currentState.copy(isLoggedIn = true))

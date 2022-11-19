@@ -27,5 +27,7 @@
     <string name="location">Ubicación</string>
     <string name="add">Agregar</string>
     <string name="login">Iniciar sesión</string>
+    <!-- GABO -->
+    <string name="register">Registrarse</string>
 
 </resources>
