@@ -1,26 +1,37 @@
 package com.utn.frba.mobile.regalapp.addEvent
 
+import com.utn.frba.mobile.domain.dataStore.UserDataStore
+import com.utn.frba.mobile.domain.models.NetworkResponse
 import com.utn.frba.mobile.domain.repositories.events.EventsRepository
 import io.github.fededri.arch.interfaces.Processor
 import javax.inject.Inject
 
 class AddEventProcessor @Inject constructor(
-    private val eventsRepository: EventsRepository
+    private val eventsRepository: EventsRepository,
+    private val userDataStore: UserDataStore
 ) : Processor<AddEventSideEffects, AddEventActions> {
     override suspend fun dispatchSideEffect(effect: AddEventSideEffects): AddEventActions {
         return when (effect) {
-            is AddEventSideEffects.SaveEvent -> saveEvent(effect)
+            is AddEventSideEffects.CreateEvent -> createEvent(effect)
         }
     }
 
-    private suspend fun saveEvent(effect: AddEventSideEffects.SaveEvent): AddEventActions {
-        val eventMap = mapOf(
-            "name" to effect.event.name,
-            "date" to effect.event.date,
-            "image" to effect.event.image,
-            "ownerId" to effect.event.ownerId
-        )
-        eventsRepository.createEvent(eventMap)
-        return AddEventActions.HandleCreateEventSuccess(effect.event)
+    private suspend fun createEvent(effect: AddEventSideEffects.CreateEvent): AddEventActions {
+        val user = userDataStore.getLoggedUser()?.id
+        user.let {
+            val eventMap = mapOf(
+                "name" to effect.event.name,
+                "date" to effect.event.date,
+                "ownerId" to user
+            )
+            return when (eventsRepository.createEvent(eventMap as Map<String, String>)) {
+                is NetworkResponse.Success -> {
+                    AddEventActions.HandleCreateEventSuccess
+                }
+                is NetworkResponse.Error -> {
+                    AddEventActions.HandleCreateEventFailure
+                }
+            }
+        }
     }
 }

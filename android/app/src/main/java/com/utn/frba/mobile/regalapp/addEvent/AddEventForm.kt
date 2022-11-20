@@ -31,9 +31,11 @@ import java.util.*
 @Composable
 fun AddEventForm(viewModel: AddEventViewModel) {
     val state = viewModel.observeState().collectAsState(initial = AddEventState()).value
+
     val handleDateChange = { newDate: String ->
         viewModel.action(AddEventActions.SetDate(newDate))
     }
+
     val handleImageChange = { newImage: String ->
         viewModel.action(AddEventActions.SetImage(newImage))
     }
@@ -60,7 +62,7 @@ fun AddEventForm(viewModel: AddEventViewModel) {
                 DatePicker(state.date, handleDateChange)
                 Spacer(modifier = Modifier.height(60.dp))
                 Button(onClick = {
-                    viewModel.action(AddEventActions.SaveEventClicked)
+                    viewModel.action(AddEventActions.CreateEventClicked)
                 }) {
                     Text(text = stringResource(id = R.string.create))
                 }
@@ -128,11 +130,6 @@ fun DatePicker(selectedDate: String?, onDateChange: (newDate: String) -> Any){
     mYear = mCalendar.get(Calendar.YEAR)
     mMonth = mCalendar.get(Calendar.MONTH)
     mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
-
-    mCalendar.time = Date()
-
-    // Initialize state
-    onDateChange("$mDay/${mMonth+1}/$mYear")
 
     // Declaring DatePickerDialog and setting initial values as current
     val mDatePickerDialog = DatePickerDialog(

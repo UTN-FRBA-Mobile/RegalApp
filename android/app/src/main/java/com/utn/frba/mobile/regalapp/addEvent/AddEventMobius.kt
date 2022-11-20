@@ -1,6 +1,6 @@
 package com.utn.frba.mobile.regalapp.addEvent
 
-import com.utn.frba.mobile.domain.models.EventModel
+import com.utn.frba.mobile.domain.models.AddEventModel
 import io.github.fededri.arch.interfaces.SideEffectInterface
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -17,8 +17,9 @@ sealed class AddEventActions {
     data class SetName(val name: String) : AddEventActions()
     data class SetDate(val date: String) : AddEventActions()
     data class SetImage(val image: String) : AddEventActions()
-    object SaveEventClicked : AddEventActions()
-    data class HandleCreateEventSuccess(val event: EventModel) : AddEventActions()
+    object CreateEventClicked : AddEventActions()
+    object  HandleCreateEventSuccess : AddEventActions()
+    object HandleCreateEventFailure : AddEventActions()
     object CancelClicked : AddEventActions()
     // endregion
 }
@@ -27,9 +28,12 @@ sealed class AddEventSideEffects(
     override val dispatcher: CoroutineDispatcher = Dispatchers.IO,
     override val coroutineScope: CoroutineScope? = null
 ) : SideEffectInterface {
-    data class SaveEvent(val event: EventModel) : AddEventSideEffects()
+    data class CreateEvent(val event: AddEventModel) : AddEventSideEffects()
 }
 
 sealed class ListEvents {
     object CancelCreate : ListEvents()
+    object MissingFields: ListEvents()
+    object CreationSuccess: ListEvents()
+    object CreationFailure: ListEvents()
 }

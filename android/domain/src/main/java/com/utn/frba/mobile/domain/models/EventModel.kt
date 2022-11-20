@@ -8,7 +8,7 @@ data class EventModel(
     val items: List<ItemModel> = emptyList(),
     val date: String = "",
     // TODO: Que tipado usaríamos para la imagen
-    val image: String = "",
+    // val image: String = "",
     val ownerId: String
 )
 
