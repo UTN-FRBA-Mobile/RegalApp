@@ -50,8 +50,8 @@ class ItemListFragment @Inject constructor(
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         observeEvents()
         viewModel.action(ItemsActions.SetInitialArguments(arguments.eventId, arguments.title))
     }
@@ -71,12 +71,14 @@ class ItemListFragment @Inject constructor(
                         }
 
                         is ListEvents.OpenItemDetails -> {
-                            navigateToDestination(ItemListFragmentDirections.openItemDetailFragment())
+                            findNavController().navigate(ItemListFragmentDirections.openItemDetailFragment())
                         }
 
                         is ListEvents.BackButtonPressed -> {
                             findNavController().popBackStack(R.id.eventListFragment, false)
                         }
+
+                        else -> {}
                     }
                 }
         }

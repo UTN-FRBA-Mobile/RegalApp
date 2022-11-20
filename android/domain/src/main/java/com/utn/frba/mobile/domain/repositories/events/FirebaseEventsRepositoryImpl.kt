@@ -25,10 +25,7 @@ class FirebaseEventsRepositoryImpl @Inject constructor(
 ) : EventsRepository {
     override suspend fun fetchUserEvents(): NetworkResponse<List<EventModel>> =
         safeCall {
-            val userId = userDataStore.getLoggedUser()?.id
-            check(userId != null) {
-                "User not found"
-            }
+            val userId = userDataStore.getLoggedUser().id
             val queryResult = getEventsCollection()
                 .whereEqualTo(EventFields.OWNER_ID.value, userId)
                 .get()
@@ -67,11 +64,15 @@ class FirebaseEventsRepositoryImpl @Inject constructor(
         NetworkResponse.Success(helper.mapDocumentToEventModel(eventRef.get().await()))
     }
 
-    override suspend fun editItem(eventId: String, itemId: String, model: ItemModel) {
+    override suspend fun editItem(
+        eventId: String,
+        itemId: String,
+        model: ItemModel
+    ): NetworkResponse<EventModel> = safeCall {
 
         val currentModel = getEventModel(eventId)
         val newItems = currentModel.items.map {
-            if (it.id == eventId) {
+            if (it.id == model.id) {
                 model
             } else {
                 it
@@ -82,6 +83,8 @@ class FirebaseEventsRepositoryImpl @Inject constructor(
                 EventFields.ITEMS.value to newItems
             )
         ).await()
+        NetworkResponse.Success(currentModel)
+
     }
 
     override suspend fun fetchItemsList(eventId: String): NetworkResponse<List<ItemModel>> =

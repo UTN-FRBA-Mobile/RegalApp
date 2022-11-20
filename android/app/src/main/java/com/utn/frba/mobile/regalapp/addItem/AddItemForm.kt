@@ -3,8 +3,8 @@ package com.utn.frba.mobile.regalapp.addItem
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -12,31 +12,42 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.utn.frba.mobile.domain.models.ItemModel
 import com.utn.frba.mobile.regalapp.R
 import timber.log.Timber
 
+val SPACING = 5.dp
 @Composable
-fun AddItemForm(viewModel: AddItemViewModel) {
-    val state = viewModel.observeState().collectAsState(initial = AddItemState()).value
+fun ItemForm(
+    item: ItemModel,
+    onNameChange: (String) -> Unit? = {},
+    onQuantityChange: (String) -> Unit = {},
+    onPriceChange: (String) -> Unit = {},
+    onLocationChange: (String) -> Unit = {},
+    readOnly: Boolean = false
+) {
     Column(
         modifier = Modifier
-            .padding(20.dp)
+            .padding(10.dp)
             .fillMaxWidth(1F)
     ) {
-        OutlinedTextField(
-            value = state.name.orEmpty(),
+        TextField(
+            value = item.name.orEmpty(),
             onValueChange = {
-                viewModel.action(AddItemActions.SetName(it))
+                onNameChange(it)
             },
             label = {
                 Text(stringResource(id = R.string.name))
             },
-            modifier = Modifier.fillMaxWidth(1F),
+            modifier = Modifier
+                .fillMaxWidth(1F),
+            readOnly = readOnly,
         )
-        OutlinedTextField(
-            value = state.quantity.orEmpty(),
+        Spacer(modifier = Modifier.height(SPACING))
+        TextField(
+            value = item.quantity?.toString().orEmpty(),
             onValueChange = {
-                viewModel.action(AddItemActions.SetQuantity(it))
+                onQuantityChange(it)
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number
@@ -45,16 +56,13 @@ fun AddItemForm(viewModel: AddItemViewModel) {
                 Text(stringResource(id = R.string.quantity))
             },
             modifier = Modifier.fillMaxWidth(1F),
+            readOnly = readOnly,
         )
-        OutlinedTextField(
-            value = state.price.toString(),
-            onValueChange = { value ->
-                try {
-                    val price = value.toFloat()
-                    viewModel.action(AddItemActions.SetPrice(price))
-                } catch (e: Exception) {
-                    Timber.e(e)
-                }
+        Spacer(modifier = Modifier.height(SPACING))
+        TextField(
+            value = item.price?.toString().orEmpty(),
+            onValueChange = {
+                onPriceChange(it)
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal
@@ -63,16 +71,54 @@ fun AddItemForm(viewModel: AddItemViewModel) {
                 Text(stringResource(id = R.string.price))
             },
             modifier = Modifier.fillMaxWidth(1F),
+            readOnly = readOnly,
         )
-        OutlinedTextField(
-            value = state.location.orEmpty(),
+        Spacer(modifier = Modifier.height(SPACING))
+        TextField(
+            value = item.location.orEmpty(),
             onValueChange = {
-                viewModel.action(AddItemActions.SetLocation(it))
+                onLocationChange(it)
             },
             label = {
                 Text(stringResource(id = R.string.location))
             },
             modifier = Modifier.fillMaxWidth(1F),
+            readOnly = readOnly,
+        )
+    }
+}
+@Composable
+fun AddItemForm(viewModel: AddItemViewModel) {
+    val state = viewModel.observeState().collectAsState(initial = AddItemState()).value
+    Column(
+        modifier = Modifier
+            .padding(20.dp)
+            .fillMaxWidth(1F)
+    ) {
+        ItemForm(
+            item = ItemModel(
+                name = state.name.orEmpty(),
+                quantity = state.quantity.orEmpty().toLongOrNull(),
+                price = state.price,
+                location = state.location.orEmpty()
+            ),
+            onNameChange = {
+                viewModel.action(AddItemActions.SetName(it))
+            },
+            onQuantityChange = {
+                viewModel.action(AddItemActions.SetQuantity(it))
+            },
+            onPriceChange = { value ->
+                try {
+                    val price = value.toDouble()
+                    viewModel.action(AddItemActions.SetPrice(price))
+                } catch (e: Exception) {
+                    Timber.e(e)
+                }
+            },
+            onLocationChange = {
+                viewModel.action(AddItemActions.SetLocation(it))
+            }
         )
         Spacer(
             modifier = Modifier.height(20.dp)

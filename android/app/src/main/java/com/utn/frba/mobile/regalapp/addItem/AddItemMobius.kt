@@ -10,7 +10,7 @@ data class AddItemState(
     val eventId: String? = null,
     val name: String? = null,
     val quantity: String? = null,
-    val price: Float? = null,
+    val price: Double? = null,
     val location: String? = null,
 )
 
@@ -20,7 +20,7 @@ sealed class AddItemActions {
     object FetchInitialList : AddItemActions()
     data class SetName(val name: String) : AddItemActions()
     data class SetQuantity(val quantity: String) : AddItemActions()
-    data class SetPrice(val price: Float) : AddItemActions()
+    data class SetPrice(val price: Double) : AddItemActions()
     data class SetLocation(val location: String) : AddItemActions()
     object SaveItemClicked : AddItemActions()
     data class HandleSaveItemSucceded(val item: ItemModel) : AddItemActions()

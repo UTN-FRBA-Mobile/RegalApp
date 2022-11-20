@@ -1,6 +1,7 @@
 package com.utn.frba.mobile.regalapp.itemList
 
 import com.utn.frba.mobile.domain.models.ItemModel
+import com.utn.frba.mobile.regalapp.addItem.AddItemActions
 import io.github.fededri.arch.interfaces.SideEffectInterface
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -10,7 +11,9 @@ data class ItemsState(
     val title: String = "",
     val eventId: String = "",
     val items: List<ItemModel> = emptyList(),
-    val filteredItems: List<ItemModel> = emptyList()
+    val filteredItems: List<ItemModel> = emptyList(),
+    val selectedItem: ItemModel? = null,
+    val editingItem: ItemModel? = null,
 )
 
 data class ItemsListRenderState(
@@ -29,6 +32,21 @@ sealed class ItemsActions {
     object AddItemClicked : ItemsActions()
     object GoBack : ItemsActions()
     data class FilterItems(val query: String) : ItemsActions()
+
+    // item detail actions
+    object CloseItemDetail : ItemsActions()
+    object OpenEditItem : ItemsActions()
+    data class ChangeItemStatus(val item: ItemModel) : ItemsActions()
+
+    // item edit actions
+    data class SetName(val name: String) : ItemsActions()
+    data class SetQuantity(val quantity: String) : ItemsActions()
+    data class SetPrice(val price: Double) : ItemsActions()
+    data class SetLocation(val location: String) : ItemsActions()
+    data class UpdateItemClicked(val item: ItemModel) : ItemsActions()
+    object CloseEditItem : ItemsActions()
+
+
     // endregion
 
     //region processor actions
@@ -43,11 +61,24 @@ sealed class ItemSideEffects(
     override val coroutineScope: CoroutineScope? = null
 ) : SideEffectInterface {
     data class LoadItemsList(val eventId: String) : ItemSideEffects()
+    data class UpdateItem(
+        val eventId: String,
+        val itemId: String,
+        val item: ItemModel,
+    ): ItemSideEffects()
+    data class ChangeItemStatus(
+        val eventId: String,
+        val itemId: String,
+        val item: ItemModel,
+    ): ItemSideEffects()
 }
 
 sealed class ListEvents {
     data class OpenEventDetails(val eventId: String) : ListEvents()
     data class OpenItemDetails(val item: ItemModel) : ListEvents()
+    object OpenEditItemScreen : ListEvents()
     object OpenAddItemScreen : ListEvents()
     object BackButtonPressed : ListEvents()
+    object CloseDetailPressed : ListEvents()
+    object CloseEditPressed : ListEvents()
 }

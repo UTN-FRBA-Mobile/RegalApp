@@ -54,7 +54,7 @@ class AddItemUpdater @Inject constructor() :
         val item = ItemModel(
             name = currentState.name,
             quantity = currentState.quantity.toLong(),
-            price = currentState.price ?: 0f,
+            price = currentState.price ?: 0.0,
             location = currentState.location,
         )
         return Next.StateWithSideEffects(
