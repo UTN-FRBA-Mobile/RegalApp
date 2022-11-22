@@ -50,10 +50,7 @@ class ItemsUpdater @Inject constructor() :
             is ItemsActions.SetPrice -> handleSetPrice(currentState, action)
             is ItemsActions.SetLocation -> handleSetLocation(currentState, action)
             is ItemsActions.UpdateItemClicked -> handleUpdate(currentState, action)
-            is ItemsActions.CloseEditItem -> Next.StateWithEvents(
-                currentState,
-                setOf(ListEvents.CloseDetailPressed)
-            )
+            is ItemsActions.CloseEditItem -> handleCloseEditItem(currentState, action)
         }
     }
 
@@ -208,7 +205,9 @@ class ItemsUpdater @Inject constructor() :
             "Editing item not set"
         }
         return Next.StateWithSideEffects(
-            currentState,
+            currentState.copy(
+                isLoading = true
+            ),
             setOf(
                 ItemSideEffects.UpdateItem(
                     eventId = eventId,
@@ -216,6 +215,19 @@ class ItemsUpdater @Inject constructor() :
                     item = currentState.editingItem
                 )
             )
+        )
+    }
+
+    private fun handleCloseEditItem(
+        currentState: ItemsState,
+        action: ItemsActions.CloseEditItem
+    ): NextResult {
+        return Next.StateWithEvents(
+            currentState.copy(
+                isLoading = false,
+                selectedItem = action.item ?: currentState.selectedItem,
+            ),
+            setOf(ListEvents.CloseDetailPressed)
         )
     }
 }

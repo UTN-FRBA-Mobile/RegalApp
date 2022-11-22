@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,6 +23,7 @@ fun EditItem(
     onPriceChange: (String) -> Unit = {},
     onLocationChange: (String) -> Unit = {},
     onSaveClicked: (item: ItemModel) -> Unit = {},
+    isLoading: Boolean = false,
 ) {
     if (item != null) {
         Column() {
@@ -31,7 +33,7 @@ fun EditItem(
                 onQuantityChange,
                 onPriceChange,
                 onLocationChange,
-                readOnly = false,
+                readOnly = isLoading,
             )
             Spacer(modifier = Modifier.height(20.dp))
             Button(
@@ -41,6 +43,11 @@ fun EditItem(
                 modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
             ) {
                 Text(text = stringResource(id = R.string.edit))
+            }
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                )
             }
         }
     }

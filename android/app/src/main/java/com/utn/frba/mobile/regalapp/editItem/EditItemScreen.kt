@@ -26,7 +26,7 @@ fun EditItemScreen(viewModel: ItemsViewModel) {
                 title = stringResource(id = R.string.edit),
                 onCancelClick = {
                     viewModel.action(
-                        ItemsActions.CloseEditItem
+                        ItemsActions.CloseEditItem()
                     )
                 }
             )
@@ -66,7 +66,8 @@ fun EditItemScreen(viewModel: ItemsViewModel) {
                         viewModel.action(
                             ItemsActions.UpdateItemClicked(it)
                         )
-                    }
+                    },
+                    isLoading = state.isLoading,
                 )
             }
         }

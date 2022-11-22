@@ -14,6 +14,7 @@ data class ItemsState(
     val filteredItems: List<ItemModel> = emptyList(),
     val selectedItem: ItemModel? = null,
     val editingItem: ItemModel? = null,
+    val isLoading: Boolean = false,
 )
 
 data class ItemsListRenderState(
@@ -44,7 +45,7 @@ sealed class ItemsActions {
     data class SetPrice(val price: Double) : ItemsActions()
     data class SetLocation(val location: String) : ItemsActions()
     data class UpdateItemClicked(val item: ItemModel) : ItemsActions()
-    object CloseEditItem : ItemsActions()
+    data class CloseEditItem(val item: ItemModel? = null) : ItemsActions()
 
 
     // endregion
