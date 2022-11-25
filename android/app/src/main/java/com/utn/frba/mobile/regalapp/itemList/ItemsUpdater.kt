@@ -1,6 +1,5 @@
 package com.utn.frba.mobile.regalapp.itemList
 
-import com.utn.frba.mobile.domain.dataStore.UserDataStore
 import io.github.fededri.arch.Next
 import io.github.fededri.arch.interfaces.Updater
 import javax.inject.Inject
@@ -50,6 +49,7 @@ class ItemsUpdater @Inject constructor() :
             is ItemsActions.SetPrice -> handleSetPrice(currentState, action)
             is ItemsActions.SetLocation -> handleSetLocation(currentState, action)
             is ItemsActions.UpdateItemClicked -> handleUpdate(currentState, action)
+            is ItemsActions.HandleUpdateSucceeded -> handleUpdateSucceeded(currentState, action)
             is ItemsActions.CloseEditItem -> handleCloseEditItem(currentState, action)
         }
     }
@@ -217,6 +217,24 @@ class ItemsUpdater @Inject constructor() :
             )
         )
     }
+
+    private fun handleUpdateSucceeded(
+        currentState: ItemsState,
+        action: ItemsActions.HandleUpdateSucceeded,
+    ): NextResult {
+
+        return Next.StateWithEvents(
+            currentState.copy(
+                isLoading = false,
+                selectedItem = action.item,
+                items = action.itemList,
+            ),
+            setOf(
+                ListEvents.CloseDetailPressed
+            )
+        )
+    }
+
 
     private fun handleCloseEditItem(
         currentState: ItemsState,

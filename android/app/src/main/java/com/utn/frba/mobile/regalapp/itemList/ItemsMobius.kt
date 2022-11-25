@@ -45,6 +45,7 @@ sealed class ItemsActions {
     data class SetPrice(val price: Double) : ItemsActions()
     data class SetLocation(val location: String) : ItemsActions()
     data class UpdateItemClicked(val item: ItemModel) : ItemsActions()
+    data class HandleUpdateSucceeded(val item: ItemModel, val itemList: List<ItemModel>): ItemsActions()
     data class CloseEditItem(val item: ItemModel? = null) : ItemsActions()
 
 
