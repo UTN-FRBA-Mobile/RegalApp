@@ -40,35 +40,31 @@ fun AddEventForm(viewModel: AddEventViewModel) {
         viewModel.action(AddEventActions.SetImage(newImage))
     }
 
-    Scaffold(
-        content = {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Spacer(modifier = Modifier.height(60.dp))
-                ImagePicker(handleImageChange)
-                Spacer(modifier = Modifier.height(40.dp))
-                TextField(
-                    label = {
-                        Text(stringResource(id = R.string.name))
-                    },
-                    value = state.name.orEmpty(),
-                    onValueChange = {
-                        viewModel.action(AddEventActions.SetName(it))
-                    }
-                )
-                Spacer(modifier = Modifier.height(40.dp))
-                DatePicker(state.date, handleDateChange)
-                Spacer(modifier = Modifier.height(60.dp))
-                Button(onClick = {
-                    viewModel.action(AddEventActions.CreateEventClicked)
-                }) {
-                    Text(text = stringResource(id = R.string.create))
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(60.dp))
+            ImagePicker(handleImageChange)
+            Spacer(modifier = Modifier.height(40.dp))
+            TextField(
+                label = {
+                    Text(stringResource(id = R.string.name))
+                        },
+                value = state.name.orEmpty(),
+                onValueChange = {
+                    viewModel.action(AddEventActions.SetName(it))
                 }
+            )
+            Spacer(modifier = Modifier.height(40.dp))
+            DatePicker(state.date, handleDateChange)
+            Spacer(modifier = Modifier.height(60.dp))
+            Button(onClick = {
+                viewModel.action(AddEventActions.CreateEventClicked)
+            }) {
+                Text(text = stringResource(id = R.string.create))
             }
         }
-    )
 }
 
 @Composable
@@ -118,25 +114,25 @@ fun ImagePicker(onImageChange: (newImage: String) -> Any) {
 
 @Composable
 fun DatePicker(selectedDate: String?, onDateChange: (newDate: String) -> Any){
-    val mContext = LocalContext.current
+    val context = LocalContext.current
 
-    val mYear: Int
-    val mMonth: Int
-    val mDay: Int
+    val year: Int
+    val month: Int
+    val day: Int
 
-    val mCalendar = Calendar.getInstance()
+    val calendar = Calendar.getInstance()
 
     // Fetching current year, month and day
-    mYear = mCalendar.get(Calendar.YEAR)
-    mMonth = mCalendar.get(Calendar.MONTH)
-    mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
+    year = calendar.get(Calendar.YEAR)
+    month = calendar.get(Calendar.MONTH)
+    day = calendar.get(Calendar.DAY_OF_MONTH)
 
     // Declaring DatePickerDialog and setting initial values as current
-    val mDatePickerDialog = DatePickerDialog(
-        mContext,
-        { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
-            onDateChange("$mDayOfMonth/${mMonth+1}/$mYear")
-        }, mYear, mMonth, mDay
+    val datePickerDialog = DatePickerDialog(
+        context,
+        { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
+            onDateChange("$dayOfMonth/${month+1}/$year")
+        }, year, month, day
     )
 
     TextField(
@@ -153,7 +149,7 @@ fun DatePicker(selectedDate: String?, onDateChange: (newDate: String) -> Any){
             disabledLabelColor =  MaterialTheme.colors.onSurface.copy(ContentAlpha.medium),
         ),
         modifier = Modifier.clickable {
-            mDatePickerDialog.show()
+            datePickerDialog.show()
         }
     )
 }

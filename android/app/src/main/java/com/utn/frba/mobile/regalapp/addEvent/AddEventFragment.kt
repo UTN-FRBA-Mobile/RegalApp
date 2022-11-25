@@ -51,20 +51,20 @@ class AddEventFragment @Inject constructor(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val mYear: Int
-        val mMonth: Int
-        val mDay: Int
-        val mCalendar = Calendar.getInstance()
+        val year: Int
+        val month: Int
+        val day: Int
+        val calendar = Calendar.getInstance()
 
         // Fetching current year, month and day
-        mYear = mCalendar.get(Calendar.YEAR)
-        mMonth = mCalendar.get(Calendar.MONTH)
-        mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
+        year = calendar.get(Calendar.YEAR)
+        month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        mCalendar.time = Date()
+        calendar.time = Date()
 
         // Initialize state
-        viewModel.action(AddEventActions.SetDate("$mDay/${mMonth+1}/$mYear"))
+        viewModel.action(AddEventActions.SetDate("$day/${month+1}/$year"))
 
         observeEvents()
     }

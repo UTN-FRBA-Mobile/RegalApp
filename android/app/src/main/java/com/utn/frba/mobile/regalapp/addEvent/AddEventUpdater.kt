@@ -2,13 +2,14 @@ package com.utn.frba.mobile.regalapp.addEvent
 
 import com.utn.frba.mobile.domain.models.AddEventModel
 import io.github.fededri.arch.Next
+import io.github.fededri.arch.interfaces.Updater
 import timber.log.Timber
 import javax.inject.Inject
 
 typealias NextResult = Next<AddEventState, AddEventSideEffects, ListEvents>
 
 class AddEventUpdater @Inject constructor() :
-    io.github.fededri.arch.interfaces.Updater<AddEventActions, AddEventState, AddEventSideEffects, ListEvents> {
+    Updater<AddEventActions, AddEventState, AddEventSideEffects, ListEvents> {
     override fun onNewAction(
         action: AddEventActions,
         currentState: AddEventState
