@@ -49,7 +49,7 @@ fun LocationField(
                 onValueChange = {
                     onLocationChange(it)
                 },
-                placeholder = { Text(text = "Ubicacion") },
+                placeholder = { Text(text = stringResource(id = R.string.location)) },
                 modifier = Modifier
                     .fillMaxWidth(1F)
                     .weight(1F),
@@ -110,7 +110,7 @@ fun LocationField(
                 DropdownMenuItem(onClick = {
                     showList.value = false
                 }) {
-                        Text(text = "No se encontraron resultados")
+                        Text(text = stringResource(id = R.string.no_results_found))
                 }
             }
         }
