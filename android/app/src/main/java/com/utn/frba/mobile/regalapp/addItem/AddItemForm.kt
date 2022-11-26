@@ -117,6 +117,9 @@ fun AddItemForm(viewModel: AddItemViewModel) {
             },
             onLocationChange = {
                 viewModel.action(AddItemActions.SetLocation(it))
+            },
+            onCoordinatesChange = { lat, lng ->
+                viewModel.action(AddItemActions.SetCoordinates(lat, lng))
             }
         )
         Spacer(
