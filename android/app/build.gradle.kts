@@ -114,4 +114,9 @@ dependencies {
 
     // Image loading and caching
     implementation(D.Landscapist.glide)
+
+    // GoogleMaps
+    implementation(D.GoogleMaps.core)
+    implementation(D.GoogleMaps.utils)
+    implementation(D.GoogleMaps.location)
 }

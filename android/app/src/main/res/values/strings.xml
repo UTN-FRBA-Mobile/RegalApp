@@ -31,6 +31,7 @@
     <!--    ItemDetailScreen-->
     <string name="mark_as_bought">Marcar como comprado</string>
     <string name="unmark_as_bought">Desmarcar como comprado</string>
+    <string name="open_map">Abrir mapa</string>
 
     <!--    EditItemScreen -->
     <string name="edit">Editar</string>
