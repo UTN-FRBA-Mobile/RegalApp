@@ -31,13 +31,15 @@ data class AuthenticationState(
     val isLoading: Boolean = false,
     val selectedEvent: EventModel? = null,
     val reg_name: String? = null,
-    val reg_user: String? = null,
+    val reg_email: String? = null,
     val reg_password: String? = null,
-    val reg_password_again: String? = null
+    val reg_password_again: String? = null,
+    val isLoadingReg: Boolean = false
 )
 
 sealed class AuthenticationEvents() {
     object LoginFailed : AuthenticationEvents()
+    object RegisterFailed : AuthenticationEvents()
     object MissingFields : AuthenticationEvents()
 }
 
@@ -45,14 +47,19 @@ sealed class AuthenticationActions {
     data class SetEmail(val email: String) : AuthenticationActions()
     data class SetPassword(val password: String) : AuthenticationActions()
     object LoginClicked : AuthenticationActions()
+    object RegisterClicked : AuthenticationActions()
 
     data class SetRegName(val reg_name: String) : AuthenticationActions()
-    data class SetRegUser(val reg_user: String) : AuthenticationActions()
+    data class SetRegEmail(val reg_email: String) : AuthenticationActions()
     data class SetRegPassword(val reg_password: String) : AuthenticationActions()
     data class SetRegPasswordAgain(val reg_password_again: String) : AuthenticationActions()
 
     data class HandleLoginSucceeded(val user: UserModel) : AuthenticationActions()
+    data class HandleRegisterSucceeded(val user: UserModel) : AuthenticationActions()
+
     object InvalidCredentials : AuthenticationActions()
+    object InvalidCredentialsReg : AuthenticationActions()
+
     object SkipLogin : AuthenticationActions()
     object NO_OP : AuthenticationActions()
 }
@@ -62,6 +69,7 @@ sealed class AuthenticationEffects(
     override val dispatcher: CoroutineDispatcher? = Dispatchers.IO
 ) : SideEffectInterface {
     data class Login(val username: String, val password: String) : AuthenticationEffects()
+    data class Register(val reg_email: String, val reg_password: String) : AuthenticationEffects()
     object CheckIsAlreadyLoggedIn : AuthenticationEffects()
 }
 
@@ -73,11 +81,13 @@ class AuthenticationUpdater @Inject constructor() :
     ): Next<AuthenticationState, AuthenticationEffects, AuthenticationEvents> {
         return when (action) {
             is AuthenticationActions.LoginClicked -> handleLoginClicked(currentState)
+            is AuthenticationActions.RegisterClicked -> handleRegisterClicked(currentState)
+
             is AuthenticationActions.SetEmail -> Next.State(currentState.copy(email = action.email))
             is AuthenticationActions.SetPassword -> Next.State(currentState.copy(password = action.password))
 
             is AuthenticationActions.SetRegName -> Next.State(currentState.copy(reg_name = action.reg_name))
-            is AuthenticationActions.SetRegUser -> Next.State(currentState.copy(reg_user = action.reg_user))
+            is AuthenticationActions.SetRegEmail -> Next.State(currentState.copy(reg_email = action.reg_email))
             is AuthenticationActions.SetRegPassword -> Next.State(currentState.copy(reg_password = action.reg_password))
             is AuthenticationActions.SetRegPasswordAgain -> Next.State(currentState.copy(reg_password_again = action.reg_password_again))
 
@@ -85,7 +95,15 @@ class AuthenticationUpdater @Inject constructor() :
                 currentState,
                 action
             )
+
+            is AuthenticationActions.HandleRegisterSucceeded -> handleRegisterSucceeded(
+                currentState,
+                action
+            )
+
             is AuthenticationActions.InvalidCredentials -> handleInvalidCredentials(currentState)
+            is AuthenticationActions.InvalidCredentialsReg -> handleInvalidCredentialsReg(currentState)
+
             is AuthenticationActions.SkipLogin -> handleUserAlreadyLogged(currentState)
             is AuthenticationActions.NO_OP -> Next.State(currentState)
         }
@@ -105,12 +123,29 @@ class AuthenticationUpdater @Inject constructor() :
         )
     }
 
+    private fun handleInvalidCredentialsReg(currentState: AuthenticationState): NextResult {
+        return Next.StateWithEvents(
+            currentState.copy(isLoadingReg = false),
+            setOf(AuthenticationEvents.RegisterFailed)
+        )
+    }
+
+
     private fun handleLoginSucceeded(
         currentState: AuthenticationState,
         action: AuthenticationActions.HandleLoginSucceeded
     ): NextResult {
         return Next.State(currentState.copy(isLoggedIn = true, isLoading = false))
     }
+
+
+    private fun handleRegisterSucceeded(
+        currentState: AuthenticationState,
+        action: AuthenticationActions.HandleRegisterSucceeded
+    ): NextResult {
+        return Next.State(currentState.copy(isLoadingReg = false))
+    }
+
 
     private fun handleLoginClicked(currentState: AuthenticationState): NextResult {
         return if (currentState.email != null && currentState.password != null) {
@@ -120,6 +155,23 @@ class AuthenticationUpdater @Inject constructor() :
                     AuthenticationEffects.Login(
                         currentState.email,
                         currentState.password
+                    )
+                )
+            )
+        } else {
+            Next.StateWithEvents(currentState, setOf(AuthenticationEvents.MissingFields))
+        }
+    }
+
+
+    private fun handleRegisterClicked(currentState: AuthenticationState): NextResult {
+        return if (currentState.reg_email != null && currentState.reg_password != null) {
+            Next.StateWithSideEffects(
+                currentState.copy(isLoadingReg = true),
+                setOf(
+                    AuthenticationEffects.Register(
+                        currentState.reg_email,
+                        currentState.reg_password
                     )
                 )
             )
@@ -137,6 +189,7 @@ class AuthenticationProcessor @Inject constructor(
     override suspend fun dispatchSideEffect(effect: AuthenticationEffects): AuthenticationActions {
         return when (effect) {
             is AuthenticationEffects.Login -> handleLogin(effect)
+            is AuthenticationEffects.Register -> handleRegister(effect)
             is AuthenticationEffects.CheckIsAlreadyLoggedIn -> handleCheckAlreadyLoggedIn()
         }
     }
@@ -159,6 +212,20 @@ class AuthenticationProcessor @Inject constructor(
             }
             is NetworkResponse.Error -> {
                 AuthenticationActions.InvalidCredentials
+            }
+        }
+    }
+
+
+    private suspend fun handleRegister(effect: AuthenticationEffects.Register): AuthenticationActions {
+        return when (val result = userRepository.login(effect.reg_email, effect.reg_password)) {
+            is NetworkResponse.Success -> {
+                val user = result.data!!
+                userDataStore.setUser(user)
+                AuthenticationActions.HandleRegisterSucceeded(user)
+            }
+            is NetworkResponse.Error -> {
+                AuthenticationActions.InvalidCredentialsReg
             }
         }
     }

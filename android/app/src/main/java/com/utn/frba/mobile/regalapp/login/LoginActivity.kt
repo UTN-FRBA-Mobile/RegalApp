@@ -55,6 +55,7 @@ class LoginActivity : ComponentActivity() {
                 .collect { event ->
                     when (event) {
                         is AuthenticationEvents.LoginFailed -> showInvalidLoginAlert()
+                        is AuthenticationEvents.RegisterFailed -> showInvalidRegisterAlert()
                         is AuthenticationEvents.MissingFields -> showMissingFieldsAlert()
                     }
                 }
@@ -75,6 +76,15 @@ class LoginActivity : ComponentActivity() {
         AlertDialog.Builder(this)
             .setMessage(getString(R.string.login_failed_message))
             .setTitle(getString(R.string.login_failed))
+            .setPositiveButton("Ok") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+    private fun showInvalidRegisterAlert() {
+        AlertDialog.Builder(this)
+            .setMessage("Algo falló!")
+            .setTitle("Fallo en el registro")
             .setPositiveButton("Ok") { dialog, _ ->
                 dialog.dismiss()
             }

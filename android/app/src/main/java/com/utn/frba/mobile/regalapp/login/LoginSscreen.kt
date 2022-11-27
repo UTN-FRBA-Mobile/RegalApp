@@ -89,11 +89,11 @@ fun LoginScreen(viewModel: AuthenticationViewModel) {
             Spacer(modifier = Modifier.weight(1f))
             TextField(
                 label = {
-                    Text(stringResource(R.string.reg_user))
+                    Text(stringResource(R.string.reg_email))
                 },
-                value = state.reg_user.orEmpty(),
+                value = state.reg_email.orEmpty(),
                 onValueChange = {
-                    viewModel.action(AuthenticationActions.SetRegUser(it))
+                    viewModel.action(AuthenticationActions.SetRegEmail(it))
                 }
             )
             Spacer(modifier = Modifier.weight(1f))
@@ -124,9 +124,13 @@ fun LoginScreen(viewModel: AuthenticationViewModel) {
         )
 
         Button(onClick = {
-            //viewModel.action(AuthenticationActions.LoginClicked)
+            viewModel.action(AuthenticationActions.RegisterClicked)
         }) {
             Text(stringResource(R.string.register))
+        }
+
+        if (state.isLoadingReg) {
+            CircularProgressIndicator()
         }
     }
 }
