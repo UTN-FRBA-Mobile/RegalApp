@@ -56,6 +56,11 @@ class ItemListFragment @Inject constructor(
         viewModel.action(ItemsActions.SetInitialArguments(arguments.eventId, arguments.title))
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.action(ItemsActions.SetInitialArguments(arguments.eventId, arguments.title))
+    }
+
     private fun observeEvents() {
         lifecycleScope.launch {
             viewModel.observeEvents()

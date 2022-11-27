@@ -13,6 +13,7 @@ data class ItemsState(
     val filteredItems: List<ItemModel> = emptyList(),
     val selectedItem: ItemModel? = null,
     val editingItem: ItemModel? = null,
+    val isLoading: Boolean = false,
 )
 
 data class ItemsListRenderState(
@@ -44,7 +45,8 @@ sealed class ItemsActions {
     data class SetLocation(val location: String) : ItemsActions()
     data class SetCoordinates(val latitude: Double, val longitude: Double) : ItemsActions()
     data class UpdateItemClicked(val item: ItemModel) : ItemsActions()
-    object CloseEditItem : ItemsActions()
+    data class HandleUpdateSucceeded(val item: ItemModel, val itemList: List<ItemModel>): ItemsActions()
+    data class CloseEditItem(val item: ItemModel? = null) : ItemsActions()
 
 
     // endregion

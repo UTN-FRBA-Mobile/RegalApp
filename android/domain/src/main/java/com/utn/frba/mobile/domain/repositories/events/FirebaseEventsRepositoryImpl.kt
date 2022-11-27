@@ -83,7 +83,9 @@ class FirebaseEventsRepositoryImpl @Inject constructor(
                 EventFields.ITEMS.value to newItems
             )
         ).await()
-        NetworkResponse.Success(currentModel)
+        NetworkResponse.Success(currentModel.copy(
+            items = newItems
+        ))
 
     }
 
