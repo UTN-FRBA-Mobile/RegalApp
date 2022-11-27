@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.anvil.annotations.ContributesBinding
 import com.utn.frba.mobile.domain.DBCollections
+import com.utn.frba.mobile.domain.dataStore.UserDataStore
 import com.utn.frba.mobile.domain.di.AppScope
 import com.utn.frba.mobile.domain.models.NetworkResponse
 import com.utn.frba.mobile.domain.models.UserModel
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @AppScope
 class FirebaseUserRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
-    private val db: FirebaseFirestore
+    private val db: FirebaseFirestore,
+    private val userDataStore: UserDataStore,
 ) : UserRepository {
     override suspend fun createAccount(
         email: String,
@@ -63,6 +65,26 @@ class FirebaseUserRepositoryImpl @Inject constructor(
             } else {
                 NetworkResponse.Error("User id is invalid")
             }
+        }
+
+    override suspend fun updateAccount(
+        userId: String,
+        values: Map<String, Any>
+    ): NetworkResponse<UserModel> =
+        safeCall {
+            updateUserFieldValues(userId, values)
+            return  NetworkResponse.Success(getUserModel(userId))
+        }
+
+    override suspend fun setDeviceToken(
+        token: String
+    ): NetworkResponse<UserModel> =
+        safeCall {
+            val user = userDataStore.getLoggedUser()
+            val values = mutableMapOf<String, Any>()
+            values["deviceId"] = token
+            updateUserFieldValues(user.id, values)
+            return  NetworkResponse.Success(getUserModel(user.id))
         }
 
     private suspend fun updateUserFieldValues(
