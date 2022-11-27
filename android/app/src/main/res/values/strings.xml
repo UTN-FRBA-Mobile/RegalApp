@@ -18,6 +18,11 @@
     <string name="login_failed_message">Verifique sus credenciales</string>
     <string name="password">Contraseña</string>
     <string name="email">Email</string>
+    <string name="reg_name">Nombre</string>
+    <string name="reg_user">Usuario</string>
+    <string name="reg_password">Contraseña</string>
+    <string name="reg_password_again">Contraseña otra vez</string>
+
 
     <!--    AddItemScreen-->
     <string name="cancel">Cancelar</string>
@@ -27,7 +32,7 @@
     <string name="location">Ubicación</string>
     <string name="add">Agregar</string>
     <string name="login">Iniciar sesión</string>
-    <!-- GABO -->
+
     <string name="register">Registrarse</string>
 
 </resources>

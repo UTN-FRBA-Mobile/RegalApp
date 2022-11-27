@@ -29,7 +29,11 @@ data class AuthenticationState(
     val password: String? = null,
     val isLoggedIn: Boolean = false,
     val isLoading: Boolean = false,
-    val selectedEvent: EventModel? = null
+    val selectedEvent: EventModel? = null,
+    val reg_name: String? = null,
+    val reg_user: String? = null,
+    val reg_password: String? = null,
+    val reg_password_again: String? = null
 )
 
 sealed class AuthenticationEvents() {
@@ -41,6 +45,11 @@ sealed class AuthenticationActions {
     data class SetEmail(val email: String) : AuthenticationActions()
     data class SetPassword(val password: String) : AuthenticationActions()
     object LoginClicked : AuthenticationActions()
+
+    data class SetRegName(val reg_name: String) : AuthenticationActions()
+    data class SetRegUser(val reg_user: String) : AuthenticationActions()
+    data class SetRegPassword(val reg_password: String) : AuthenticationActions()
+    data class SetRegPasswordAgain(val reg_password_again: String) : AuthenticationActions()
 
     data class HandleLoginSucceeded(val user: UserModel) : AuthenticationActions()
     object InvalidCredentials : AuthenticationActions()
@@ -66,6 +75,12 @@ class AuthenticationUpdater @Inject constructor() :
             is AuthenticationActions.LoginClicked -> handleLoginClicked(currentState)
             is AuthenticationActions.SetEmail -> Next.State(currentState.copy(email = action.email))
             is AuthenticationActions.SetPassword -> Next.State(currentState.copy(password = action.password))
+
+            is AuthenticationActions.SetRegName -> Next.State(currentState.copy(reg_name = action.reg_name))
+            is AuthenticationActions.SetRegUser -> Next.State(currentState.copy(reg_user = action.reg_user))
+            is AuthenticationActions.SetRegPassword -> Next.State(currentState.copy(reg_password = action.reg_password))
+            is AuthenticationActions.SetRegPasswordAgain -> Next.State(currentState.copy(reg_password_again = action.reg_password_again))
+
             is AuthenticationActions.HandleLoginSucceeded -> handleLoginSucceeded(
                 currentState,
                 action
