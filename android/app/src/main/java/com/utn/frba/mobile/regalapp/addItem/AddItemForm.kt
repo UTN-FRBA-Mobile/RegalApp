@@ -14,6 +14,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.utn.frba.mobile.domain.models.ItemModel
 import com.utn.frba.mobile.regalapp.R
+import com.utn.frba.mobile.regalapp.map.LocationField
 import timber.log.Timber
 
 val SPACING = 5.dp
@@ -24,6 +25,7 @@ fun ItemForm(
     onQuantityChange: (String) -> Unit = {},
     onPriceChange: (String) -> Unit = {},
     onLocationChange: (String) -> Unit = {},
+    onCoordinatesChange: (lat: Double, lng: Double) -> Unit = {_,_ ->},
     readOnly: Boolean = false
 ) {
     Column(
@@ -74,15 +76,12 @@ fun ItemForm(
             readOnly = readOnly,
         )
         Spacer(modifier = Modifier.height(SPACING))
-        TextField(
-            value = item.location.orEmpty(),
-            onValueChange = {
-                onLocationChange(it)
-            },
-            label = {
-                Text(stringResource(id = R.string.location))
-            },
-            modifier = Modifier.fillMaxWidth(1F),
+        LocationField(
+            location = item.location.orEmpty(),
+            latitude = item.latitude,
+            longitude = item.longitude,
+            onLocationChange = onLocationChange,
+            onCoordinatesChange = onCoordinatesChange,
             readOnly = readOnly,
         )
     }
@@ -118,6 +117,9 @@ fun AddItemForm(viewModel: AddItemViewModel) {
             },
             onLocationChange = {
                 viewModel.action(AddItemActions.SetLocation(it))
+            },
+            onCoordinatesChange = { lat, lng ->
+                viewModel.action(AddItemActions.SetCoordinates(lat, lng))
             }
         )
         Spacer(

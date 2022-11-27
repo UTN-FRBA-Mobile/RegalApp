@@ -62,6 +62,11 @@ fun EditItemScreen(viewModel: ItemsViewModel) {
                             ItemsActions.SetLocation(it)
                         )
                     },
+                    onCoordinatesChange = { lat, lng ->
+                        viewModel.action(
+                            ItemsActions.SetCoordinates(lat, lng)
+                        )
+                    },
                     onSaveClicked = {
                         viewModel.action(
                             ItemsActions.UpdateItemClicked(it)

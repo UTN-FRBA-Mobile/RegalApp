@@ -1,7 +1,6 @@
 package com.utn.frba.mobile.regalapp.itemList
 
 import com.utn.frba.mobile.domain.models.ItemModel
-import com.utn.frba.mobile.regalapp.addItem.AddItemActions
 import io.github.fededri.arch.interfaces.SideEffectInterface
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -43,6 +42,7 @@ sealed class ItemsActions {
     data class SetQuantity(val quantity: String) : ItemsActions()
     data class SetPrice(val price: Double) : ItemsActions()
     data class SetLocation(val location: String) : ItemsActions()
+    data class SetCoordinates(val latitude: Double, val longitude: Double) : ItemsActions()
     data class UpdateItemClicked(val item: ItemModel) : ItemsActions()
     object CloseEditItem : ItemsActions()
 

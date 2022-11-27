@@ -31,8 +31,12 @@
         android:label="EventDetailFragment" />
     <fragment
         android:id="@+id/addEventFragment"
-        android:name="com.utn.frba.mobile.regalapp.eventDetail.AddEventFragment"
-        android:label="AddEventFragment" />
+        android:name="com.utn.frba.mobile.regalapp.addEvent.AddEventFragment"
+        android:label="AddEventFragment" >
+        <action
+            android:id="@+id/openEventListFragment"
+            app:destination="@id/eventListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/itemListFragment"
         android:name="com.utn.frba.mobile.regalapp.itemList.ItemListFragment"

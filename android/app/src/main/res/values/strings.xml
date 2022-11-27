@@ -1,10 +1,24 @@
 <resources>
     <string name="app_name">regalapp</string>
+    <string name="ok">OK</string>
+    <string name="required_fields">Campos obligatorios</string>
+    <string name="error">Error</string>
+
     <!--    HomeScreen-->
     <string name="user_image_content_description">user-image</string>
     <string name="home_screen_title">Home</string>
     <string name="items_bought">%d/%d comprados</string>
     <string name="events">Eventos</string>
+
+    <!--    AddEventScreen-->
+    <string name="create_event">Crear evento</string>
+    <string name="goal_date">Fecha objetivo</string>
+    <string name="create">Crear</string>
+    <string name="new_event_image">Imagen nuevo evento</string>
+    <string name="missing_fields_add_event">Los campos "Nombre" y "Fecha" son obligatorios</string>
+    <string name="add_event_failure_description">"Ocurrió un error al intentar crear el evento, intente nuevamente más tarde"</string>
+    <string name="add_event_success_description">"El evento fue agregado exitosamente a su lista de eventos"</string>
+    <string name="add_event_success_title">¡Evento Creado!</string>
 
     <!--    ItemScreen-->
     <string name="bought_by">Comprado por: %s</string>
@@ -31,6 +45,7 @@
     <!--    ItemDetailScreen-->
     <string name="mark_as_bought">Marcar como comprado</string>
     <string name="unmark_as_bought">Desmarcar como comprado</string>
+    <string name="open_map">Abrir mapa</string>
 
     <!--    EditItemScreen -->
     <string name="edit">Editar</string>
@@ -40,5 +55,8 @@
     <string name="join_to_event_title">Unirse a %1$s</string>
     <string name="you_have_been_invited_to">%1$s te invitó al evento %2$s</string>
     <string name="confirm_event_notifications">Deseo recibir notificaciones de la actividad del evento</string>
+
+    <!--    LocationField -->
+    <string name="no_results_found">No se encontraron resultados</string>
 
 </resources>

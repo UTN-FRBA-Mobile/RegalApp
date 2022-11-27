@@ -62,4 +62,11 @@ object D {
         const val networkResponseAdapter = "com.github.haroldadmin:networkresponseadapter:${V.networkResponseAdapter}"
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${V.loggingInterceptor}"
     }
+
+    object GoogleMaps {
+        const val mapLibraries = "com.google.android.libraries.maps:maps:3.1.0-beta"
+        const val core = "com.google.maps.android:maps-ktx:3.2.1"
+        const val utils = "com.google.maps.android:maps-utils-ktx:3.2.1"
+        const val location = "com.google.android.gms:play-services-location:18.0.0"
+    }
 }

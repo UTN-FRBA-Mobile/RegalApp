@@ -53,6 +53,11 @@ class EventListFragment @Inject constructor(
         observeEvents()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.action(EventsActions.FetchInitialList)
+    }
+
     private fun observeEvents() {
         Timber.i("Events list: subscribing to events")
         lifecycleScope.launch {

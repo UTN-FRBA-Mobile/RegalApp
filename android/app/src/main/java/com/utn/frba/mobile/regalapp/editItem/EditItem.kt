@@ -21,6 +21,7 @@ fun EditItem(
     onQuantityChange: (String) -> Unit = {},
     onPriceChange: (String) -> Unit = {},
     onLocationChange: (String) -> Unit = {},
+    onCoordinatesChange: (lat: Double, lng: Double) -> Unit = {_,_ ->},
     onSaveClicked: (item: ItemModel) -> Unit = {},
 ) {
     if (item != null) {
@@ -31,7 +32,9 @@ fun EditItem(
                 onQuantityChange,
                 onPriceChange,
                 onLocationChange,
+                onCoordinatesChange,
                 readOnly = false,
+
             )
             Spacer(modifier = Modifier.height(20.dp))
             Button(

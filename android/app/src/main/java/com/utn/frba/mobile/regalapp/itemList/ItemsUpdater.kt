@@ -1,6 +1,5 @@
 package com.utn.frba.mobile.regalapp.itemList
 
-import com.utn.frba.mobile.domain.dataStore.UserDataStore
 import io.github.fededri.arch.Next
 import io.github.fededri.arch.interfaces.Updater
 import javax.inject.Inject
@@ -54,6 +53,7 @@ class ItemsUpdater @Inject constructor() :
             is ItemsActions.SetQuantity -> handleSetQuantity(currentState, action)
             is ItemsActions.SetPrice -> handleSetPrice(currentState, action)
             is ItemsActions.SetLocation -> handleSetLocation(currentState, action)
+            is ItemsActions.SetCoordinates -> handleSetCoordinates(currentState, action)
             is ItemsActions.UpdateItemClicked -> handleUpdate(currentState, action)
             is ItemsActions.CloseEditItem -> Next.StateWithEvents(
                 currentState,
@@ -211,6 +211,23 @@ class ItemsUpdater @Inject constructor() :
             currentState.copy(
                 editingItem = currentState.editingItem.copy(
                     location = action.location
+                )
+            )
+        )
+    }
+
+    private fun handleSetCoordinates(
+        currentState: ItemsState,
+        action: ItemsActions.SetCoordinates
+    ): NextResult  {
+        require(currentState.editingItem != null) {
+            "Editing item not set"
+        }
+        return Next.State(
+            currentState.copy(
+                editingItem = currentState.editingItem.copy(
+                    latitude = action.latitude,
+                    longitude = action.longitude,
                 )
             )
         )

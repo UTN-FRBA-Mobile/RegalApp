@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.utn.frba.mobile.regalapp">
 
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="${GEO_API_KEY}" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
         android:name=".RegalApplication"
         android:allowBackup="true"
