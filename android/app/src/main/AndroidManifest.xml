@@ -5,7 +5,7 @@
 
     <meta-data
         android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyCOQitYyksPcr9q3I4QPfBFizvVtWtSGbE" />
+        android:value="${GEO_API_KEY}" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
         android:name=".RegalApplication"
