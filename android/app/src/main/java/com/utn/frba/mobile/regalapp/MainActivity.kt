@@ -7,7 +7,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
+import androidx.lifecycle.lifecycleScope
+import com.utn.frba.mobile.domain.repositories.auth.UserRepository
 import com.utn.frba.mobile.regalapp.di.DaggerFragmentFactory
+import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -20,7 +23,8 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.fragmentFactory = daggerFragmentFactory
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if(
+
+        if (
             ActivityCompat.checkSelfPermission(
                 this,
                 ACCESS_COARSE_LOCATION

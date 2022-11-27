@@ -5,6 +5,6 @@ import com.utn.frba.mobile.domain.models.NetworkResponse
 import com.utn.frba.mobile.domain.models.UserModel
 
 interface UserRepository {
-    suspend fun createAccount(email: String, password: String): NetworkResponse<AuthResult>
+    suspend fun createAccount(email: String, password: String, name: String? = null, lastName: String? = null): NetworkResponse<UserModel>
     suspend fun login(email: String, password: String): NetworkResponse<UserModel>
 }
