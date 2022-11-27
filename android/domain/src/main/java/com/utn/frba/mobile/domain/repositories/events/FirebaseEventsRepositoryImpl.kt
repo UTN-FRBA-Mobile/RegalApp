@@ -1,5 +1,6 @@
 package com.utn.frba.mobile.domain.repositories.events
 
+import android.media.metrics.Event
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -26,16 +27,45 @@ class FirebaseEventsRepositoryImpl @Inject constructor(
     override suspend fun fetchUserEvents(): NetworkResponse<List<EventModel>> =
         safeCall {
             val userId = userDataStore.getLoggedUser().id
-            val queryResult = getEventsCollection()
+
+            // Get events owned by the user
+            val ownsQueryResult = getEventsCollection()
                 .whereEqualTo(EventFields.OWNER_ID.value, userId)
                 .get()
                 .await()
-            val events = queryResult.documents.mapNotNull {
+
+            val ownedEvents = ownsQueryResult.documents.mapNotNull {
                 helper.mapDocumentToEventModel(it)
             }
 
-            return NetworkResponse.Success(events)
+            // Get events where the user was invited
+            val isParticipantQueryResult = getEventsCollection()
+                .whereArrayContains(EventFields.PARTICIPANTS.value, userId)
+                .get()
+                .await()
+
+            val joinedEvents = isParticipantQueryResult.documents.mapNotNull { helper.mapDocumentToEventModel(it) }
+
+            // Make sure we don't repeat events using a set
+            val allEvents = mutableSetOf<EventModel>()
+            allEvents.addAll(ownedEvents)
+            allEvents.addAll(joinedEvents)
+            return NetworkResponse.Success(allEvents.toList())
         }
+
+    override suspend fun joinEvent(eventId: String): NetworkResponse<Unit>  = safeCall {
+        val userId = userDataStore.getLoggedUser().id
+        val eventRef = getEventsCollection().document(eventId)
+        val currentParticipants = getEventModel(eventId).participants
+        val newParticipants = currentParticipants + userId
+        eventRef.update(EventFields.PARTICIPANTS.value, newParticipants)
+        NetworkResponse.Success(Unit)
+    }
+
+    override suspend fun fetchEvent(eventId: String): NetworkResponse<EventModel>  = safeCall {
+        val eventModel = getEventModel(eventId)
+        NetworkResponse.Success(eventModel)
+    }
 
     private fun getEventsCollection(): CollectionReference {
         return db.collection(DBCollections.EVENTS.value)

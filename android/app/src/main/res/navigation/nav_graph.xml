@@ -97,6 +97,10 @@
         android:name="com.utn.frba.mobile.regalapp.joinEvent.JoinEventFragment"
         android:label="JoinEventFragment">
 
+        <action
+            android:id="@+id/openItemsListFromJoinEvent"
+            app:destination="@id/itemListFragment" />
+
         <deepLink
             app:action="ACTION_MAIN"
             app:uri="regalapp://events/join/{eventId}?invitedBy={invitedBy}" />
@@ -106,6 +110,8 @@
         <argument
             android:name="invitedBy"
             app:argType="string" />
+
+
     </fragment>
 
 </navigation>

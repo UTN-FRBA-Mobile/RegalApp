@@ -18,13 +18,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.utn.frba.mobile.regalapp.R
+import io.github.fededri.arch.interfaces.ActionsDispatcher
 
 @Composable
 fun JoinEventScreen(
     invitedBy: String,
     eventName: String,
     isLoggedIn: Boolean,
-    onBackClicked: () -> Unit
+    onBackClicked: () -> Unit,
+    actionsDispatcher: (JoinEventActions) -> Unit
 ) {
     val checked = remember {
         mutableStateOf(false)
@@ -66,7 +68,7 @@ fun JoinEventScreen(
                 }
 
                 if (isLoggedIn) {
-                    Button(onClick = { /*TODO*/ }) {
+                    Button(onClick = { actionsDispatcher(JoinEventActions.JoinEvent) }) {
                         Text(text = "Unirme")
                     }
                 } else {

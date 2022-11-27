@@ -71,6 +71,7 @@ dependencies {
     implementation(D.Android.lifecycleRuntime)
     implementation(D.Android.fragments)
     implementation(D.Android.ktx)
+    implementation(D.Android.lifecycle)
 
     // Navigation
     implementation(D.Navigation.navigationFragment)
@@ -84,6 +85,7 @@ dependencies {
     implementation(D.Compose.runtime)
     implementation(D.Compose.material)
     implementation(D.Compose.activityCompose)
+    implementation(D.Compose.viewModel)
     implementation(project(mapOf("path" to ":domain")))
     implementation("androidx.appcompat:appcompat:1.4.1")
     implementation("com.google.android.material:material:1.4.+")
