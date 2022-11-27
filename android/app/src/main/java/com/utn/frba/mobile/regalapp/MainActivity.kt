@@ -1,5 +1,6 @@
 package com.utn.frba.mobile.regalapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.utn.frba.mobile.regalapp.di.DaggerFragmentFactory
@@ -24,7 +25,11 @@ class MainActivity : AppCompatActivity() {
         }
         application.getUserComponent()
             .activityComponentFactory
-            .create()
+            .create(this)
             .inject(this)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
     }
 }

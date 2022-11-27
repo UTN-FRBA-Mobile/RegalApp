@@ -1,5 +1,7 @@
 package com.utn.frba.mobile.domain.models
 
 data class UserModel(
-    val id: String
+    val id: String,
+    val name: String,
+    val lastName: String
 )

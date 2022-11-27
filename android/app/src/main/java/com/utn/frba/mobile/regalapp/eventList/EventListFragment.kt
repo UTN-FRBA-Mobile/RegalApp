@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.squareup.anvil.annotations.ContributesMultibinding
 import com.utn.frba.mobile.domain.di.ActivityScope
 import com.utn.frba.mobile.domain.di.FragmentKey
+import com.utn.frba.mobile.regalapp.joinEvent.JoinEventFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch

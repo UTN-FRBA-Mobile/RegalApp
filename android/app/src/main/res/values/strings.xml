@@ -34,5 +34,11 @@
 
     <!--    EditItemScreen -->
     <string name="edit">Editar</string>
+    <string name="share_event">Compartir evento</string>
+
+    <!-- Join Event Screen -->
+    <string name="join_to_event_title">Unirse a %1$s</string>
+    <string name="you_have_been_invited_to">%1$s te invitó al evento %2$s</string>
+    <string name="confirm_event_notifications">Deseo recibir notificaciones de la actividad del evento</string>
 
 </resources>

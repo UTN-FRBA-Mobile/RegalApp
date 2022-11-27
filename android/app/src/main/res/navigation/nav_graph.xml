@@ -12,10 +12,18 @@
             app:destination="@id/eventDetailFragment" />
         <action
             android:id="@+id/openItemListFragment"
-            app:destination="@id/itemListFragment" />
+            app:destination="@id/itemListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/openAddEventFragment"
             app:destination="@id/addEventFragment" />
+
+        <action
+            android:id="@+id/openJoinEventFragment"
+            app:destination="@id/joinEventFragment" />
     </fragment>
     <fragment
         android:id="@+id/eventDetailFragment"
@@ -79,6 +87,21 @@
         <action
             android:id="@+id/closeEditItem"
             app:destination="@id/itemDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/joinEventFragment"
+        android:name="com.utn.frba.mobile.regalapp.joinEvent.JoinEventFragment"
+        android:label="JoinEventFragment">
+
+        <deepLink
+            app:action="ACTION_MAIN"
+            app:uri="regalapp://events/join/{eventId}?invitedBy={invitedBy}" />
+
+        <argument android:name="eventId" />
+
+        <argument
+            android:name="invitedBy"
+            app:argType="string" />
     </fragment>
 
 </navigation>

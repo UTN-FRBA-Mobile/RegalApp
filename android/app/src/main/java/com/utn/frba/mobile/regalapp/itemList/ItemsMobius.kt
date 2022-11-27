@@ -53,6 +53,8 @@ sealed class ItemsActions {
     data class HandleItemsList(val items: List<ItemModel>) : ItemsActions()
 
     object HandleError : ItemsActions()
+    object ShareInvitationToEvent : ItemsActions()
+    object NO_OP: ItemsActions()
     //endregion
 }
 
@@ -65,11 +67,16 @@ sealed class ItemSideEffects(
         val eventId: String,
         val itemId: String,
         val item: ItemModel,
-    ): ItemSideEffects()
+    ) : ItemSideEffects()
+
     data class ChangeItemStatus(
         val eventId: String,
         val itemId: String,
         val item: ItemModel,
+    ) : ItemSideEffects()
+
+    data class ShareInvitationToEvent(
+        val eventId: String
     ): ItemSideEffects()
 }
 

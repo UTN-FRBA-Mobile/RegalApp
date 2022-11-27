@@ -18,7 +18,12 @@ class ItemsUpdater @Inject constructor() :
             is ItemsActions.FetchInitialList -> fetchInitialList(currentState, action)
             is ItemsActions.OpenEventDetails -> openEventDetails(currentState, action)
             is ItemsActions.OpenItemDetails -> openItemDetails(currentState, action)
-            is ItemsActions.HandleItemsList -> Next.State(currentState.copy(items = action.items, filteredItems = action.items))
+            is ItemsActions.HandleItemsList -> Next.State(
+                currentState.copy(
+                    items = action.items,
+                    filteredItems = action.items
+                )
+            )
             is ItemsActions.AddItemClicked -> Next.StateWithEvents(
                 currentState,
                 setOf(ListEvents.OpenAddItemScreen)
@@ -54,7 +59,22 @@ class ItemsUpdater @Inject constructor() :
                 currentState,
                 setOf(ListEvents.CloseDetailPressed)
             )
+            is ItemsActions.ShareInvitationToEvent -> handleShareInvitationToEvent(
+                action,
+                currentState
+            )
+            is ItemsActions.NO_OP -> Next.State(currentState)
         }
+    }
+
+    private fun handleShareInvitationToEvent(
+        action: ItemsActions.ShareInvitationToEvent,
+        currentState: ItemsState
+    ): NextResult {
+        return Next.StateWithSideEffects(
+            currentState,
+            setOf(ItemSideEffects.ShareInvitationToEvent(currentState.eventId))
+        )
     }
 
     private fun handleFilterItems(
@@ -134,7 +154,7 @@ class ItemsUpdater @Inject constructor() :
     private fun handleSetName(
         currentState: ItemsState,
         action: ItemsActions.SetName
-    ): NextResult  {
+    ): NextResult {
         require(currentState.editingItem != null) {
             "Editing item not set"
         }
@@ -150,7 +170,7 @@ class ItemsUpdater @Inject constructor() :
     private fun handleSetQuantity(
         currentState: ItemsState,
         action: ItemsActions.SetQuantity
-    ): NextResult  {
+    ): NextResult {
         require(currentState.editingItem != null) {
             "Editing item not set"
         }
@@ -183,7 +203,7 @@ class ItemsUpdater @Inject constructor() :
     private fun handleSetLocation(
         currentState: ItemsState,
         action: ItemsActions.SetLocation
-    ): NextResult  {
+    ): NextResult {
         require(currentState.editingItem != null) {
             "Editing item not set"
         }

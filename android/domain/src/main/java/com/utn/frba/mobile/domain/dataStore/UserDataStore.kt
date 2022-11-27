@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.squareup.anvil.annotations.ContributesBinding
 import com.utn.frba.mobile.domain.di.AppScope
+import com.utn.frba.mobile.domain.di.qualifiers.AppContext
 import com.utn.frba.mobile.domain.models.UserModel
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
@@ -29,10 +30,13 @@ interface UserDataStore {
 
 @ContributesBinding(AppScope::class)
 class UserProviderImpl @Inject constructor(
-    private val context: Context
+    @AppContext private val context: Context
 ) : UserDataStore {
 
+    // TODO Would be better to create a scheme using Proto
     private val idKey = stringPreferencesKey("user_id")
+    private val nameKey = stringPreferencesKey("user_name")
+    private val lastNameKey = stringPreferencesKey("user_lastname")
 
     override suspend fun getLoggedUser(): UserModel {
         val user = getLoggedUserOrNull()
@@ -45,12 +49,19 @@ class UserProviderImpl @Inject constructor(
     override suspend fun getLoggedUserOrNull(): UserModel? {
         val flow = context.dataStore.data
             .map { preferences ->
-                preferences[idKey]
+                val id = preferences[idKey]
+                val name = preferences[nameKey].orEmpty()
+                val lastName = preferences[lastNameKey].orEmpty()
+                if (id != null) {
+                    UserModel(id, name, lastName)
+                } else {
+                    null
+                }
             }
             .filterNotNull()
 
         return try {
-            UserModel(flow.first())
+            flow.first()
         } catch (e: Exception) {
             Timber.e(e)
             null
@@ -60,6 +71,8 @@ class UserProviderImpl @Inject constructor(
     override suspend fun setUser(userModel: UserModel) {
         context.dataStore.edit { preferences ->
             preferences[idKey] = userModel.id
+            preferences[nameKey] = userModel.name
+            preferences[lastNameKey] = userModel.lastName
         }
     }
 }
