@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -38,6 +39,9 @@ fun ItemScreen(viewModel: ItemsViewModel) {
                 onSettingsClick = {
                     viewModel.action(ItemsActions.OpenEventDetails)
                 },
+                onShareClick = {
+                    viewModel.action(ItemsActions.ShareInvitationToEvent)
+                }
             )
         },
         content = { innerPadding ->
@@ -65,7 +69,12 @@ fun ItemScreen(viewModel: ItemsViewModel) {
 }
 
 @Composable
-fun ItemsScreenTopBar(title: String, onSettingsClick: () -> Unit, onBackClick: () -> Unit) {
+fun ItemsScreenTopBar(
+    title: String,
+    onSettingsClick: () -> Unit,
+    onBackClick: () -> Unit,
+    onShareClick: () -> Unit
+) {
     TopAppBar(title = {
         Image(
             painter = painterResource(id = R.drawable.event_placeholder),
@@ -78,6 +87,13 @@ fun ItemsScreenTopBar(title: String, onSettingsClick: () -> Unit, onBackClick: (
         Spacer(modifier = Modifier.width(10.dp))
         Text(text = title)
     }, actions = {
+        IconButton(onClick = onShareClick) {
+            Icon(
+                imageVector = Icons.Filled.Share,
+                contentDescription = stringResource(id = R.string.share_event)
+            )
+        }
+
         IconButton(onClick = {
             onSettingsClick()
         }) {

@@ -1,5 +1,6 @@
 import com.utn.frba.mobile.regalapp.AppConfig
 import com.utn.frba.mobile.regalapp.D
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
     id("com.android.library")
@@ -8,6 +9,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
     id("kotlin-parcelize")
     id("com.squareup.anvil") version "2.4.2"
+    kotlin("kapt")
 }
 
 android {
@@ -25,16 +27,13 @@ android {
     }
 }
 
-anvil {
-    generateDaggerFactories.set(true)
-}
-
 dependencies {
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.5.1")
 
     // Dagger
     implementation(D.Dagger.dagger2)
+    kapt(D.Dagger.compiler)
 
     // DataStore
     implementation(D.DataStore.core)
