@@ -48,6 +48,7 @@ class ItemsUpdater @Inject constructor() :
             is ItemsActions.SetQuantity -> handleSetQuantity(currentState, action)
             is ItemsActions.SetPrice -> handleSetPrice(currentState, action)
             is ItemsActions.SetLocation -> handleSetLocation(currentState, action)
+            is ItemsActions.SetCoordinates -> handleSetCoordinates(currentState, action)
             is ItemsActions.UpdateItemClicked -> handleUpdate(currentState, action)
             is ItemsActions.HandleUpdateSucceeded -> handleUpdateSucceeded(currentState, action)
             is ItemsActions.CloseEditItem -> handleCloseEditItem(currentState, action)
@@ -188,6 +189,23 @@ class ItemsUpdater @Inject constructor() :
             currentState.copy(
                 editingItem = currentState.editingItem.copy(
                     location = action.location
+                )
+            )
+        )
+    }
+
+    private fun handleSetCoordinates(
+        currentState: ItemsState,
+        action: ItemsActions.SetCoordinates
+    ): NextResult  {
+        require(currentState.editingItem != null) {
+            "Editing item not set"
+        }
+        return Next.State(
+            currentState.copy(
+                editingItem = currentState.editingItem.copy(
+                    latitude = action.latitude,
+                    longitude = action.longitude,
                 )
             )
         )

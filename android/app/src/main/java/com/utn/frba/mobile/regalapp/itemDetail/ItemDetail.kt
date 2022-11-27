@@ -17,12 +17,17 @@ import com.utn.frba.mobile.regalapp.addItem.ItemForm
 @Composable
 fun ItemDetail(
     item: ItemModel?,
-    onChangeStatus: (item: ItemModel) -> Unit
+    onChangeStatus: (item: ItemModel) -> Unit,
 ) {
     if (item != null) {
         Column() {
             ItemForm(
                 item = item,
+                onCoordinatesChange = { lat, lng ->
+                    // TODO Si no pongo esto falla
+                    println(lat)
+                    println(lng)
+                },
                 readOnly = true,
             )
             Spacer(modifier = Modifier.height(20.dp))

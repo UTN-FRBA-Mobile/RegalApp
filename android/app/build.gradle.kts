@@ -10,6 +10,7 @@ plugins {
     kotlin("kapt")
     id("androidx.navigation.safeargs")
     id("com.google.gms.google-services")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -114,4 +115,9 @@ dependencies {
 
     // Image loading and caching
     implementation(D.Landscapist.glide)
+
+    // GoogleMaps
+    implementation(D.GoogleMaps.core)
+    implementation(D.GoogleMaps.utils)
+    implementation(D.GoogleMaps.location)
 }
