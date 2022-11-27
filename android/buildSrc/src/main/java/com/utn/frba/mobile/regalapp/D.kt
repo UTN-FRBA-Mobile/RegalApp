@@ -40,6 +40,10 @@ object D {
         const val authentication = "com.google.firebase:firebase-auth"
         const val authenticationKtx = "com.google.firebase:firebase-auth-ktx"
         const val firestore = "com.google.firebase:firebase-firestore-ktx"
+        const val messaging = "com.google.firebase:firebase-messaging"
+        const val messagingKtx = "com.google.firebase:firebase-messaging-ktx"
+        const val analytics = "com.google.firebase:firebase-analytics"
+        const val analyticsKtx = "com.google.firebase:firebase-analytics-ktx"
     }
 
     object Landscapist {
