@@ -89,6 +89,19 @@ fun LoginScreen(viewModel: AuthenticationViewModel) {
             Spacer(modifier = Modifier.weight(1f))
             TextField(
                 label = {
+                    Text(stringResource(R.string.reg_lastName))
+                },
+                value = state.reg_lastName.orEmpty(),
+                onValueChange = {
+                    viewModel.action(AuthenticationActions.SetRegLastName(it))
+                }
+            )
+            Spacer(modifier = Modifier.weight(1f))
+        }
+        Row() {
+            Spacer(modifier = Modifier.weight(1f))
+            TextField(
+                label = {
                     Text(stringResource(R.string.reg_email))
                 },
                 value = state.reg_email.orEmpty(),

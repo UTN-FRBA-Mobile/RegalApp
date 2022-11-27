@@ -33,6 +33,7 @@
     <string name="password">Contraseña</string>
     <string name="email">Email</string>
     <string name="reg_name">Nombre</string>
+    <string name="reg_lastName">Apellido</string>
     <string name="reg_email">Email</string>
     <string name="reg_password">Contraseña</string>
     <string name="reg_password_again">Confirmar contraseña</string>
