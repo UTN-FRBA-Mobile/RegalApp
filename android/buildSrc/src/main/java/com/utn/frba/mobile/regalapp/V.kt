@@ -4,7 +4,7 @@ object V {
     const val arch = "0.5"
     const val compose = "1.1.0-beta01"
     const val activityCompose = "1.3.1"
-    const val androidxLifecycle = "2.3.1"
+    const val androidxLifecycle = "2.5.1"
     const val androidXCore = "1.7.0"
     const val junit = "4.13.2"
     const val retrofit = "2.9.0"
