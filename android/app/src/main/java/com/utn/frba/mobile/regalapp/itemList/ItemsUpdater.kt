@@ -64,6 +64,7 @@ class ItemsUpdater @Inject constructor() :
                 currentState
             )
             is ItemsActions.NO_OP -> Next.State(currentState)
+            is ItemsActions.HandleUpdateSucceeded -> handleUpdateSucceeded(currentState, action)
         }
     }
 
@@ -108,8 +109,12 @@ class ItemsUpdater @Inject constructor() :
         currentState: ItemsState,
         action: ItemsActions.FetchInitialList
     ): NextResult {
-        // TODO
-        return Next.State(currentState)
+        return Next.StateWithSideEffects(
+            currentState,
+            setOf(
+                ItemSideEffects.LoadItemsList(currentState.eventId)
+            )
+        )
     }
 
     private fun openEventDetails(
@@ -245,7 +250,9 @@ class ItemsUpdater @Inject constructor() :
             "Editing item not set"
         }
         return Next.StateWithSideEffects(
-            currentState,
+            currentState.copy(
+                isLoading = true
+            ),
             setOf(
                 ItemSideEffects.UpdateItem(
                     eventId = eventId,
@@ -253,6 +260,37 @@ class ItemsUpdater @Inject constructor() :
                     item = currentState.editingItem
                 )
             )
+        )
+    }
+
+    private fun handleUpdateSucceeded(
+        currentState: ItemsState,
+        action: ItemsActions.HandleUpdateSucceeded,
+    ): NextResult {
+
+        return Next.StateWithEvents(
+            currentState.copy(
+                isLoading = false,
+                selectedItem = action.item,
+                items = action.itemList,
+            ),
+            setOf(
+                ListEvents.CloseDetailPressed
+            )
+        )
+    }
+
+
+    private fun handleCloseEditItem(
+        currentState: ItemsState,
+        action: ItemsActions.CloseEditItem
+    ): NextResult {
+        return Next.StateWithEvents(
+            currentState.copy(
+                isLoading = false,
+                selectedItem = action.item ?: currentState.selectedItem,
+            ),
+            setOf(ListEvents.CloseDetailPressed)
         )
     }
 }

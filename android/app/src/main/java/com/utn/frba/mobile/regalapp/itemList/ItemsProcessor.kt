@@ -87,7 +87,7 @@ class ItemsProcessor @Inject constructor(
             item
         )) {
             is NetworkResponse.Success -> {
-                ItemsActions.HandleItemsList(result.data?.items ?: emptyList())
+                ItemsActions.HandleUpdateSucceeded(item, result.data?.items ?: emptyList())
             }
 
             is NetworkResponse.Error -> {
