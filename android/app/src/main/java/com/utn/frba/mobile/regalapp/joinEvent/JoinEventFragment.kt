@@ -36,7 +36,7 @@ class JoinEventFragment @Inject constructor(): Fragment() {
                 ) {
                     JoinEventScreen(
                         args.invitedBy,
-                        "cumpleañito",
+                        "cumpleañito", // TODO get event name
                         true,
                         ::goBack
                     )
