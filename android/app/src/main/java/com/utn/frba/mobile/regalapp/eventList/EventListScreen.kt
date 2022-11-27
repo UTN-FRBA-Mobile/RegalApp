@@ -44,7 +44,7 @@ fun EventListScreen(viewModel: EventsViewModel) {
 }
 
 @Composable
-fun TopBar() {
+private fun TopBar() {
     TopAppBar(title = {
         Image(
             painter = painterResource(id = R.drawable.user_icon_placeholder),

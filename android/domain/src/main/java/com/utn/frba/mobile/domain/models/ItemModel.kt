@@ -6,8 +6,10 @@ data class ItemModel(
     val id: String = UUID.randomUUID().toString(),
     val name: String?,
     val quantity: Long? = 0,
-    val price: Float = 0F,
-    val location: String? = "", // TODO define how use locations
+    val price: Double? = 0.0,
+    val location: String? = "", // Only name
+    val latitude: Double? = null,
+    val longitude: Double? = null,
     val status: Boolean? = false,
 //    val purchasedDate: Date?
     val boughtBy: String? = "",

@@ -1,4 +1,4 @@
-package com.utn.frba.mobile.regalapp.eventList
+package com.utn.frba.mobile.regalapp.editItem
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,26 +10,27 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import com.squareup.anvil.annotations.ContributesMultibinding
 import com.utn.frba.mobile.domain.di.ActivityScope
 import com.utn.frba.mobile.domain.di.FragmentKey
-import com.utn.frba.mobile.regalapp.joinEvent.JoinEventFragment
+import com.utn.frba.mobile.regalapp.R
+import com.utn.frba.mobile.regalapp.itemList.ItemsViewModel
+import com.utn.frba.mobile.regalapp.itemList.ListEvents
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
-@FragmentKey(EventListFragment::class)
+@FragmentKey(EditItemFragment::class)
 @ContributesMultibinding(ActivityScope::class, Fragment::class)
-class EventListFragment @Inject constructor(
-    private val viewModelFactory: EventsViewModel.Factory
+class EditItemFragment @Inject constructor(
+    private val viewModelFactory: ItemsViewModel.Factory
 ) : Fragment() {
 
-    private val viewModel: EventsViewModel by viewModels { viewModelFactory }
+    private val viewModel: ItemsViewModel by navGraphViewModels(R.id.navigation_main) { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,7 +43,7 @@ class EventListFragment @Inject constructor(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    EventListScreen(viewModel)
+                    EditItemScreen(viewModel = viewModel )
                 }
             }
         }
@@ -53,30 +54,16 @@ class EventListFragment @Inject constructor(
         observeEvents()
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.action(EventsActions.FetchInitialList)
-    }
-
     private fun observeEvents() {
-        Timber.i("Events list: subscribing to events")
         lifecycleScope.launch {
             viewModel.observeEvents()
                 .flowOn(Dispatchers.Main)
                 .collect { event ->
-                    Timber.i("Events list received event: $event")
                     when (event) {
-                        is ListEvents.OpenEventDetails -> {
-                            findNavController().navigate(EventListFragmentDirections.openEventDetailFragment())
+                        is ListEvents.CloseEditPressed -> {
+                            findNavController().popBackStack()
                         }
-
-                        is ListEvents.OpenItemsList -> {
-                            findNavController().navigate(EventListFragmentDirections.openItemListFragment(event.event.id, event.event.name))
-                        }
-
-                        is ListEvents.OpenAddEventScreen -> {
-                            findNavController().navigate(EventListFragmentDirections.openAddEventFragment())
-                        }
+                        else -> {}
                     }
                 }
         }

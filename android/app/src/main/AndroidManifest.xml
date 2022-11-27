@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.utn.frba.mobile.regalapp">
 
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="${GEO_API_KEY}" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
         android:name=".RegalApplication"
         android:allowBackup="true"
@@ -14,14 +18,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Regalapp"
         tools:targetApi="31">
+
+
+
         <activity
             android:name=".MainActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Regalapp">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+
+            <nav-graph android:value="@navigation/nav_graph"/>
 
         </activity>
 
@@ -34,6 +40,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 
