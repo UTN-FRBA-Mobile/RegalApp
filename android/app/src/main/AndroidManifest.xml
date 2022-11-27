@@ -7,6 +7,7 @@
         android:name="com.google.android.geo.API_KEY"
         android:value="${GEO_API_KEY}" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".RegalApplication"
         android:allowBackup="true"
