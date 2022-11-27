@@ -40,8 +40,10 @@ class FirestoreHelperImpl @Inject constructor() : FirestoreHelper {
                     hashMap["quantity"] as? Long,
                     hashMap["price"] as? Double,
                     hashMap["location"] as? String,
+                    hashMap["latitude"] as? Double,
+                    hashMap["longitude"] as? Double,
                     hashMap["status"] as? Boolean,
-                    hashMap["boughtBy"] as? String
+                    hashMap["boughtBy"] as? String,
                 )
             }
         } catch (e: Exception) {

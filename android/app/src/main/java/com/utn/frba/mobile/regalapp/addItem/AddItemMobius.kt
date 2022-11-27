@@ -12,6 +12,8 @@ data class AddItemState(
     val quantity: String? = null,
     val price: Double? = null,
     val location: String? = null,
+    val latitude: Double? = null,
+    val longitude: Double? = null,
 )
 
 sealed class AddItemActions {
@@ -22,6 +24,7 @@ sealed class AddItemActions {
     data class SetQuantity(val quantity: String) : AddItemActions()
     data class SetPrice(val price: Double) : AddItemActions()
     data class SetLocation(val location: String) : AddItemActions()
+    data class SetCoordinates(val latitude: Double, val longitude: Double): AddItemActions()
     object SaveItemClicked : AddItemActions()
     data class HandleSaveItemSucceded(val item: ItemModel) : AddItemActions()
     object CancelClicked : AddItemActions()

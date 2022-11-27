@@ -21,6 +21,7 @@ class AddItemUpdater @Inject constructor() :
             is AddItemActions.SetQuantity -> Next.State(currentState.copy(quantity = action.quantity))
             is AddItemActions.SetPrice -> Next.State(currentState.copy(price = action.price))
             is AddItemActions.SetLocation -> Next.State(currentState.copy(location = action.location))
+            is AddItemActions.SetCoordinates -> Next.State(currentState.copy(latitude = action.latitude, longitude = action.longitude))
             is AddItemActions.SaveItemClicked -> handleSave(currentState)
             is AddItemActions.HandleSaveItemSucceded -> handleSaveItemSucceded(currentState, action)
             is AddItemActions.CancelClicked -> handleCancel(currentState)
@@ -56,6 +57,8 @@ class AddItemUpdater @Inject constructor() :
             quantity = currentState.quantity.toLong(),
             price = currentState.price ?: 0.0,
             location = currentState.location,
+            latitude = currentState.latitude,
+            longitude = currentState.longitude,
         )
         return Next.StateWithSideEffects(
             currentState,

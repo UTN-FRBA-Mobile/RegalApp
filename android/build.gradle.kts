@@ -5,6 +5,9 @@ buildscript {
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.5.2")
         classpath("com.google.gms:google-services:4.3.14")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${io.github.fededri.marvel.V.navigationVersion}")
+        plugins {
+            id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin") version "2.0.1" apply false
+        }
     }
 }
 
