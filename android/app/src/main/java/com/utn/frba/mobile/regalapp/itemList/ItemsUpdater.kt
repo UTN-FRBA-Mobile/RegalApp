@@ -86,8 +86,12 @@ class ItemsUpdater @Inject constructor() :
         currentState: ItemsState,
         action: ItemsActions.FetchInitialList
     ): NextResult {
-        // TODO
-        return Next.State(currentState)
+        return Next.StateWithSideEffects(
+            currentState,
+            setOf(
+                ItemSideEffects.LoadItemsList(currentState.eventId)
+            )
+        )
     }
 
     private fun openEventDetails(
