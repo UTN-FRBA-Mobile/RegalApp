@@ -111,7 +111,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.utn.frba.mobile.regalapp.profile.ProfileFragment"
+        android:name="com.utn.frba.mobile.regalapp.login.ProfileFragment"
         android:label="ProfileFragment" >
     </fragment>
 

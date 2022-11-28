@@ -1,4 +1,4 @@
-package com.utn.frba.mobile.regalapp.profile
+package com.utn.frba.mobile.regalapp.login
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -31,8 +31,8 @@ import javax.inject.Inject
 
 @FragmentKey(ProfileFragment::class)
 @ContributesMultibinding(ActivityScope::class, Fragment::class)
-class ProfileFragment @Inject constructor() : Fragment() {
-    //val viewModel: ProfileViewModel by navGraphViewModels(R.id.navigation_main) { viewModelFactory }
+class ProfileFragment @Inject constructor(private val viewModelFactory: AuthenticationViewModel.Factory) : Fragment() {
+    val viewModel: AuthenticationViewModel by viewModels<AuthenticationViewModel> { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,8 +45,8 @@ class ProfileFragment @Inject constructor() : Fragment() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    //ProfileScreen(viewModel)
-                    Text(text = "BASE DE PERFIL")
+                    ProfileScreen(viewModel)
+                    //Text(text = "BASE DE PERFIL")
                 }
             }
         }
