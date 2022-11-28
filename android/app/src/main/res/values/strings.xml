@@ -15,10 +15,17 @@
     <string name="goal_date">Fecha objetivo</string>
     <string name="create">Crear</string>
     <string name="new_event_image">Imagen nuevo evento</string>
-    <string name="missing_fields_add_event">Los campos "Nombre" y "Fecha" son obligatorios</string>
+    <string name="missing_fields_add_event">Los campos Nombre y Fecha son obligatorios</string>
     <string name="add_event_failure_description">"Ocurrió un error al intentar crear el evento, intente nuevamente más tarde"</string>
     <string name="add_event_success_description">"El evento fue agregado exitosamente a su lista de eventos"</string>
     <string name="add_event_success_title">¡Evento Creado!</string>
+
+    <!--    EditEventScreen -->
+    <string name="edit_event">Editar evento</string>
+    <string name="edit_event_failure_description">"Ocurrió un error al intentar modificar el evento, intente nuevamente más tarde"</string>
+    <string name="edit_event_success_description">"El evento fue modificado exitosamente"</string>
+    <string name="edit_event_success_title">¡Evento Actualizado!</string>
+
 
     <!--    ItemScreen-->
     <string name="bought_by">Comprado por: %s</string>

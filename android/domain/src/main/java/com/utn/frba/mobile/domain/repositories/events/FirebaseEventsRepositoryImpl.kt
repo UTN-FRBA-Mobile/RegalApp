@@ -51,6 +51,15 @@ class FirebaseEventsRepositoryImpl @Inject constructor(
             return NetworkResponse.Success(eventModel)
         }
 
+    override suspend fun editEvent(
+        eventId: String,
+        data: Map<String, Any>
+    ): NetworkResponse<EventModel> = safeCall {
+        val currentModel = getEventModel(eventId)
+        getEventDocumentReference(eventId).update(data).await()
+        NetworkResponse.Success(currentModel.copy())
+    }
+
     override suspend fun addItems(
         eventId: String,
         items: List<ItemModel>

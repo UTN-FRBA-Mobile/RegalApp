@@ -10,12 +10,13 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import com.squareup.anvil.annotations.ContributesMultibinding
 import com.utn.frba.mobile.domain.di.ActivityScope
 import com.utn.frba.mobile.domain.di.FragmentKey
+import com.utn.frba.mobile.regalapp.R
 import com.utn.frba.mobile.regalapp.joinEvent.JoinEventFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
@@ -29,7 +30,7 @@ class EventListFragment @Inject constructor(
     private val viewModelFactory: EventsViewModel.Factory
 ) : Fragment() {
 
-    private val viewModel: EventsViewModel by viewModels { viewModelFactory }
+    private val viewModel: EventsViewModel by navGraphViewModels(R.id.navigation_main) { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,6 +78,8 @@ class EventListFragment @Inject constructor(
                         is ListEvents.OpenAddEventScreen -> {
                             findNavController().navigate(EventListFragmentDirections.openAddEventFragment())
                         }
+                        // TODO: Revisar
+                        else -> {}
                     }
                 }
         }
