@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.anvil.annotations.ContributesBinding
 import com.utn.frba.mobile.domain.DBCollections
+import com.utn.frba.mobile.domain.dataStore.UserDataStore
 import com.utn.frba.mobile.domain.di.AppScope
 import com.utn.frba.mobile.domain.models.NetworkResponse
 import com.utn.frba.mobile.domain.models.UserModel
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @AppScope
 class FirebaseUserRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
-    private val db: FirebaseFirestore
+    private val db: FirebaseFirestore,
+    private val userDataStore: UserDataStore
 ) : UserRepository {
     override suspend fun createAccount(
         email: String,
@@ -51,6 +53,11 @@ class FirebaseUserRepositoryImpl @Inject constructor(
                 NetworkResponse.Success(userModel)
             }
         }
+
+    override suspend fun logout() {
+        auth.signOut()
+        userDataStore.deleteUser()
+    }
 
     override suspend fun login(email: String, password: String): NetworkResponse<UserModel> =
         safeCall {
