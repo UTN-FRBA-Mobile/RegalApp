@@ -42,12 +42,16 @@ sealed class AuthenticationEvents() {
     object LoginFailed : AuthenticationEvents()
     object RegisterFailed : AuthenticationEvents()
     object MissingFields : AuthenticationEvents()
+    object NavigateToSignUp : AuthenticationEvents()
+    object NavigateBack : AuthenticationEvents()
+    object GoToHomeScreen : AuthenticationEvents()
 }
 
 sealed class AuthenticationActions {
     data class SetEmail(val email: String) : AuthenticationActions()
     data class SetPassword(val password: String) : AuthenticationActions()
     object LoginClicked : AuthenticationActions()
+    object GoToSignUpClicked : AuthenticationActions()
     object RegisterClicked : AuthenticationActions()
 
     data class SetRegName(val reg_name: String) : AuthenticationActions()
@@ -84,6 +88,12 @@ class AuthenticationUpdater @Inject constructor() :
         return when (action) {
             is AuthenticationActions.LoginClicked -> handleLoginClicked(currentState)
             is AuthenticationActions.RegisterClicked -> handleRegisterClicked(currentState)
+            is AuthenticationActions.GoToSignUpClicked -> Next.StateWithEvents(
+                currentState,
+                setOf(
+                    AuthenticationEvents.NavigateToSignUp
+                )
+            )
 
             is AuthenticationActions.SetEmail -> Next.State(currentState.copy(email = action.email))
             is AuthenticationActions.SetPassword -> Next.State(currentState.copy(password = action.password))
@@ -146,7 +156,12 @@ class AuthenticationUpdater @Inject constructor() :
         currentState: AuthenticationState,
         action: AuthenticationActions.HandleRegisterSucceeded
     ): NextResult {
-        return Next.State(currentState.copy(isLoadingReg = false))
+        return Next.StateWithEvents(
+            currentState.copy(isLoadingReg = false),
+            setOf(
+                AuthenticationEvents.GoToHomeScreen
+            )
+        )
     }
 
 

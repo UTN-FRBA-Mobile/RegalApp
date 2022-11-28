@@ -13,6 +13,7 @@ object V {
     const val dagger = "2.43.2"
     const val timber = "5.0.1"
     const val fragmentVersion = "1.5.2"
+    const val activityVersion = "1.6.1"
     const val navigationVersion = "2.3.1"
     const val appCompat = "1.5.1"
     const val networkResponseAdapter = "5.0.0"

@@ -8,9 +8,7 @@ import androidx.compose.material.Surface
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
@@ -20,7 +18,7 @@ import com.squareup.anvil.annotations.ContributesMultibinding
 import com.utn.frba.mobile.domain.di.ActivityScope
 import com.utn.frba.mobile.domain.di.FragmentKey
 import com.utn.frba.mobile.domain.repositories.auth.UserRepository
-import com.utn.frba.mobile.regalapp.login.LoginActivity
+import com.utn.frba.mobile.regalapp.login.AuthActivity
 import com.utn.frba.mobile.regalapp.login.ProfileScreen
 import com.utn.frba.mobile.regalapp.map.ProfileActions
 import com.utn.frba.mobile.regalapp.map.ProfileViewModel
@@ -50,7 +48,7 @@ class ProfileFragment @Inject constructor(
                         ProfileScreen(viewModel) {
                             lifecycleScope.launch {
                                 userRepository.logout()
-                                startActivity(Intent(requireActivity(), LoginActivity::class.java))
+                                startActivity(Intent(requireActivity(), AuthActivity::class.java))
                             }
                         }
                     }

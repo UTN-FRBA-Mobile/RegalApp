@@ -64,86 +64,11 @@ fun LoginScreen(viewModel: AuthenticationViewModel) {
             CircularProgressIndicator()
         }
 
-
-
-
-
-
-
-
-
-        Row() {
-            Spacer(modifier = Modifier.weight(1f))
-            TextField(
-                label = {
-                    Text(stringResource(R.string.reg_name))
-                },
-                value = state.reg_name.orEmpty(),
-                onValueChange = {
-                    viewModel.action(AuthenticationActions.SetRegName(it))
-                }
-            )
-            Spacer(modifier = Modifier.weight(1f))
-        }
-        Row() {
-            Spacer(modifier = Modifier.weight(1f))
-            TextField(
-                label = {
-                    Text(stringResource(R.string.reg_lastName))
-                },
-                value = state.reg_lastName.orEmpty(),
-                onValueChange = {
-                    viewModel.action(AuthenticationActions.SetRegLastName(it))
-                }
-            )
-            Spacer(modifier = Modifier.weight(1f))
-        }
-        Row() {
-            Spacer(modifier = Modifier.weight(1f))
-            TextField(
-                label = {
-                    Text(stringResource(R.string.reg_email))
-                },
-                value = state.reg_email.orEmpty(),
-                onValueChange = {
-                    viewModel.action(AuthenticationActions.SetRegEmail(it))
-                }
-            )
-            Spacer(modifier = Modifier.weight(1f))
-        }
-
-        // Password
-        TextField(
-            value = state.reg_password.orEmpty(),
-            label = {
-                Text(stringResource(R.string.reg_password))
-            },
-            modifier = Modifier.padding(top = 8.dp),
-            visualTransformation = PasswordVisualTransformation(),
-            onValueChange = {
-                viewModel.action(AuthenticationActions.SetRegPassword(it))
-            }
-        )
-        TextField(
-            value = state.reg_password_again.orEmpty(),
-            label = {
-                Text(stringResource(R.string.reg_password_again))
-            },
-            modifier = Modifier.padding(top = 8.dp),
-            visualTransformation = PasswordVisualTransformation(),
-            onValueChange = {
-                viewModel.action(AuthenticationActions.SetRegPasswordAgain(it))
-            }
-        )
-
         Button(onClick = {
-            viewModel.action(AuthenticationActions.RegisterClicked)
+            viewModel.action(AuthenticationActions.GoToSignUpClicked)
         }) {
-            Text(stringResource(R.string.register))
+            Text(stringResource(R.string.signup))
         }
 
-        if (state.isLoadingReg) {
-            CircularProgressIndicator()
-        }
     }
 }
