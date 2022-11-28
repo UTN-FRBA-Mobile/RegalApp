@@ -21,6 +21,7 @@ enum class EventFields(val value: String) {
     NAME("name"),
     OWNER_ID("owner_id"),
     ITEMS("items"),
+    DATE("date"),
     PARTICIPANTS("participants")
 }
 

@@ -10,14 +10,16 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
+import androidx.navigation.navGraphViewModels
 import com.squareup.anvil.annotations.ContributesMultibinding
 import com.utn.frba.mobile.domain.di.ActivityScope
 import com.utn.frba.mobile.domain.di.FragmentKey
+import com.utn.frba.mobile.regalapp.R
+import com.utn.frba.mobile.regalapp.joinEvent.JoinEventFragment
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -30,7 +32,7 @@ class EventListFragment @Inject constructor(
     private val viewModelFactory: EventsViewModel.Factory
 ) : Fragment() {
 
-    private val viewModel: EventsViewModel by viewModels { viewModelFactory }
+    private val viewModel: EventsViewModel by navGraphViewModels(R.id.navigation_main) { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -87,9 +89,11 @@ class EventListFragment @Inject constructor(
                         is ListEvents.OpenAddEventScreen -> { // 5
                             findNavController().navigate(EventListFragmentDirections.openAddEventFragment())
                         }
+                        // TODO: Revisar
                         is ListEvents.OpenProfileScreen -> {
                             findNavController().navigate(EventListFragmentDirections.openProfileFragment())
                         }
+                        else -> {}
                     }
                 }
         }

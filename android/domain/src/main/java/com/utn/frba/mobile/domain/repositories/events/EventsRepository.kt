@@ -6,6 +6,7 @@ interface EventsRepository {
     suspend fun fetchUserEvents(): NetworkResponse<List<EventModel>>
     suspend fun fetchEvent(eventId: String): NetworkResponse<EventModel>
     suspend fun createEvent(data: Map<String, Any>): NetworkResponse<EventModel>
+    suspend fun editEvent(eventId: String, data: Map<String, Any>): NetworkResponse<EventModel>
     suspend fun addItems(eventId: String, items: List<ItemModel>): NetworkResponse<EventModel>
     suspend fun editItem(eventId: String, itemId: String, model: ItemModel): NetworkResponse<EventModel>
 
