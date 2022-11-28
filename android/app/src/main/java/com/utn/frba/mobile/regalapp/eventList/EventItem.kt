@@ -20,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.utn.frba.mobile.domain.models.EventModel
+import com.utn.frba.mobile.domain.models.ItemModel
 import com.utn.frba.mobile.regalapp.R
 
 @Composable
@@ -58,7 +59,7 @@ fun EventItem(event: EventModel, onEventClicked: (EventModel) -> Unit) {
                 ) {
                     Text(text = event.name)
                     Text(
-                        text = stringResource(id = R.string.items_bought, 2, 3)
+                        text = getItemSubtext(event.items)
                     )
                 }
                 Spacer(modifier = Modifier.weight(1F))
@@ -66,4 +67,16 @@ fun EventItem(event: EventModel, onEventClicked: (EventModel) -> Unit) {
         }
         Spacer(modifier = Modifier.width(20.dp))
     }
+}
+
+@Composable
+private fun getItemSubtext(items: List<ItemModel>): String {
+    if (items.isEmpty()) {
+        return stringResource(id = R.string.no_items)
+    }
+    return stringResource(
+        id = R.string.items_bought,
+        items.count { it.status == true },
+        items.size,
+    )
 }
