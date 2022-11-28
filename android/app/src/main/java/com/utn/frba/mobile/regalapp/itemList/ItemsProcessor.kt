@@ -105,30 +105,32 @@ class ItemsProcessor @Inject constructor(
     private suspend fun notifyItemBought(
         effect: ItemSideEffects.NotifyItemBought
     ): ItemsActions {
-        val userModel = userDataStore.getLoggedUser()
         val item = effect.item
-        // TODO Query para obtener usuarios a mandar notifiacion
-        val eventSettings = eventsRepository.fetchEventSettingsList(effect.eventId).data
-        Timber.i("Notifications: Received $eventSettings")
+        if (item.status!!) {
+            val userModel = userDataStore.getLoggedUser()
+
+            val eventSettings = eventsRepository.fetchEventSettingsList(effect.eventId).data
+            Timber.i("Notifications: Received $eventSettings")
 
 
-        eventSettings?.map { eventSetting ->
-            if(eventSetting.notify) {
-                val userToNotify = userRepository.fetchUser(eventSetting.userId).data
-                if (userToNotify != null) {
-                    Timber.i("Enviando mensaje a ${userToNotify.name} con token ${userToNotify.deviceToken}")
-                    if (!userToNotify.deviceToken.isNullOrBlank()) {
-                        val body = NotificationBody(
-                            userToNotify.deviceToken.orEmpty(),
-                            context.getString(R.string.item_bought_title),
-                            context.getString(
-                                R.string.item_bought_message,
-                                userModel.name,
-                                item.name.orEmpty(),
+            eventSettings?.map { eventSetting ->
+                if(eventSetting.notify) {
+                    val userToNotify = userRepository.fetchUser(eventSetting.userId).data
+                    if (userToNotify != null) {
+                        Timber.i("Notification: Sending notification to ${userToNotify.name} with token ${userToNotify.deviceToken}")
+                        if (!userToNotify.deviceToken.isNullOrBlank()) {
+                            val body = NotificationBody(
+                                userToNotify.deviceToken.orEmpty(),
+                                context.getString(R.string.item_bought_title),
+                                context.getString(
+                                    R.string.item_bought_message,
+                                    userModel.name,
+                                    item.name.orEmpty(),
+                                )
                             )
-                        )
-                        NotificationService().sendNotification(body) { response ->
-                            Timber.i("Mensaje recibido del servidor $response")
+                            NotificationService().sendNotification(body) { response ->
+                                Timber.i("Notification: Received response from server $response")
+                            }
                         }
                     }
                 }
