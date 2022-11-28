@@ -102,6 +102,12 @@ dependencies {
     implementation(D.Firebase.authentication)
     implementation(D.Firebase.authenticationKtx)
     implementation(D.Firebase.firestore)
+    // Add the dependencies for the In-App Messaging and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation(D.Firebase.messaging)
+    implementation(D.Firebase.messagingKtx)
+    implementation(D.Firebase.analytics)
+    implementation(D.Firebase.analyticsKtx)
 
     // Networking
     implementation(D.Retrofit.core)
@@ -122,4 +128,6 @@ dependencies {
     implementation(D.GoogleMaps.core)
     implementation(D.GoogleMaps.utils)
     implementation(D.GoogleMaps.location)
+
+
 }

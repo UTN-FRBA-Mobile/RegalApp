@@ -61,4 +61,8 @@
     <string name="already_joined">Ya estás unido a este evento!</string>
     <string name="error_fetching_event">Ocurrió un error intentando obtener los detalles del evento</string>
 
+    <!--    Notifiactions -->
+    <string name="item_bought_title">Un item fue comprado</string>
+    <string name="item_bought_message">%1$s compró el item %2$s</string>
+
 </resources>

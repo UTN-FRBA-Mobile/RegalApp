@@ -23,6 +23,7 @@ class EventsUpdater @Inject constructor() :
                 currentState,
                 setOf(ListEvents.OpenAddEventScreen)
             )
+            is EventsActions.SetDeviceToken -> handleSetDeviceToken(currentState, action)
         }
     }
 
@@ -61,6 +62,18 @@ class EventsUpdater @Inject constructor() :
         return Next.StateWithEvents(
             currentState.copy(selectedEvent = action.event),
             events = setOf(ListEvents.OpenItemsList(action.event))
+        )
+    }
+
+    private fun handleSetDeviceToken(
+        currentState: EventsState,
+        action: EventsActions.SetDeviceToken
+    ): NextResult {
+        return Next.StateWithSideEffects(
+            currentState,
+            setOf(
+                EventSideEffects.SetDeviceToken(action.token)
+            )
         )
     }
 }

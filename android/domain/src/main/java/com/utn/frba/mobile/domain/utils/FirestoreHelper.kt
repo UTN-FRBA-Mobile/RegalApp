@@ -13,6 +13,7 @@ import javax.inject.Inject
 interface FirestoreHelper {
     fun mapDocumentToEventModel(document: DocumentSnapshot): EventModel
     fun mapDocumentToEventSettings(document: DocumentSnapshot): EventSettings?
+
 }
 
 @ContributesBinding(AppScope::class)
