@@ -12,5 +12,12 @@ interface EventsRepository {
     suspend fun editItem(eventId: String, itemId: String, model: ItemModel): NetworkResponse<EventModel>
 
     suspend fun fetchItemsList(eventId: String): NetworkResponse<List<ItemModel>>
-    suspend fun joinEvent(eventId: String): NetworkResponse<Unit>
+
+    // Event joining
+    suspend fun joinEvent(eventId: String, enablePushNotifications: Boolean): NetworkResponse<String>
+
+    /**
+     * returns true if the user is already joined to the event
+     */
+    suspend fun isAlreadyJoined(eventId: String): NetworkResponse<Boolean>
 }
