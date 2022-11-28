@@ -74,6 +74,7 @@ class LoginFragment @Inject constructor(
                         when (it) {
                             is AuthenticationEvents.LoginFailed -> showInvalidLoginAlert()
                             is AuthenticationEvents.MissingFields -> showMissingFieldsAlert()
+                            is AuthenticationEvents.PasswordsNotEquals -> showPasswordsAlert()
                             is AuthenticationEvents.NavigateToSignUp -> {
                                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignUpFragment())
                             }
@@ -86,13 +87,24 @@ class LoginFragment @Inject constructor(
 
     private fun showMissingFieldsAlert() {
         AlertDialog.Builder(requireContext())
-            .setMessage("Some fields are missing, enter both username and password")
+            .setMessage("Por favor completar todos los campos solicitados!")
             .setTitle(getString(R.string.login_failed))
             .setPositiveButton("Ok") { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
     }
+
+    private fun showPasswordsAlert() {
+        AlertDialog.Builder(requireContext())
+            .setMessage("Las contraseñas ingresadas no coinciden!")
+            .setTitle("Registro fallido")
+            .setPositiveButton("Ok") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
 
     private fun showInvalidLoginAlert() {
         AlertDialog.Builder(requireContext())
@@ -103,5 +115,4 @@ class LoginFragment @Inject constructor(
             }
             .show()
     }
-
 }
