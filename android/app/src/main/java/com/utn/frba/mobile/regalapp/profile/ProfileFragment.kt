@@ -1,38 +1,28 @@
-package com.utn.frba.mobile.regalapp.login
+package com.utn.frba.mobile.regalapp.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.compose.material.Surface
 import android.view.ViewGroup
-import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
 import com.squareup.anvil.annotations.ContributesMultibinding
 import com.utn.frba.mobile.domain.di.ActivityScope
 import com.utn.frba.mobile.domain.di.FragmentKey
-import com.utn.frba.mobile.regalapp.R
-import com.utn.frba.mobile.regalapp.addEvent.AddEventViewModel
-import com.utn.frba.mobile.regalapp.login.AuthenticationViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
-import java.util.*
+import com.utn.frba.mobile.regalapp.login.ProfileScreen
+import com.utn.frba.mobile.regalapp.map.ProfileActions
+import com.utn.frba.mobile.regalapp.map.ProfileViewModel
 import javax.inject.Inject
 
 @FragmentKey(ProfileFragment::class)
 @ContributesMultibinding(ActivityScope::class, Fragment::class)
-class ProfileFragment @Inject constructor(private val viewModelFactory: AuthenticationViewModel.Factory) : Fragment() {
-    val viewModel: AuthenticationViewModel by viewModels<AuthenticationViewModel> { viewModelFactory }
+class ProfileFragment @Inject constructor(private val viewModelFactory: ProfileViewModel.Factory) : Fragment() {
+    val viewModel: ProfileViewModel by viewModels<ProfileViewModel> { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +40,11 @@ class ProfileFragment @Inject constructor(private val viewModelFactory: Authenti
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.action(ProfileActions.FetchUser)
     }
 /*
     override fun onCreate(savedInstanceState: Bundle?) {

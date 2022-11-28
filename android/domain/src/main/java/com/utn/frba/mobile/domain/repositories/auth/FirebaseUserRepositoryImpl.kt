@@ -40,8 +40,11 @@ class FirebaseUserRepositoryImpl @Inject constructor(
                     userValues["lastName"] = lastName
                 }
 
+                userValues["email"] = email
+
                 val userModel = UserModel(
                     userId,
+                    email,
                     name.orEmpty(),
                     lastName.orEmpty()
                 )
@@ -86,6 +89,7 @@ class FirebaseUserRepositoryImpl @Inject constructor(
         val userSnapshot = db.collection(DBCollections.USERS.value).document(userId).get().await()
         val name = userSnapshot.get("name") as? String
         val lastName = userSnapshot.get("lastName") as? String
-        return UserModel(userId, name.orEmpty(), lastName.orEmpty())
+        val email = userSnapshot.get("email") as String
+        return UserModel(userId, email, name.orEmpty(), lastName.orEmpty())
     }
 }

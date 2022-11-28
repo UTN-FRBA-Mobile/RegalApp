@@ -7,12 +7,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.utn.frba.mobile.regalapp.map.ProfileState
+import com.utn.frba.mobile.regalapp.map.ProfileViewModel
 
 @Composable
-fun ProfileScreen(viewModel: AuthenticationViewModel) {
+fun ProfileScreen(viewModel: ProfileViewModel) {
     val state = viewModel.observeState()
-        .collectAsState(initial = AuthenticationState())
-
+        .collectAsState(initial = ProfileState()).value
+    val user = state.user
     Column(
         modifier = Modifier
             .padding(8.dp)
@@ -24,32 +26,25 @@ fun ProfileScreen(viewModel: AuthenticationViewModel) {
         Row() {
             Spacer(modifier = Modifier.weight(1f))
 
-            MostrarEmail()
-
-            //Text(text = "VALOR ACTUAL DE EMAIL DE SESION")
-            /*TextField(
-                label = {
-                    Text(stringResource(R.string.email))
-                },
-                value = state.email.orEmpty(),
-                //placeholder = { Text(text = "VALOR ACTUAL DE EMAIL") },
-                onValueChange = {
-                    //viewModel.action(AuthenticationActions.SetEmail(it))
-
-                }
-            )*/
+            MostrarEmail(
+                user?.email.orEmpty()
+            )
             Spacer(modifier = Modifier.weight(1f))
         }
         Row() {
             Spacer(modifier = Modifier.weight(1f))
 
-            MostrarNombre()
+            MostrarNombre(
+                user?.name.orEmpty()
+            )
             Spacer(modifier = Modifier.weight(1f))
         }
         Row() {
             Spacer(modifier = Modifier.weight(1f))
 
-            MostrarApellido()
+            MostrarApellido(
+                user?.lastName.orEmpty()
+            )
             Spacer(modifier = Modifier.weight(1f))
         }
 
@@ -79,27 +74,33 @@ fun ProfileScreen(viewModel: AuthenticationViewModel) {
 }
 
 @Composable
-fun MostrarEmail() {
+fun MostrarEmail(
+    value: String
+) {
     OutlinedTextField(
-        value = email,
+        value = value,
         onValueChange = { },
         label = { Text("Email") },
         readOnly = true
     )
 }
 @Composable
-fun MostrarNombre() {
+fun MostrarNombre(
+    value: String
+) {
     OutlinedTextField(
-        value = "Gabriel",
+        value = value,
         onValueChange = { },
         label = { Text("Nombre") },
         readOnly = true
     )
 }
 @Composable
-fun MostrarApellido() {
+fun MostrarApellido(
+    value: String
+) {
     OutlinedTextField(
-        value = "Alvarez",
+        value = value,
         onValueChange = { },
         label = { Text("Apellido") },
         readOnly = true
