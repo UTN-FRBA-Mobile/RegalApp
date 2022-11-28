@@ -20,10 +20,12 @@
         <action
             android:id="@+id/openAddEventFragment"
             app:destination="@id/addEventFragment" />
-
         <action
             android:id="@+id/openJoinEventFragment"
             app:destination="@id/joinEventFragment" />
+        <action
+            android:id="@+id/openProfileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/eventDetailFragment"
@@ -112,6 +114,11 @@
             app:argType="string" />
 
 
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.utn.frba.mobile.regalapp.profile.ProfileFragment"
+        android:label="ProfileFragment" >
     </fragment>
 
 </navigation>

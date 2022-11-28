@@ -1,5 +1,8 @@
 package com.utn.frba.mobile.regalapp.eventList
 
+import com.utn.frba.mobile.regalapp.login.AuthenticationEffects
+import com.utn.frba.mobile.regalapp.login.AuthenticationEvents
+import com.utn.frba.mobile.regalapp.login.AuthenticationState
 import io.github.fededri.arch.Next
 import io.github.fededri.arch.interfaces.Updater
 import timber.log.Timber
@@ -21,7 +24,11 @@ class EventsUpdater @Inject constructor() :
             is EventsActions.HandleEventsList -> handleEventsList(currentState, action)
             is EventsActions.AddEventClicked -> Next.StateWithEvents(
                 currentState,
-                setOf(ListEvents.OpenAddEventScreen)
+                setOf(ListEvents.OpenAddEventScreen) // 3
+            )
+            is EventsActions.ProfileClicked -> Next.StateWithEvents(
+                currentState,
+                setOf(ListEvents.OpenProfileScreen)
             )
             is EventsActions.SetDeviceToken -> handleSetDeviceToken(currentState, action)
         }

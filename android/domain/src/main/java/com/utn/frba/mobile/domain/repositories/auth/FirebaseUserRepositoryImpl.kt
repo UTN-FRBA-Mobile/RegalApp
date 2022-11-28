@@ -43,8 +43,11 @@ class FirebaseUserRepositoryImpl @Inject constructor(
                     userValues["lastName"] = lastName
                 }
 
+                userValues["email"] = email
+
                 val userModel = UserModel(
                     userId,
+                    email,
                     name.orEmpty(),
                     lastName.orEmpty()
                 )
@@ -110,16 +113,23 @@ class FirebaseUserRepositoryImpl @Inject constructor(
         val name = userSnapshot["name"] as? String
         val lastName = userSnapshot["lastName"] as? String
         val deviceId = userSnapshot["deviceId"] as? String
+        val email = userSnapshot.get("email") as String
         return UserModel(
             userId,
+            email,
             name.orEmpty(),
             lastName.orEmpty(),
-            deviceId
+            deviceId.orEmpty()
         )
     }
 
     override suspend fun fetchUser(userId: String): NetworkResponse<UserModel> {
         val user = getUserModel(userId)
         return NetworkResponse.Success(user)
+    }
+
+    override suspend fun logout() {
+        auth.signOut()
+        userDataStore.logout()
     }
 }

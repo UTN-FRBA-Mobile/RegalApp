@@ -84,8 +84,11 @@ class EventListFragment @Inject constructor(
                             findNavController().navigate(EventListFragmentDirections.openItemListFragment(event.event.id, event.event.name))
                         }
 
-                        is ListEvents.OpenAddEventScreen -> {
+                        is ListEvents.OpenAddEventScreen -> { // 5
                             findNavController().navigate(EventListFragmentDirections.openAddEventFragment())
+                        }
+                        is ListEvents.OpenProfileScreen -> {
+                            findNavController().navigate(EventListFragmentDirections.openProfileFragment())
                         }
                     }
                 }
