@@ -113,10 +113,10 @@ class FirebaseUserRepositoryImpl @Inject constructor(
         val name = userSnapshot["name"] as? String
         val lastName = userSnapshot["lastName"] as? String
         val deviceId = userSnapshot["deviceId"] as? String
-        val email = userSnapshot.get("email") as String
+        val email = userSnapshot["email"] as? String
         return UserModel(
             userId,
-            email,
+            email.orEmpty(),
             name.orEmpty(),
             lastName.orEmpty(),
             deviceId.orEmpty()

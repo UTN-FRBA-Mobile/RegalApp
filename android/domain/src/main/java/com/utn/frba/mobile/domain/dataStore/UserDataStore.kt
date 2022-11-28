@@ -46,6 +46,7 @@ class UserProviderImpl @Inject constructor(
             it.remove(idKey)
             it.remove(nameKey)
             it.remove(lastNameKey)
+            it.remove(emailKey)
         }
     }
 
