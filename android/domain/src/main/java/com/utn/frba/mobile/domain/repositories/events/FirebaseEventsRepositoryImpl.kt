@@ -7,10 +7,8 @@ import com.squareup.anvil.annotations.ContributesBinding
 import com.utn.frba.mobile.domain.DBCollections
 import com.utn.frba.mobile.domain.dataStore.UserDataStore
 import com.utn.frba.mobile.domain.di.AppScope
+import com.utn.frba.mobile.domain.models.*
 import com.utn.frba.mobile.domain.models.EventFields
-import com.utn.frba.mobile.domain.models.EventModel
-import com.utn.frba.mobile.domain.models.ItemModel
-import com.utn.frba.mobile.domain.models.NetworkResponse
 import com.utn.frba.mobile.domain.utils.FirestoreHelper
 import com.utn.frba.mobile.domain.utils.safeCall
 import kotlinx.coroutines.tasks.await
@@ -26,19 +24,73 @@ class FirebaseEventsRepositoryImpl @Inject constructor(
     override suspend fun fetchUserEvents(): NetworkResponse<List<EventModel>> =
         safeCall {
             val userId = userDataStore.getLoggedUser().id
-            val queryResult = getEventsCollection()
+
+            // Get events owned by the user
+            val ownsQueryResult = getEventsCollection()
                 .whereEqualTo(EventFields.OWNER_ID.value, userId)
                 .get()
                 .await()
-            val events = queryResult.documents.mapNotNull {
+
+            val ownedEvents = ownsQueryResult.documents.mapNotNull {
                 helper.mapDocumentToEventModel(it)
             }
 
-            return NetworkResponse.Success(events)
+            // Get events where the user was invited
+            val isParticipantQueryResult = getEventsCollection()
+                .whereArrayContains(EventFields.PARTICIPANTS.value, userId)
+                .get()
+                .await()
+
+            val joinedEvents = isParticipantQueryResult.documents.mapNotNull { helper.mapDocumentToEventModel(it) }
+
+            // Make sure we don't repeat events using a set
+            val allEvents = mutableSetOf<EventModel>()
+            allEvents.addAll(ownedEvents)
+            allEvents.addAll(joinedEvents)
+            return NetworkResponse.Success(allEvents.toList())
         }
+
+    override suspend fun joinEvent(eventId: String, enablePushNotifications: Boolean): NetworkResponse<String>  = safeCall {
+        val userId = userDataStore.getLoggedUser().id
+        val eventRef = getEventsCollection().document(eventId)
+        val currentParticipants = getEventModel(eventId).participants
+        val newParticipants = currentParticipants + userId
+        eventRef.update(EventFields.PARTICIPANTS.value, newParticipants)
+
+        // set the flag for receiving push notifications
+        db.collection(DBCollections.EVENT_SETTINGS.value)
+            .document(eventId)
+            .set(
+                EventSettings(
+                    eventId,
+                    userId,
+                    enablePushNotifications
+                )
+            )
+
+        val eventName = getEventModel(eventId).name
+        NetworkResponse.Success(eventName)
+    }
+
+    override suspend fun fetchEvent(eventId: String): NetworkResponse<EventModel>  = safeCall {
+        val eventModel = getEventModel(eventId)
+        NetworkResponse.Success(eventModel)
+    }
 
     private fun getEventsCollection(): CollectionReference {
         return db.collection(DBCollections.EVENTS.value)
+    }
+
+    private fun getSettingsCollection(): CollectionReference {
+        return db.collection(DBCollections.EVENT_SETTINGS.value)
+    }
+
+    override suspend fun fetchEventSettingsList(eventId: String): NetworkResponse<List<EventSettings>> = safeCall {
+        val settings = getSettingsCollection().whereEqualTo(
+            "eventId",
+            eventId
+        ).get().await().documents.mapNotNull { helper.mapDocumentToEventSettings(it) }
+        return NetworkResponse.Success(settings)
     }
 
     override suspend fun createEvent(data: Map<String, Any>): NetworkResponse<EventModel> =
@@ -93,6 +145,21 @@ class FirebaseEventsRepositoryImpl @Inject constructor(
         safeCall {
             return NetworkResponse.Success(getEventModel(eventId).items)
         }
+
+    override suspend fun isAlreadyJoined(eventId: String): NetworkResponse<Boolean> = safeCall {
+        val userId = userDataStore.getLoggedUser().id
+
+        val eventsSnapshot = db.collection(DBCollections.EVENTS.value)
+            .whereArrayContains(EventFields.PARTICIPANTS.value, userId)
+            .get()
+            .await()
+
+        val events = eventsSnapshot.documents.map { helper.mapDocumentToEventModel(it) }
+        val isAlreadyJoined = events.find {
+            it.id == eventId
+        } != null
+        NetworkResponse.Success(isAlreadyJoined)
+    }
 
     private suspend fun getEventModel(eventId: String): EventModel {
         val eventRef = getEventDocumentReference(eventId)

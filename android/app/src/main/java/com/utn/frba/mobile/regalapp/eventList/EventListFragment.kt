@@ -13,10 +13,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.squareup.anvil.annotations.ContributesMultibinding
 import com.utn.frba.mobile.domain.di.ActivityScope
 import com.utn.frba.mobile.domain.di.FragmentKey
-import com.utn.frba.mobile.regalapp.joinEvent.JoinEventFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -51,6 +52,15 @@ class EventListFragment @Inject constructor(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         observeEvents()
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+            viewModel.action(EventsActions.SetDeviceToken(token))
+        })
     }
 
     override fun onResume() {

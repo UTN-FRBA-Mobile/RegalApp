@@ -71,6 +71,7 @@ dependencies {
     implementation(D.Android.lifecycleRuntime)
     implementation(D.Android.fragments)
     implementation(D.Android.ktx)
+    implementation(D.Android.lifecycle)
 
     // Navigation
     implementation(D.Navigation.navigationFragment)
@@ -84,6 +85,7 @@ dependencies {
     implementation(D.Compose.runtime)
     implementation(D.Compose.material)
     implementation(D.Compose.activityCompose)
+    implementation(D.Compose.viewModel)
     implementation(project(mapOf("path" to ":domain")))
     implementation("androidx.appcompat:appcompat:1.4.1")
     implementation("com.google.android.material:material:1.4.+")
@@ -100,6 +102,12 @@ dependencies {
     implementation(D.Firebase.authentication)
     implementation(D.Firebase.authenticationKtx)
     implementation(D.Firebase.firestore)
+    // Add the dependencies for the In-App Messaging and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation(D.Firebase.messaging)
+    implementation(D.Firebase.messagingKtx)
+    implementation(D.Firebase.analytics)
+    implementation(D.Firebase.analyticsKtx)
 
     // Networking
     implementation(D.Retrofit.core)
@@ -120,4 +128,6 @@ dependencies {
     implementation(D.GoogleMaps.core)
     implementation(D.GoogleMaps.utils)
     implementation(D.GoogleMaps.location)
+
+
 }

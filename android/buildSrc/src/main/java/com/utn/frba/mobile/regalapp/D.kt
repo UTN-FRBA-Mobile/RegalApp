@@ -10,6 +10,7 @@ object D {
         const val fragments = "androidx.fragment:fragment-ktx:${V.fragmentVersion}"
         const val appcompat = "androidx.appcompat:appcompat:${V.appCompat}"
         const val ktx = "androidx.core:core-ktx:${V.androidKtx}"
+        const val lifecycle = "androidx.lifecycle:lifecycle-viewmodel-ktx:${V.androidxLifecycle}"
     }
 
     object Arch {
@@ -24,6 +25,7 @@ object D {
         const val uiTooling = "androidx.compose.ui:ui-tooling:${V.compose}"
         const val uiTestManifest = "androidx.compose.ui:ui-test-manifest:${V.compose}"
         const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:${V.composeConstraintLayout}"
+        const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:${V.androidxLifecycle}"
     }
 
     object Dagger {
@@ -40,6 +42,10 @@ object D {
         const val authentication = "com.google.firebase:firebase-auth"
         const val authenticationKtx = "com.google.firebase:firebase-auth-ktx"
         const val firestore = "com.google.firebase:firebase-firestore-ktx"
+        const val messaging = "com.google.firebase:firebase-messaging"
+        const val messagingKtx = "com.google.firebase:firebase-messaging-ktx"
+        const val analytics = "com.google.firebase:firebase-analytics"
+        const val analyticsKtx = "com.google.firebase:firebase-analytics-ktx"
     }
 
     object Landscapist {

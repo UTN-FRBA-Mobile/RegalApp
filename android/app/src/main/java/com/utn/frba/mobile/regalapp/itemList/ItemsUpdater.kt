@@ -150,6 +150,10 @@ class ItemsUpdater @Inject constructor() :
                     eventId = currentState.eventId,
                     itemId = currentState.selectedItem?.id ?: "",
                     action.item,
+                ),
+                ItemSideEffects.NotifyItemBought(
+                    item = action.item,
+                    eventId = currentState.eventId,
                 )
             )
         )

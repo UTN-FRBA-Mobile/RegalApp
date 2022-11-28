@@ -23,6 +23,7 @@ sealed class EventsActions {
 
     //region processor actions
     data class HandleEventsList(val events: List<EventModel>) : EventsActions()
+    data class SetDeviceToken(val token: String): EventsActions()
     //endregion
 }
 
@@ -31,6 +32,7 @@ sealed class EventSideEffects(
     override val coroutineScope: CoroutineScope? = null
 ) : SideEffectInterface {
     object LoadEventsList : EventSideEffects()
+    data class SetDeviceToken(val token: String): EventSideEffects()
 }
 
 sealed class ListEvents {

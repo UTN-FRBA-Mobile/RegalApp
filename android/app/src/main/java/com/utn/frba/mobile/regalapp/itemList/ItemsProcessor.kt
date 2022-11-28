@@ -6,12 +6,18 @@ import com.utn.frba.mobile.domain.dataStore.UserDataStore
 import com.utn.frba.mobile.domain.di.qualifiers.ActivityContext
 import com.utn.frba.mobile.domain.models.ItemModel
 import com.utn.frba.mobile.domain.models.NetworkResponse
+import com.utn.frba.mobile.domain.repositories.auth.UserRepository
 import com.utn.frba.mobile.domain.repositories.events.EventsRepository
+import com.utn.frba.mobile.regalapp.R
+import com.utn.frba.mobile.regalapp.notifications.NotificationBody
+import com.utn.frba.mobile.regalapp.notifications.NotificationService
 import io.github.fededri.arch.interfaces.Processor
+import timber.log.Timber
 import javax.inject.Inject
 
 class ItemsProcessor @Inject constructor(
     private val eventsRepository: EventsRepository,
+    private val userRepository: UserRepository,
     private val userDataStore: UserDataStore,
     @ActivityContext private val context: Context
 ) : Processor<ItemSideEffects, ItemsActions> {
@@ -21,6 +27,7 @@ class ItemsProcessor @Inject constructor(
             is ItemSideEffects.UpdateItem -> updateItem(effect)
             is ItemSideEffects.ChangeItemStatus -> handleStatusChange(effect)
             is ItemSideEffects.ShareInvitationToEvent -> shareInvitationToEvent(effect)
+            is ItemSideEffects.NotifyItemBought -> notifyItemBought(effect)
         }
     }
 
@@ -56,7 +63,7 @@ class ItemsProcessor @Inject constructor(
         val user = userDataStore.getLoggedUser()
         val newStatus = !effect.item.status!!
         val newBoughtBy = if (newStatus) user.name else ""
-        return  handleEditItem(
+        return handleEditItem(
             eventId = effect.eventId,
             itemId = effect.itemId,
             item = effect.item.copy(
@@ -94,4 +101,42 @@ class ItemsProcessor @Inject constructor(
                 ItemsActions.HandleError
             }
         }
+
+    private suspend fun notifyItemBought(
+        effect: ItemSideEffects.NotifyItemBought
+    ): ItemsActions {
+        val item = effect.item
+        if (!item.status!!) {
+            val userModel = userDataStore.getLoggedUser()
+
+            val eventSettings = eventsRepository.fetchEventSettingsList(effect.eventId).data
+            Timber.i("Notifications: Received $eventSettings")
+
+
+            eventSettings?.map { eventSetting ->
+                if(eventSetting.notify) {
+                    val userToNotify = userRepository.fetchUser(eventSetting.userId).data
+                    if (userToNotify != null) {
+                        Timber.i("Notification: Sending notification to ${userToNotify.name} with token ${userToNotify.deviceToken}")
+                        if (!userToNotify.deviceToken.isNullOrBlank()) {
+                            val body = NotificationBody(
+                                userToNotify.deviceToken.orEmpty(),
+                                context.getString(R.string.item_bought_title),
+                                context.getString(
+                                    R.string.item_bought_message,
+                                    userModel.name,
+                                    item.name.orEmpty(),
+                                )
+                            )
+                            NotificationService().sendNotification(body) { response ->
+                                Timber.i("Notification: Received response from server $response")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return ItemsActions.NO_OP
+    }
+
 }
