@@ -70,6 +70,7 @@ dependencies {
     implementation(D.Android.androidXCore)
     implementation(D.Android.lifecycleRuntime)
     implementation(D.Android.fragments)
+    implementation(D.Android.activityKtx)
     implementation(D.Android.ktx)
     implementation(D.Android.lifecycle)
 

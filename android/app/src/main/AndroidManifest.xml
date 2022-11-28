@@ -33,7 +33,7 @@
         </activity>
 
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".login.AuthActivity"
             android:exported="true"
             android:theme="@style/Theme.Regalapp">
             <intent-filter>
@@ -41,6 +41,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <nav-graph android:value="@navigation/auth_navigation_graph" />
 
         </activity>
     </application>

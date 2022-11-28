@@ -8,6 +8,7 @@ object D {
         const val lifecycleRuntime =
             "androidx.lifecycle:lifecycle-runtime-ktx:${V.androidxLifecycle}"
         const val fragments = "androidx.fragment:fragment-ktx:${V.fragmentVersion}"
+        const val activityKtx = "androidx.activity:activity-ktx:${V.activityVersion}"
         const val appcompat = "androidx.appcompat:appcompat:${V.appCompat}"
         const val ktx = "androidx.core:core-ktx:${V.androidKtx}"
         const val lifecycle = "androidx.lifecycle:lifecycle-viewmodel-ktx:${V.androidxLifecycle}"
