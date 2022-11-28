@@ -86,10 +86,12 @@ class FirebaseEventsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun fetchEventSettingsList(eventId: String): NetworkResponse<List<EventSettings>> = safeCall {
-        val settings = getSettingsCollection().whereEqualTo(
+        val query = getSettingsCollection().whereEqualTo(
             "eventId",
             eventId
-        ).get().await().documents.mapNotNull { helper.mapDocumentToEventSettings(it) }
+        ).get()
+        val result = query.await()
+        val settings = result.documents.mapNotNull { helper.mapDocumentToEventSettings(it) }
         return NetworkResponse.Success(settings)
     }
 

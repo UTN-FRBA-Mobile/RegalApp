@@ -36,7 +36,15 @@ class FirestoreHelperImpl @Inject constructor() : FirestoreHelper {
     }
 
     override fun mapDocumentToEventSettings(document: DocumentSnapshot): EventSettings? {
-        return document.toObject(EventSettings::class.java)
+        val map = document.data ?: emptyMap()
+        val eventId = map["eventId"].mapToString()
+        val userId = map["userId"].mapToString()
+        val notify = map["notify"].mapToBoolean()
+        return EventSettings(
+            eventId,
+            userId,
+            notify,
+        )
     }
 
     private fun Any?.mapToItemsList(): List<ItemModel>? {
@@ -63,5 +71,8 @@ class FirestoreHelperImpl @Inject constructor() : FirestoreHelper {
 
     private fun Any?.mapToString(): String {
         return (this as? String).orEmpty()
+    }
+    private fun Any?.mapToBoolean(): Boolean {
+        return (this as? Boolean) ?: false
     }
 }
