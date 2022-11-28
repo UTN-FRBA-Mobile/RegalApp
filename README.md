@@ -28,7 +28,7 @@ Para correr la aplicación en el simulador de Android se tiene que configurar el
 > GEO_API_KEY=XXXXXXXXXXXX
 
 ### Deeplink invitaciones
-Como de momento no poseemos un dominio https disponible para la aplicación vamos a utilizar la funcionalidad de deeplink que nos provee el android estudio, por lo tanto el link los links para compartir eventos lo vamos a utilizar a través el emulador.
+Como de momento no poseemos un dominio https disponible para la aplicación vamos a utilizar la funcionalidad de deeplink que nos provee el android estudio, por lo tanto los links para compartir eventos los vamos a utilizar a través el emulador.
 
 <img width="300" src="https://user-images.githubusercontent.com/11763032/204404826-d56bd2eb-2e5d-431d-8db5-8b069466f1ea.gif">
 
