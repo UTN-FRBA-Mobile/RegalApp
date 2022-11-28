@@ -1,27 +1,38 @@
 package com.utn.frba.mobile.regalapp.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.compose.material.Surface
 import android.view.ViewGroup
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.squareup.anvil.annotations.ContributesMultibinding
 import com.utn.frba.mobile.domain.di.ActivityScope
 import com.utn.frba.mobile.domain.di.FragmentKey
+import com.utn.frba.mobile.domain.repositories.auth.UserRepository
+import com.utn.frba.mobile.regalapp.login.LoginActivity
 import com.utn.frba.mobile.regalapp.login.ProfileScreen
 import com.utn.frba.mobile.regalapp.map.ProfileActions
 import com.utn.frba.mobile.regalapp.map.ProfileViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @FragmentKey(ProfileFragment::class)
 @ContributesMultibinding(ActivityScope::class, Fragment::class)
-class ProfileFragment @Inject constructor(private val viewModelFactory: ProfileViewModel.Factory) : Fragment() {
+class ProfileFragment @Inject constructor(
+    private val viewModelFactory: ProfileViewModel.Factory,
+    private val userRepository: UserRepository
+) : Fragment() {
     val viewModel: ProfileViewModel by viewModels<ProfileViewModel> { viewModelFactory }
 
     override fun onCreateView(
@@ -35,7 +46,14 @@ class ProfileFragment @Inject constructor(private val viewModelFactory: ProfileV
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    ProfileScreen(viewModel)
+                    Column() {
+                        ProfileScreen(viewModel) {
+                            lifecycleScope.launch {
+                                userRepository.logout()
+                                startActivity(Intent(requireActivity(), LoginActivity::class.java))
+                            }
+                        }
+                    }
                     //Text(text = "BASE DE PERFIL")
                 }
             }

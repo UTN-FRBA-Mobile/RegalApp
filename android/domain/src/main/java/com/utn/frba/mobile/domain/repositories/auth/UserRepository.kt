@@ -10,4 +10,5 @@ interface UserRepository {
     suspend fun updateAccount(userId: String, values: Map<String, Any>): NetworkResponse<UserModel>
     suspend fun setDeviceToken(token: String): NetworkResponse<UserModel>
     suspend fun fetchUser(userId: String): NetworkResponse<UserModel>
+    suspend fun logout()
 }

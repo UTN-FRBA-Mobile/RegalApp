@@ -127,4 +127,9 @@ class FirebaseUserRepositoryImpl @Inject constructor(
         val user = getUserModel(userId)
         return NetworkResponse.Success(user)
     }
+
+    override suspend fun logout() {
+        auth.signOut()
+        userDataStore.logout()
+    }
 }

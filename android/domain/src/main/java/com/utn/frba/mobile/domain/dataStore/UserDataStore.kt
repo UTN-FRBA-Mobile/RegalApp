@@ -26,6 +26,7 @@ interface UserDataStore {
     suspend fun getLoggedUserOrNull(): UserModel?
 
     suspend fun setUser(userModel: UserModel)
+    suspend fun logout()
 }
 
 @ContributesBinding(AppScope::class)
@@ -38,6 +39,15 @@ class UserProviderImpl @Inject constructor(
     private val nameKey = stringPreferencesKey("user_name")
     private val lastNameKey = stringPreferencesKey("user_lastname")
     private val emailKey = stringPreferencesKey("user_email")
+
+
+    override suspend fun logout() {
+        context.dataStore.edit {
+            it.remove(idKey)
+            it.remove(nameKey)
+            it.remove(lastNameKey)
+        }
+    }
 
     override suspend fun getLoggedUser(): UserModel {
         val user = getLoggedUserOrNull()

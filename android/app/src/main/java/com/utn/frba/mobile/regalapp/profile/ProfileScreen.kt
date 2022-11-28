@@ -1,5 +1,6 @@
 package com.utn.frba.mobile.regalapp.login
 
+import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -7,11 +8,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import com.utn.frba.mobile.regalapp.map.ProfileState
 import com.utn.frba.mobile.regalapp.map.ProfileViewModel
+import kotlinx.coroutines.launch
 
 @Composable
-fun ProfileScreen(viewModel: ProfileViewModel) {
+fun ProfileScreen(viewModel: ProfileViewModel, logout: () -> Unit) {
     val state = viewModel.observeState()
         .collectAsState(initial = ProfileState()).value
     val user = state.user
@@ -46,6 +49,12 @@ fun ProfileScreen(viewModel: ProfileViewModel) {
                 user?.lastName.orEmpty()
             )
             Spacer(modifier = Modifier.weight(1f))
+        }
+
+        Button(onClick = {
+            logout()
+        }) {
+            Text("Log out")
         }
 
         // Password
