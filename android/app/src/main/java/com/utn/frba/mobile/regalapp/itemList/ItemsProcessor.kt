@@ -6,7 +6,7 @@ import com.utn.frba.mobile.domain.dataStore.UserDataStore
 import com.utn.frba.mobile.domain.di.qualifiers.ActivityContext
 import com.utn.frba.mobile.domain.models.ItemModel
 import com.utn.frba.mobile.domain.models.NetworkResponse
-import com.utn.frba.mobile.domain.models.UserModel
+import com.utn.frba.mobile.domain.repositories.auth.UserRepository
 import com.utn.frba.mobile.domain.repositories.events.EventsRepository
 import com.utn.frba.mobile.regalapp.R
 import com.utn.frba.mobile.regalapp.notifications.NotificationBody
@@ -17,6 +17,7 @@ import javax.inject.Inject
 
 class ItemsProcessor @Inject constructor(
     private val eventsRepository: EventsRepository,
+    private val userRepository: UserRepository,
     private val userDataStore: UserDataStore,
     @ActivityContext private val context: Context
 ) : Processor<ItemSideEffects, ItemsActions> {
@@ -107,29 +108,31 @@ class ItemsProcessor @Inject constructor(
         val userModel = userDataStore.getLoggedUser()
         val item = effect.item
         // TODO Query para obtener usuarios a mandar notifiacion
-        val usersToNotify = mutableListOf<UserModel>()
-        usersToNotify.add(userModel)
+        val eventSettings = eventsRepository.fetchEventSettingsList(effect.eventId).data
+        Timber.i("Notifications: Received $eventSettings")
 
 
-
-        usersToNotify.map {
-            it.deviceToken = "cg_EfNrcRIqW-zBAMAYQFV:APA91bFUcFvOCPwH8nIexe7cLulSvEqlXdiUVK2Ga1XTE7mvZ1T7J_s7EiAaHCc9LIG77r78S-yq1B60oyeZM77TVtV-DzXsOMYzJZOZaGLzyNKHPMldgMnhMbijUHZ0GkaIKld2ByCV"
-            Timber.i("Enviando mensaje a ${it.name} con token ${it.deviceToken}")
-            if (!it.deviceToken.isNullOrBlank()) {
-                val body = NotificationBody(
-                    it.deviceToken.orEmpty(),
-                    context.getString(R.string.item_bought_title),
-                    context.getString(
-                        R.string.item_bought_message,
-                        userModel.name,
-                        item.name.orEmpty(),
-                    )
-                )
-                NotificationService().sendNotification(body) { response ->
-                    Timber.i("Mensaje recibido del servidor $response")
+        eventSettings?.map { eventSetting ->
+            if(eventSetting.notify) {
+                val userToNotify = userRepository.fetchUser(eventSetting.userId).data
+                if (userToNotify != null) {
+                    Timber.i("Enviando mensaje a ${userToNotify.name} con token ${userToNotify.deviceToken}")
+                    if (!userToNotify.deviceToken.isNullOrBlank()) {
+                        val body = NotificationBody(
+                            userToNotify.deviceToken.orEmpty(),
+                            context.getString(R.string.item_bought_title),
+                            context.getString(
+                                R.string.item_bought_message,
+                                userModel.name,
+                                item.name.orEmpty(),
+                            )
+                        )
+                        NotificationService().sendNotification(body) { response ->
+                            Timber.i("Mensaje recibido del servidor $response")
+                        }
+                    }
                 }
             }
-
         }
         return ItemsActions.NO_OP
     }

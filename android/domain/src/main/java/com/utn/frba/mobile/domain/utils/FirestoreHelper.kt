@@ -3,14 +3,13 @@ package com.utn.frba.mobile.domain.utils
 import com.google.firebase.firestore.DocumentSnapshot
 import com.squareup.anvil.annotations.ContributesBinding
 import com.utn.frba.mobile.domain.di.AppScope
-import com.utn.frba.mobile.domain.models.EventFields
-import com.utn.frba.mobile.domain.models.EventModel
-import com.utn.frba.mobile.domain.models.ItemModel
+import com.utn.frba.mobile.domain.models.*
 import timber.log.Timber
 import javax.inject.Inject
 
 interface FirestoreHelper {
     fun mapDocumentToEventModel(document: DocumentSnapshot): EventModel
+    fun mapDocumentToEventSettingModel(document: DocumentSnapshot): EventSettingModel
 }
 
 @ContributesBinding(AppScope::class)
@@ -56,5 +55,22 @@ class FirestoreHelperImpl @Inject constructor() : FirestoreHelper {
 
     private fun Any?.mapToString(): String {
         return (this as? String).orEmpty()
+    }
+
+    private fun Any?.mapToBoolean(): Boolean {
+        return (this as? Boolean) ?: false
+    }
+
+    override fun mapDocumentToEventSettingModel(document: DocumentSnapshot): EventSettingModel {
+        val map = document.data ?: emptyMap()
+        val eventId = map[EventSettingFields.EVENT_ID.value].mapToString()
+        val userId = map[EventSettingFields.USER_ID.value].mapToString()
+        val notify = map[EventSettingFields.NOTIFY.value].mapToBoolean()
+
+        return EventSettingModel(
+            eventId,
+            userId,
+            notify,
+        )
     }
 }

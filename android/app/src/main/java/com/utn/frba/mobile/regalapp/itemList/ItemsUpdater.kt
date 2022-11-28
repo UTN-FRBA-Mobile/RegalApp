@@ -152,7 +152,8 @@ class ItemsUpdater @Inject constructor() :
                     action.item,
                 ),
                 ItemSideEffects.NotifyItemBought(
-                    action.item,
+                    item = action.item,
+                    eventId = currentState.eventId,
                 )
             )
         )

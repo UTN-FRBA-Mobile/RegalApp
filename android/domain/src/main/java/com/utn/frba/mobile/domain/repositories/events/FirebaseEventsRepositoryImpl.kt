@@ -1,6 +1,5 @@
 package com.utn.frba.mobile.domain.repositories.events
 
-import android.media.metrics.Event
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -8,10 +7,7 @@ import com.squareup.anvil.annotations.ContributesBinding
 import com.utn.frba.mobile.domain.DBCollections
 import com.utn.frba.mobile.domain.dataStore.UserDataStore
 import com.utn.frba.mobile.domain.di.AppScope
-import com.utn.frba.mobile.domain.models.EventFields
-import com.utn.frba.mobile.domain.models.EventModel
-import com.utn.frba.mobile.domain.models.ItemModel
-import com.utn.frba.mobile.domain.models.NetworkResponse
+import com.utn.frba.mobile.domain.models.*
 import com.utn.frba.mobile.domain.utils.FirestoreHelper
 import com.utn.frba.mobile.domain.utils.safeCall
 import kotlinx.coroutines.tasks.await
@@ -69,6 +65,18 @@ class FirebaseEventsRepositoryImpl @Inject constructor(
 
     private fun getEventsCollection(): CollectionReference {
         return db.collection(DBCollections.EVENTS.value)
+    }
+
+    private fun getSettingsCollection(): CollectionReference {
+        return db.collection(DBCollections.EVENT_SETTINGS.value)
+    }
+
+    override suspend fun fetchEventSettingsList(eventId: String): NetworkResponse<List<EventSettingModel>> = safeCall {
+        val settings = getSettingsCollection().whereEqualTo(
+            EventSettingFields.EVENT_ID.value,
+            eventId
+        ).get().await().documents.mapNotNull { helper.mapDocumentToEventSettingModel(it) }
+        return NetworkResponse.Success(settings)
     }
 
     override suspend fun createEvent(data: Map<String, Any>): NetworkResponse<EventModel> =

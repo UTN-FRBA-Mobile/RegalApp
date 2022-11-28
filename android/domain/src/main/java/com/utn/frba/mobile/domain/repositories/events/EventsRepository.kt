@@ -1,6 +1,7 @@
 package com.utn.frba.mobile.domain.repositories.events
 
 import com.utn.frba.mobile.domain.models.EventModel
+import com.utn.frba.mobile.domain.models.EventSettingModel
 import com.utn.frba.mobile.domain.models.ItemModel
 import com.utn.frba.mobile.domain.models.NetworkResponse
 
@@ -13,4 +14,5 @@ interface EventsRepository {
 
     suspend fun fetchItemsList(eventId: String): NetworkResponse<List<ItemModel>>
     suspend fun joinEvent(eventId: String): NetworkResponse<Unit>
+    suspend fun fetchEventSettingsList(eventId: String): NetworkResponse<List<EventSettingModel>>
 }

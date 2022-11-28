@@ -107,8 +107,19 @@ class FirebaseUserRepositoryImpl @Inject constructor(
 
     private suspend fun getUserModel(userId: String): UserModel {
         val userSnapshot = db.collection(DBCollections.USERS.value).document(userId).get().await()
-        val name = userSnapshot.get("name") as? String
-        val lastName = userSnapshot.get("lastName") as? String
-        return UserModel(userId, name.orEmpty(), lastName.orEmpty())
+        val name = userSnapshot["name"] as? String
+        val lastName = userSnapshot["lastName"] as? String
+        val deviceId = userSnapshot["deviceId"] as? String
+        return UserModel(
+            userId,
+            name.orEmpty(),
+            lastName.orEmpty(),
+            deviceId
+        )
+    }
+
+    override suspend fun fetchUser(userId: String): NetworkResponse<UserModel> {
+        val user = getUserModel(userId)
+        return NetworkResponse.Success(user)
     }
 }
