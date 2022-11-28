@@ -42,6 +42,7 @@ sealed class AuthenticationEvents() {
     object LoginFailed : AuthenticationEvents()
     object RegisterFailed : AuthenticationEvents()
     object MissingFields : AuthenticationEvents()
+    object PasswordsNotEquals : AuthenticationEvents()
     object NavigateToSignUp : AuthenticationEvents()
     object NavigateBack : AuthenticationEvents()
     object GoToHomeScreen : AuthenticationEvents()
@@ -183,18 +184,23 @@ class AuthenticationUpdater @Inject constructor() :
 
 
     private fun handleRegisterClicked(currentState: AuthenticationState): NextResult {
-        return if (currentState.reg_email != null && currentState.reg_password != null && currentState.reg_name != null && currentState.reg_lastName != null) {
-            Next.StateWithSideEffects(
-                currentState.copy(isLoadingReg = true),
-                setOf(
-                    AuthenticationEffects.Register(
-                        currentState.reg_email,
-                        currentState.reg_password,
-                        currentState.reg_name,
-                        currentState.reg_lastName
+        //return if (currentState.reg_email != null && currentState.reg_password != null && currentState.reg_name != null && currentState.reg_lastName != null && currentState.reg_password_again != null) {
+        return if (currentState.reg_email != null && currentState.reg_password != null && currentState.reg_name != null && currentState.reg_lastName != null && currentState.reg_password_again != null) {
+            return if (currentState.reg_password == currentState.reg_password_again){
+                Next.StateWithSideEffects(
+                    currentState.copy(isLoadingReg = true),
+                    setOf(
+                        AuthenticationEffects.Register(
+                            currentState.reg_email,
+                            currentState.reg_password,
+                            currentState.reg_name,
+                            currentState.reg_lastName
+                        )
                     )
                 )
-            )
+            }else{
+                Next.StateWithEvents(currentState, setOf(AuthenticationEvents.PasswordsNotEquals))
+            }
         } else {
             Next.StateWithEvents(currentState, setOf(AuthenticationEvents.MissingFields))
         }
