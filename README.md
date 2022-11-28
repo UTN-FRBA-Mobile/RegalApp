@@ -29,3 +29,9 @@ Para correr la aplicación en el simulador de Android se tiene que configurar el
 
 ### Deeplink invitaciones
 Como de momento no poseemos un dominio https disponible para la aplicación vamos a utilizar la funcionalidad de deeplink que nos provee el android estudio, por lo tanto el link los links para compartir eventos lo vamos a utilizar a través el emulador.
+
+<img width="300" src="https://user-images.githubusercontent.com/11763032/204404826-d56bd2eb-2e5d-431d-8db5-8b069466f1ea.gif">
+
+
+#### Configuración en Android Studio
+<img alt="deeplink-config" src="https://user-images.githubusercontent.com/11763032/204404356-51f2cece-1874-4be3-bf65-a47145ad1393.png">
