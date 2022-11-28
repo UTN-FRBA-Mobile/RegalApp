@@ -106,7 +106,7 @@ class ItemsProcessor @Inject constructor(
         effect: ItemSideEffects.NotifyItemBought
     ): ItemsActions {
         val item = effect.item
-        if (item.status!!) {
+        if (!item.status!!) {
             val userModel = userDataStore.getLoggedUser()
 
             val eventSettings = eventsRepository.fetchEventSettingsList(effect.eventId).data
