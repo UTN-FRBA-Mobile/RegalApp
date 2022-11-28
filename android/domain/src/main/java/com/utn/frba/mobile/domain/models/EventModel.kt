@@ -23,3 +23,9 @@ enum class EventFields(val value: String) {
     ITEMS("items"),
     PARTICIPANTS("participants")
 }
+
+internal enum class EventSettingsFields(val value: String) {
+    EVENT_ID("event_id"),
+    USER_ID("owner_user_id"),
+    NOTIFY("notify")
+}

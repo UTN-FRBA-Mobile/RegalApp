@@ -62,6 +62,7 @@ fun JoinEventScreen(
                 ) {
                     Checkbox(checked = checked.value, onCheckedChange = {
                         checked.value = it
+                        actionsDispatcher(JoinEventActions.SetEnablePushNotifications(it))
                     })
 
                     Text(text = stringResource(R.string.confirm_event_notifications))

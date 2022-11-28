@@ -5,12 +5,14 @@ import com.squareup.anvil.annotations.ContributesBinding
 import com.utn.frba.mobile.domain.di.AppScope
 import com.utn.frba.mobile.domain.models.EventFields
 import com.utn.frba.mobile.domain.models.EventModel
+import com.utn.frba.mobile.domain.models.EventSettings
 import com.utn.frba.mobile.domain.models.ItemModel
 import timber.log.Timber
 import javax.inject.Inject
 
 interface FirestoreHelper {
     fun mapDocumentToEventModel(document: DocumentSnapshot): EventModel
+    fun mapDocumentToEventSettings(document: DocumentSnapshot): EventSettings?
 }
 
 @ContributesBinding(AppScope::class)
@@ -30,6 +32,10 @@ class FirestoreHelperImpl @Inject constructor() : FirestoreHelper {
             items = items,
             participants = participants
         )
+    }
+
+    override fun mapDocumentToEventSettings(document: DocumentSnapshot): EventSettings? {
+        return document.toObject(EventSettings::class.java)
     }
 
     private fun Any?.mapToItemsList(): List<ItemModel>? {
