@@ -20,10 +20,12 @@
         <action
             android:id="@+id/openAddEventFragment"
             app:destination="@id/addEventFragment" />
-
         <action
             android:id="@+id/openJoinEventFragment"
             app:destination="@id/joinEventFragment" />
+        <action
+            android:id="@+id/openProfileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/eventDetailFragment"
@@ -97,6 +99,10 @@
         android:name="com.utn.frba.mobile.regalapp.joinEvent.JoinEventFragment"
         android:label="JoinEventFragment">
 
+        <action
+            android:id="@+id/openItemsListFromJoinEvent"
+            app:destination="@id/itemListFragment" />
+
         <deepLink
             app:action="ACTION_MAIN"
             app:uri="regalapp://events/join/{eventId}?invitedBy={invitedBy}" />
@@ -106,6 +112,13 @@
         <argument
             android:name="invitedBy"
             app:argType="string" />
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.utn.frba.mobile.regalapp.profile.ProfileFragment"
+        android:label="ProfileFragment" >
     </fragment>
 
 </navigation>

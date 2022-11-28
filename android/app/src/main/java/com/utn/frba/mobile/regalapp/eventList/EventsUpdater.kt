@@ -22,7 +22,7 @@ class EventsUpdater @Inject constructor() :
             is EventsActions.HandleEventsList -> handleEventsList(currentState, action)
             is EventsActions.AddEventClicked -> Next.StateWithEvents(
                 currentState,
-                setOf(ListEvents.OpenAddEventScreen)
+                setOf(ListEvents.OpenAddEventScreen) // 3
             )
             is EventsActions.SetName -> handleSetName(currentState, action)
             is EventsActions.SetDate -> handleSetDate(currentState, action)
@@ -31,6 +31,11 @@ class EventsUpdater @Inject constructor() :
             is EventsActions.HandleUpdateSucceeded -> handleUpdateSuccess(currentState)
             is EventsActions.HandleUpdateFailure -> handleUpdateFailure(currentState)
             is EventsActions.GoBack -> handleGoBack(currentState)
+            is EventsActions.ProfileClicked -> Next.StateWithEvents(
+                currentState,
+                setOf(ListEvents.OpenProfileScreen)
+            )
+            is EventsActions.SetDeviceToken -> handleSetDeviceToken(currentState, action)
         }
     }
 
@@ -161,6 +166,18 @@ class EventsUpdater @Inject constructor() :
         return Next.StateWithEvents(
             EventsState(selectedEvent = currentState.selectedEvent),
             setOf(ListEvents.BackButtonPressed)
+        )
+    }
+
+    private fun handleSetDeviceToken(
+        currentState: EventsState,
+        action: EventsActions.SetDeviceToken
+    ): NextResult {
+        return Next.StateWithSideEffects(
+            currentState,
+            setOf(
+                EventSideEffects.SetDeviceToken(action.token)
+            )
         )
     }
 }

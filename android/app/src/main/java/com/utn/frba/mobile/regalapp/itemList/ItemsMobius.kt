@@ -80,6 +80,11 @@ sealed class ItemSideEffects(
     data class ShareInvitationToEvent(
         val eventId: String
     ): ItemSideEffects()
+
+    data class NotifyItemBought(
+        val item: ItemModel,
+        val eventId: String,
+    ): ItemSideEffects()
 }
 
 sealed class ListEvents {

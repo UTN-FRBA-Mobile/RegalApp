@@ -7,8 +7,11 @@
     <!--    HomeScreen-->
     <string name="user_image_content_description">user-image</string>
     <string name="home_screen_title">Home</string>
+    <string name="no_items">No hay items</string>
     <string name="items_bought">%d/%d comprados</string>
     <string name="events">Eventos</string>
+    <string name="empty_event_list">Parece que no hay ningún evento cargado. Podes agregar uno usando el botón de + de abajo o esperar a que te inviten a uno 😁 </string>
+
 
     <!--    AddEventScreen-->
     <string name="create_event">Crear evento</string>
@@ -35,10 +38,18 @@
     <string name="back">Volver</string>
     <string name="add_item">Agregar item</string>
     <string name="open_event">Abrir evento</string>
+    <string name="empty_item_list">Parece que no hay ningún item cargado. Podes agregar uno usando el botón de + de abajo 😁 </string>
+    <!-- Register -->
     <string name="login_failed">Inicio de sesión fallido</string>
     <string name="login_failed_message">Verifique sus credenciales</string>
     <string name="password">Contraseña</string>
     <string name="email">Email</string>
+    <string name="reg_name">Nombre</string>
+    <string name="reg_lastName">Apellido</string>
+    <string name="reg_email">Email</string>
+    <string name="reg_password">Contraseña</string>
+    <string name="reg_password_again">Confirmar contraseña</string>
+    <string name="register">Registrarse</string>
 
     <!--    AddItemScreen-->
     <string name="cancel">Cancelar</string>
@@ -48,6 +59,7 @@
     <string name="location">Ubicación</string>
     <string name="add">Agregar</string>
     <string name="login">Iniciar sesión</string>
+    <string name="signup">Registrarse</string>
 
     <!--    ItemDetailScreen-->
     <string name="mark_as_bought">Marcar como comprado</string>
@@ -65,5 +77,11 @@
 
     <!--    LocationField -->
     <string name="no_results_found">No se encontraron resultados</string>
+    <string name="already_joined">Ya estás unido a este evento!</string>
+    <string name="error_fetching_event">Ocurrió un error intentando obtener los detalles del evento</string>
+
+    <!--    Notifiactions -->
+    <string name="item_bought_title">Un item fue comprado</string>
+    <string name="item_bought_message">%1$s compró el item %2$s</string>
 
 </resources>

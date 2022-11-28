@@ -87,7 +87,7 @@ class AddItemUpdater @Inject constructor() :
         action: AddItemActions
     ): NextResult {
         return Next.StateWithEvents(
-            currentState,
+            AddItemState(eventId = currentState.eventId),
             setOf(
                 ListEvents.DismissScreen
             )

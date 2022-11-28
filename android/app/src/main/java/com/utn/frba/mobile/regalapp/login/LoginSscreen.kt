@@ -63,5 +63,12 @@ fun LoginScreen(viewModel: AuthenticationViewModel) {
         if (state.isLoading) {
             CircularProgressIndicator()
         }
+
+        Button(onClick = {
+            viewModel.action(AuthenticationActions.GoToSignUpClicked)
+        }) {
+            Text(stringResource(R.string.signup))
+        }
+
     }
 }

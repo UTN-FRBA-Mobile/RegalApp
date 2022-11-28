@@ -20,6 +20,7 @@ sealed class EventsActions {
     data class OpenItemsList(val event: EventModel) : EventsActions()
     object AddEventClicked: EventsActions()
     object GoBack: EventsActions()
+    object ProfileClicked: EventsActions()
     // endregion
 
     // event edit actions
@@ -32,6 +33,7 @@ sealed class EventsActions {
 
     //region processor actions
     data class HandleEventsList(val events: List<EventModel>) : EventsActions()
+    data class SetDeviceToken(val token: String): EventsActions()
     //endregion
 }
 
@@ -41,6 +43,7 @@ sealed class EventSideEffects(
 ) : SideEffectInterface {
     object LoadEventsList : EventSideEffects()
     data class UpdateEvent(val event: EditEventModel) : EventSideEffects()
+    data class SetDeviceToken(val token: String): EventSideEffects()
 }
 
 
@@ -52,4 +55,5 @@ sealed class ListEvents {
     object MissingFields: ListEvents()
     object UpdateSuccess: ListEvents()
     object UpdateFailure: ListEvents()
+    object OpenProfileScreen: ListEvents()
 }

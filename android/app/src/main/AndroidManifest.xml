@@ -7,6 +7,7 @@
         android:name="com.google.android.geo.API_KEY"
         android:value="${GEO_API_KEY}" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".RegalApplication"
         android:allowBackup="true"
@@ -32,7 +33,7 @@
         </activity>
 
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".login.AuthActivity"
             android:exported="true"
             android:theme="@style/Theme.Regalapp">
             <intent-filter>
@@ -40,6 +41,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <nav-graph android:value="@navigation/auth_navigation_graph" />
 
         </activity>
     </application>

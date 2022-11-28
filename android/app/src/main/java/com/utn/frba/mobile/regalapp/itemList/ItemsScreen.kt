@@ -45,6 +45,7 @@ fun ItemScreen(viewModel: ItemsViewModel) {
             )
         },
         content = { innerPadding ->
+
             ItemList(
                 items = items, contentPadding = innerPadding,
                 onItemClick = {
@@ -54,6 +55,8 @@ fun ItemScreen(viewModel: ItemsViewModel) {
                     viewModel.action(it)
                 }
             )
+
+            
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
