@@ -12,6 +12,7 @@ import com.utn.frba.mobile.domain.utils.safeCall
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 @ContributesBinding(AppScope::class)

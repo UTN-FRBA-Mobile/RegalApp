@@ -21,12 +21,14 @@ class FirestoreHelperImpl @Inject constructor() : FirestoreHelper {
         val eventName = map[EventFields.NAME.value].mapToString()
         val ownerId = map[EventFields.OWNER_ID.value].mapToString()
         val items = map[EventFields.ITEMS.value].mapToItemsList() ?: emptyList()
+        val participants: List<String> = map[EventFields.PARTICIPANTS.value] as? ArrayList<String> ?: emptyList()
 
         return EventModel(
             id = id,
             name = eventName,
             ownerId = ownerId,
-            items = items
+            items = items,
+            participants = participants
         )
     }
 
