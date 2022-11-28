@@ -3,6 +3,7 @@ package com.utn.frba.mobile.regalapp.login
 import android.os.Looper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.rpc.context.AttributeContext.Auth
 import com.utn.frba.mobile.domain.dataStore.UserDataStore
 import com.utn.frba.mobile.domain.models.NetworkResponse
 import com.utn.frba.mobile.domain.models.UserModel
@@ -24,20 +25,33 @@ data class AuthenticationState(
     val email: String? = null,
     val password: String? = null,
     val isLoggedIn: Boolean = false,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val name: String? = null,
+    val lastName: String? = null,
+    val repeatedPassword: String? = null
 )
 
 sealed class AuthenticationEvents() {
     object LoginFailed : AuthenticationEvents()
     object MissingFields : AuthenticationEvents()
+    object NavigateToSignUp : AuthenticationEvents()
+    object NavigateBack : AuthenticationEvents()
+    object GoToHomeScreen: AuthenticationEvents()
 }
 
 sealed class AuthenticationActions {
     data class SetEmail(val email: String) : AuthenticationActions()
     data class SetPassword(val password: String) : AuthenticationActions()
+    data class SetRepeatedPassword(val password: String) : AuthenticationActions()
+    data class SetName(val name: String) : AuthenticationActions()
+    data class SetLastName(val lastName: String) : AuthenticationActions()
     object LoginClicked : AuthenticationActions()
+    object RegisterAccount : AuthenticationActions()
+    object GoToSignUpClicked : AuthenticationActions()
+    object GoBack : AuthenticationActions()
 
     data class HandleLoginSucceeded(val user: UserModel) : AuthenticationActions()
+    data class HandleRegisterSucceeded(val user: UserModel): AuthenticationActions()
     object InvalidCredentials : AuthenticationActions()
     object SkipLogin : AuthenticationActions()
     object NO_OP : AuthenticationActions()
@@ -49,6 +63,12 @@ sealed class AuthenticationEffects(
 ) : SideEffectInterface {
     data class Login(val username: String, val password: String) : AuthenticationEffects()
     object CheckIsAlreadyLoggedIn : AuthenticationEffects()
+    data class RegisterAccount(
+        val email: String,
+        val password: String,
+        val name: String?,
+        val lastName: String?
+    ) : AuthenticationEffects()
 }
 
 class AuthenticationUpdater @Inject constructor() :
@@ -68,6 +88,47 @@ class AuthenticationUpdater @Inject constructor() :
             is AuthenticationActions.InvalidCredentials -> handleInvalidCredentials(currentState)
             is AuthenticationActions.SkipLogin -> handleUserAlreadyLogged(currentState)
             is AuthenticationActions.NO_OP -> Next.State(currentState)
+            is AuthenticationActions.GoToSignUpClicked -> Next.StateWithEvents(
+                currentState,
+                setOf(AuthenticationEvents.NavigateToSignUp)
+            )
+            is AuthenticationActions.SetLastName -> Next.State(currentState.copy(lastName = action.lastName))
+            is AuthenticationActions.SetName -> Next.State(currentState.copy(name = action.name))
+            is AuthenticationActions.SetRepeatedPassword -> Next.State(
+                currentState.copy(
+                    repeatedPassword = action.password
+                )
+            )
+            is AuthenticationActions.RegisterAccount -> handleRegisterAccount(currentState)
+            is AuthenticationActions.GoBack -> Next.StateWithEvents(
+                currentState,
+                setOf(AuthenticationEvents.NavigateBack)
+            )
+            is AuthenticationActions.HandleRegisterSucceeded -> handleRegisterSucceeded(currentState)
+        }
+    }
+
+    private fun handleRegisterSucceeded(currentState: AuthenticationState): NextResult {
+        return Next.StateWithEvents(currentState, setOf(AuthenticationEvents.GoToHomeScreen))
+    }
+
+    private fun handleRegisterAccount(currentState: AuthenticationState): NextResult {
+        val email = currentState.email
+        val password = currentState.password
+        return if (email == null || password == null) {
+            // TODO show an alert message
+            Next.State(currentState)
+        } else {
+            Next.StateWithSideEffects(
+                currentState, setOf(
+                    AuthenticationEffects.RegisterAccount(
+                        currentState.email,
+                        currentState.password,
+                        currentState.name,
+                        currentState.lastName
+                    )
+                )
+            )
         }
     }
 
@@ -115,6 +176,22 @@ class AuthenticationProcessor @Inject constructor(
         return when (effect) {
             is AuthenticationEffects.Login -> handleLogin(effect)
             is AuthenticationEffects.CheckIsAlreadyLoggedIn -> handleCheckAlreadyLoggedIn()
+            is AuthenticationEffects.RegisterAccount -> handleRegisterAccount(effect)
+        }
+    }
+
+    private suspend fun handleRegisterAccount(effect: AuthenticationEffects.RegisterAccount): AuthenticationActions {
+        val creationResult = userRepository.createAccount(effect.email, effect.password, effect.name, effect.lastName)
+        return when(creationResult) {
+            is NetworkResponse.Success -> {
+                val userModel = creationResult.data
+                require(userModel != null)
+                userDataStore.setUser(userModel)
+                AuthenticationActions.HandleRegisterSucceeded(userModel)
+            }
+            is NetworkResponse.Error -> {
+                AuthenticationActions.NO_OP // TODO handle error
+            }
         }
     }
 

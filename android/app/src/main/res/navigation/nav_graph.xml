@@ -24,6 +24,9 @@
         <action
             android:id="@+id/openJoinEventFragment"
             app:destination="@id/joinEventFragment" />
+        <action
+            android:id="@+id/action_eventListFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/eventDetailFragment"
@@ -113,5 +116,9 @@
 
 
     </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.utn.frba.mobile.regalapp.profile.ProfileFragment"
+        android:label="ProfileFragment" />
 
 </navigation>

@@ -3,7 +3,7 @@ package com.utn.frba.mobile.regalapp.di
 import android.app.Application
 import com.squareup.anvil.annotations.MergeComponent
 import com.utn.frba.mobile.domain.di.AppScope
-import com.utn.frba.mobile.regalapp.login.LoginActivity
+import com.utn.frba.mobile.regalapp.login.AuthActivity
 import dagger.BindsInstance
 import dagger.Component
 
@@ -13,7 +13,7 @@ interface AppComponent {
     val application: Application
     val userComponent: UserComponent.Factory
 
-    fun inject(activity: LoginActivity)
+    fun inject(activity: AuthActivity)
 
     @Component.Factory
     interface Factory {

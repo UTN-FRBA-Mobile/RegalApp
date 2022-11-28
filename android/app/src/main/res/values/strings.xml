@@ -60,5 +60,10 @@
     <string name="no_results_found">No se encontraron resultados</string>
     <string name="already_joined">Ya estás unido a este evento!</string>
     <string name="error_fetching_event">Ocurrió un error intentando obtener los detalles del evento</string>
+    <string name="register_your_account">Regístrate</string>
+    <string name="repeat_password">Repetir contraseña</string>
+    <string name="lastname">Apellido</string>
+    <string name="register_account">Register account</string>
+    <string name="register_new_account">Registrar nueva cuenta</string>
 
 </resources>

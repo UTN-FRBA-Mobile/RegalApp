@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -26,7 +27,9 @@ fun EventListScreen(viewModel: EventsViewModel) {
 
     Scaffold(
         topBar = {
-            TopBar()
+            TopBar(onProfileClick = {
+                viewModel.action(EventsActions.OnProfileClicked)
+            })
         },
         content = { innerPadding ->
             EventList(events = state.value.events, contentPadding = innerPadding) {
@@ -44,17 +47,25 @@ fun EventListScreen(viewModel: EventsViewModel) {
 }
 
 @Composable
-private fun TopBar() {
-    TopAppBar(title = {
-        Image(
-            painter = painterResource(id = R.drawable.user_icon_placeholder),
-            contentDescription = stringResource(id = R.string.user_image_content_description),
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .background(Color.White)
-        )
-        Spacer(modifier = Modifier.width(10.dp))
-        Text(text = stringResource(id = R.string.events))
-    })
+private fun TopBar(
+    onProfileClick: () -> Unit
+) {
+    TopAppBar(
+        navigationIcon = {
+            IconButton(onClick = {
+                onProfileClick()
+            }) {
+                Icon(
+                    painterResource(id = R.drawable.user_icon_placeholder),
+                    contentDescription = stringResource(id = R.string.user_image_content_description),
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(CircleShape)
+                )
+            }
+        },
+        title = {
+            Spacer(modifier = Modifier.width(10.dp))
+            Text(text = stringResource(id = R.string.events))
+        })
 }

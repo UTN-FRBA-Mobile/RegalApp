@@ -23,6 +23,7 @@ class EventsUpdater @Inject constructor() :
                 currentState,
                 setOf(ListEvents.OpenAddEventScreen)
             )
+            is EventsActions.OnProfileClicked -> Next.StateWithEvents(currentState, setOf(ListEvents.OpenProfile))
         }
     }
 
