@@ -94,6 +94,7 @@ class LoginFragment @Inject constructor(
             }
             .show()
     }
+
     private fun showPasswordsAlert() {
         AlertDialog.Builder(requireContext())
             .setMessage("Las contraseñas ingresadas no coinciden!")
@@ -104,14 +105,14 @@ class LoginFragment @Inject constructor(
             .show()
     }
 
+
     private fun showInvalidLoginAlert() {
         AlertDialog.Builder(requireContext())
-            .setMessage("Datos ingresados son incorrectos!")
+            .setMessage(getString(R.string.login_failed_message))
             .setTitle(getString(R.string.login_failed))
             .setPositiveButton("Ok") { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
     }
-
 }

@@ -1,8 +1,6 @@
 package com.utn.frba.mobile.regalapp.eventList
 
-import com.utn.frba.mobile.regalapp.login.AuthenticationEffects
-import com.utn.frba.mobile.regalapp.login.AuthenticationEvents
-import com.utn.frba.mobile.regalapp.login.AuthenticationState
+import com.utn.frba.mobile.domain.models.EditEventModel
 import io.github.fededri.arch.Next
 import io.github.fededri.arch.interfaces.Updater
 import timber.log.Timber
@@ -26,6 +24,13 @@ class EventsUpdater @Inject constructor() :
                 currentState,
                 setOf(ListEvents.OpenAddEventScreen) // 3
             )
+            is EventsActions.SetName -> handleSetName(currentState, action)
+            is EventsActions.SetDate -> handleSetDate(currentState, action)
+            is EventsActions.SetImage -> handleSetImage(currentState, action)
+            is EventsActions.UpdateEventClicked -> handleUpdate(currentState)
+            is EventsActions.HandleUpdateSucceeded -> handleUpdateSuccess(currentState)
+            is EventsActions.HandleUpdateFailure -> handleUpdateFailure(currentState)
+            is EventsActions.GoBack -> handleGoBack(currentState)
             is EventsActions.ProfileClicked -> Next.StateWithEvents(
                 currentState,
                 setOf(ListEvents.OpenProfileScreen)
@@ -66,9 +71,101 @@ class EventsUpdater @Inject constructor() :
         action: EventsActions.OpenItemsList
     ): NextResult {
         // fetch event details and emit navigation event
+        action.event
         return Next.StateWithEvents(
             currentState.copy(selectedEvent = action.event),
             events = setOf(ListEvents.OpenItemsList(action.event))
+        )
+    }
+
+    private fun handleSetName(
+        currentState: EventsState,
+        action: EventsActions.SetName
+    ): NextResult {
+        require(currentState.selectedEvent != null) {
+            "Event to edit not set"
+        }
+        return Next.State(
+            currentState.copy(
+                selectedEvent = currentState.selectedEvent.copy(
+                    name = action.name
+                )
+            )
+        )
+    }
+
+    private fun handleSetDate(
+        currentState: EventsState,
+        action: EventsActions.SetDate
+    ): NextResult {
+        require(currentState.selectedEvent != null) {
+            "Event to edit not set"
+        }
+        return Next.State(
+            currentState.copy(
+                selectedEvent = currentState.selectedEvent.copy(
+                    date = action.date
+                )
+            )
+        )
+    }
+
+    private fun handleSetImage(
+        currentState: EventsState,
+        action: EventsActions.SetImage
+    ): NextResult {
+        require(currentState.selectedEvent != null) {
+            "Event to edit not set"
+        }
+        return Next.State(
+            currentState.copy(
+                selectedEvent = currentState.selectedEvent.copy(
+                    // image = action.image
+                )
+            )
+        )
+    }
+
+    private fun handleUpdate(currentState: EventsState): NextResult {
+        // TODO: handle images
+        if(currentState.selectedEvent !== null) {
+            val (id, name, _, date) = currentState.selectedEvent
+            return if (
+                name.isNullOrBlank() || date.isNullOrBlank()
+            ) {
+                Next.StateWithEvents(currentState, setOf(ListEvents.MissingFields))
+            } else {
+                val modifiedEvent = EditEventModel(
+                    eventId = id,
+                    name = name,
+                    date = date
+                )
+                Next.StateWithSideEffects(
+                    currentState,
+                    setOf(
+                        EventSideEffects.UpdateEvent(event = modifiedEvent)
+                    )
+                )
+            }
+        }
+        return Next.StateWithEvents(currentState, setOf(ListEvents.MissingFields))
+    }
+
+    private fun handleUpdateSuccess(currentState: EventsState): NextResult {
+        return Next.StateWithEvents(currentState, setOf(ListEvents.UpdateSuccess))
+    }
+
+    private fun handleUpdateFailure(currentState: EventsState): NextResult {
+        return Next.StateWithEvents(currentState, setOf(ListEvents.UpdateFailure))
+    }
+
+    private fun handleGoBack(currentState: EventsState): NextResult {
+        require(currentState.selectedEvent != null) {
+            "Event not set"
+        }
+        return Next.StateWithEvents(
+            EventsState(selectedEvent = currentState.selectedEvent),
+            setOf(ListEvents.BackButtonPressed)
         )
     }
 
