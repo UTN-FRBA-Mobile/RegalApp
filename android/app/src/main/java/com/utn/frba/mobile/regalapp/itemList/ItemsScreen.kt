@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.utn.frba.mobile.regalapp.R
 
 @Composable
@@ -46,37 +45,17 @@ fun ItemScreen(viewModel: ItemsViewModel) {
             )
         },
         content = { innerPadding ->
-            if (items.isNotEmpty()) {
-                ItemList(
-                    items = items, contentPadding = innerPadding,
-                    onItemClick = {
-                        viewModel.action(ItemsActions.OpenItemDetails(it))
-                    },
-                    actionDispatcher = {
-                        viewModel.action(it)
-                    }
-                )
-            } else {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize(1F)
-                ) {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .fillMaxSize(1F)
-                            .padding(
-                                horizontal = 40.dp
-                            )
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.empty_item_list),
-                            fontSize = 20.sp,
-                            color = Color.Gray
-                        )
-                    }
+
+            ItemList(
+                items = items, contentPadding = innerPadding,
+                onItemClick = {
+                    viewModel.action(ItemsActions.OpenItemDetails(it))
+                },
+                actionDispatcher = {
+                    viewModel.action(it)
                 }
-            }
+            )
+
             
         },
         floatingActionButton = {

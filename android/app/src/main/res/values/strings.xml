@@ -30,7 +30,6 @@
     <string name="add_item">Agregar item</string>
     <string name="open_event">Abrir evento</string>
     <string name="empty_item_list">Parece que no hay ningún item cargado. Podes agregar uno usando el botón de + de abajo 😁 </string>
-
     <!-- Register -->
     <string name="login_failed">Inicio de sesión fallido</string>
     <string name="login_failed_message">Verifique sus credenciales</string>
