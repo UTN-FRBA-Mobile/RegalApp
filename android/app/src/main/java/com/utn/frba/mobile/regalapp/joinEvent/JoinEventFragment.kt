@@ -15,6 +15,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -86,7 +88,22 @@ class JoinEventFragment @Inject constructor(
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Text(text = "Ocurrió un error intentando obtener los detalles del evento")
+                                Text(text = context.getString(R.string.error_fetching_event))
+                            }
+                        }
+
+                        is JoinEventState.AlreadyJoined -> {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = context.getString(
+                                        R.string.already_joined,
+                                    ),
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
                             }
                         }
                     }
@@ -106,7 +123,7 @@ class JoinEventFragment @Inject constructor(
                                 findNavController().navigate(
                                     JoinEventFragmentDirections.openItemsListFromJoinEvent(
                                         event.eventId,
-                                        ""
+                                        event.title
                                     )
                                 )
                             }

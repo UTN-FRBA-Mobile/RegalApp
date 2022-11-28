@@ -1,9 +1,6 @@
 package com.utn.frba.mobile.domain.repositories.events
 
-import com.utn.frba.mobile.domain.models.EventModel
-import com.utn.frba.mobile.domain.models.EventSettingModel
-import com.utn.frba.mobile.domain.models.ItemModel
-import com.utn.frba.mobile.domain.models.NetworkResponse
+import com.utn.frba.mobile.domain.models.*
 
 interface EventsRepository {
     suspend fun fetchUserEvents(): NetworkResponse<List<EventModel>>
@@ -13,6 +10,14 @@ interface EventsRepository {
     suspend fun editItem(eventId: String, itemId: String, model: ItemModel): NetworkResponse<EventModel>
 
     suspend fun fetchItemsList(eventId: String): NetworkResponse<List<ItemModel>>
-    suspend fun joinEvent(eventId: String): NetworkResponse<Unit>
-    suspend fun fetchEventSettingsList(eventId: String): NetworkResponse<List<EventSettingModel>>
+    suspend fun fetchEventSettingsList(eventId: String): NetworkResponse<List<EventSettings>>
+
+    // Event joining
+    suspend fun joinEvent(eventId: String, enablePushNotifications: Boolean): NetworkResponse<String>
+
+    /**
+     * returns true if the user is already joined to the event
+     */
+    suspend fun isAlreadyJoined(eventId: String): NetworkResponse<Boolean>
+
 }
