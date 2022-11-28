@@ -10,6 +10,8 @@
     <string name="no_items">No hay items</string>
     <string name="items_bought">%d/%d comprados</string>
     <string name="events">Eventos</string>
+    <string name="empty_event_list">Parece que no hay ningún evento cargado. Podes agregar uno usando el botón de + de abajo o esperar a que te inviten a uno 😁 </string>
+
 
     <!--    AddEventScreen-->
     <string name="create_event">Crear evento</string>
