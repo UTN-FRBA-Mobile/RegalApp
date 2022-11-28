@@ -20,9 +20,6 @@ import com.utn.frba.mobile.regalapp.R
 import com.utn.frba.mobile.regalapp.joinEvent.JoinEventFragment
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
-import com.squareup.anvil.annotations.ContributesMultibinding
-import com.utn.frba.mobile.domain.di.ActivityScope
-import com.utn.frba.mobile.domain.di.FragmentKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
