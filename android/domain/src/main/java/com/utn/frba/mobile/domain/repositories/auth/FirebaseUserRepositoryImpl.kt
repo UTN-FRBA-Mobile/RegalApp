@@ -90,6 +90,6 @@ class FirebaseUserRepositoryImpl @Inject constructor(
         val name = userSnapshot.get("name") as? String
         val lastName = userSnapshot.get("lastName") as? String
         val email = userSnapshot.get("email") as String
-        return UserModel(userId, email, name.orEmpty(), lastName.orEmpty())
+        return UserModel(userId, email.orEmpty(), name.orEmpty(), lastName.orEmpty())
     }
 }
